@@ -1,0 +1,701 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the project.
+# Translators:
+#
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-26 12:07+0500\n"
+"Language-Team: Uzbek\n"
+"Language: uz\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#: .\apps\agency\admin.py:28 .\apps\agency\models.py:38
+msgid "Пользователь"
+msgstr "Foydalanuvchi"
+
+#: .\apps\agency\admin.py:29
+msgid "Структура"
+msgstr "Struktura"
+
+#: .\apps\agency\admin.py:30
+msgid "Контакты"
+msgstr "Aloqa"
+
+#: .\apps\agency\admin.py:31 .\apps\companies\admin.py:65
+#: .\apps\requests\admin.py:121
+msgid "Служебное"
+msgstr "Tizim tomonidan"
+
+#: .\apps\agency\apps.py:6
+msgid "Агентство"
+msgstr "Agentlik"
+
+#: .\apps\agency\models.py:8
+msgid "Название департамента"
+msgstr "Departament nomi"
+
+#: .\apps\agency\models.py:10
+msgid "Код"
+msgstr "Kod"
+
+#: .\apps\agency\models.py:13
+msgid "Опционально: короткий код департамента, например LEG, IT, HR"
+msgstr "Ixtiyoriy: bo'limning qisqa kodi, masalan, LEG, IT, HR"
+
+#: .\apps\agency\models.py:15 .\apps\agency\models.py:60
+#, fuzzy
+#| msgid "Активный"
+msgid "Активен"
+msgstr "Faol"
+
+#: .\apps\agency\models.py:16 .\apps\agency\models.py:62
+#: .\apps\companies\models.py:20 .\apps\companies\models.py:38
+#: .\apps\companies\models.py:74 .\apps\requests\models.py:23
+#: .\apps\requests\models.py:137
+msgid "Дата создания"
+msgstr "Yaratilgan sana"
+
+#: .\apps\agency\models.py:19 .\apps\agency\models.py:45
+#: .\apps\requests\models.py:203
+msgid "Департамент"
+msgstr "Departament"
+
+#: .\apps\agency\models.py:20
+msgid "Департаменты"
+msgstr "Departamentlar"
+
+#: .\apps\agency\models.py:53
+msgid "Должность (в агентстве)"
+msgstr "Lavozimi (agentlikda)"
+
+#: .\apps\agency\models.py:56
+msgid "Например: специалист, начальник отдела, помощник замдиректора"
+msgstr "Masalan: mutaxassis, bo'lim boshlig'i, direktor o'rinbosari yordamchisi"
+
+#: .\apps\agency\models.py:59
+msgid "Телефон"
+msgstr "Telefon"
+
+#: .\apps\agency\models.py:65
+msgid "Сотрудник агентства"
+msgstr "Agentlik xodimi"
+
+#: .\apps\agency\models.py:66
+msgid "Сотрудники агентства"
+msgstr "Agentlik xodimlari"
+
+#: .\apps\companies\admin.py:27 .\apps\companies\models.py:23
+#: .\apps\companies\models.py:52 .\apps\requests\models.py:58
+#: .\templates\public\request_form.html:31
+msgid "Компания"
+msgstr "Kompaniya"
+
+#: .\apps\companies\admin.py:62
+msgid "Связь"
+msgstr "Aloqa"
+
+#: .\apps\companies\admin.py:63
+msgid "ФИО"
+msgstr "FISH"
+
+#: .\apps\companies\admin.py:64
+msgid "Документ"
+msgstr "Hujjat"
+
+#: .\apps\companies\apps.py:7
+msgid "Tashkilotlar"
+msgstr "Tashkilotlar"
+
+#: .\apps\companies\models.py:6 .\apps\requests\forms.py:35
+#: .\templates\public\request_form.html:34
+msgid "Название компании"
+msgstr "Kompaniya nomi"
+
+#: .\apps\companies\models.py:8 .\apps\requests\forms.py:36
+#: .\templates\public\request_form.html:39
+msgid "ИНН"
+msgstr "STIR"
+
+#: .\apps\companies\models.py:11
+msgid "Идентификационный номер налогоплательщика компании"
+msgstr "Kompaniyaning soliq to'lovchi identifikatsiya raqami"
+
+#: .\apps\companies\models.py:15
+msgid "Описание (о компании/доп. сведения)"
+msgstr "Tavsif (kompaniya haqida/qo'shimcha ma'lumot)"
+
+#: .\apps\companies\models.py:17
+msgid "Если нужно хранить доп. информацию о компании/отправителе"
+msgstr "Agar siz kompaniya/jo'natuvchi haqida qo'shimcha ma'lumotni saqlashingiz kerak bo'lsa"
+
+#: .\apps\companies\models.py:24
+msgid "Компании"
+msgstr "Kompaniyalar"
+
+#: .\apps\companies\models.py:36
+msgid "Название должности"
+msgstr "Lavozim nomi"
+
+#: .\apps\companies\models.py:41 .\apps\companies\models.py:58
+#: .\apps\requests\forms.py:44 .\templates\public\request_form.html:67
+msgid "Должность"
+msgstr "Lavozim"
+
+#: .\apps\companies\models.py:42
+msgid "Должности"
+msgstr "Lavozimlar"
+
+#: .\apps\companies\models.py:63 .\apps\requests\forms.py:39
+#: .\templates\public\request_form.html:55
+msgid "Имя"
+msgstr "Ism"
+
+#: .\apps\companies\models.py:64 .\apps\requests\forms.py:40
+#: .\templates\public\request_form.html:51
+msgid "Фамилия"
+msgstr "Familiya"
+
+#: .\apps\companies\models.py:65 .\apps\requests\forms.py:41
+#: .\templates\public\request_form.html:59
+msgid "Отчество"
+msgstr "Sharif"
+
+#: .\apps\companies\models.py:68 .\apps\requests\forms.py:42
+#: .\apps\requests\forms.py:103 .\templates\public\request_form.html:63
+msgid "Паспортная серия"
+msgstr "Pasport seriyasi"
+
+#: .\apps\companies\models.py:70
+msgid "Например: AA1234567 или серия+номер по вашему формату"
+msgstr "Masalan: AA1234567 yoki formatingizga muvofiq seriya + raqam"
+
+#: .\apps\companies\models.py:77 .\apps\requests\models.py:64
+msgid "Сотрудник компании"
+msgstr "Kompaniya xodimi"
+
+#: .\apps\companies\models.py:78
+msgid "Сотрудники компании"
+msgstr "Kompaniya xodimlari"
+
+#: .\apps\requests\admin.py:117
+msgid "Основное"
+msgstr "Asosiy"
+
+#: .\apps\requests\admin.py:118 .\apps\requests\forms.py:51
+#: .\apps\requests\models.py:27 .\apps\requests\models.py:73
+msgid "Направления"
+msgstr "Yo'nalishlar"
+
+#: .\apps\requests\admin.py:119 .\apps\requests\forms.py:56
+#: .\apps\requests\models.py:78
+msgid "Текст обращения"
+msgstr "Murojaat matni"
+
+#: .\apps\requests\admin.py:120
+msgid "Назначение и контроль"
+msgstr ""
+
+#: .\apps\requests\admin.py:134
+msgid "Зарегистрировать (канцелярия)"
+msgstr "Tayinlash va nazorat"
+
+#: .\apps\requests\admin.py:138 .\apps\requests\admin.py:146
+#: .\apps\requests\admin.py:154
+msgid "Действие из админки"
+msgstr "Administrator panelidan harakat"
+
+#: .\apps\requests\admin.py:140
+#, python-format
+msgid "Зарегистрировано: %(cnt)s"
+msgstr "Ro'yxatdan o'tgan: %(cnt)s"
+
+#: .\apps\requests\admin.py:142
+msgid "Отправить на резолюцию"
+msgstr "Qaror uchun (Rezolyutsiya) yuborish"
+
+#: .\apps\requests\admin.py:148
+#, python-format
+msgid "Отправлено на резолюцию: %(cnt)s"
+msgstr "Qaror uchun (Rezolyutsiya) yuborildi: %(cnt)s"
+
+#: .\apps\requests\admin.py:150
+msgid "Пометить как обработано"
+msgstr "Ishlab chiqilgan deb belgilash"
+
+#: .\apps\requests\admin.py:156
+#, python-format
+msgid "Обработано: %(cnt)s"
+msgstr "Ishlab chiqildi: %(cnt)s"
+
+#: .\apps\requests\admin.py:179
+msgid "Резолюция добавлена из админки"
+msgstr "Administrator panelidan rezolyutsiya qo'shildi"
+
+#: .\apps\requests\admin.py:191
+msgid "Шаг добавлен из админки"
+msgstr "Qadam administrator panelidan qo'shildi."
+
+#: .\apps\requests\apps.py:6
+msgid "Murojaatlar"
+msgstr "Murojaatlar"
+
+#: .\apps\requests\forms.py:17
+#, python-format
+msgid "Файл слишком большой (макс. %(mb)s MB)."
+msgstr "Fayl juda katta (maksimal %(mb)s MB)."
+
+#: .\apps\requests\forms.py:46
+msgid "Выберите должность"
+msgstr "Lavozimni tanlang"
+
+#: .\apps\requests\forms.py:58 .\apps\requests\models.py:81
+msgid "Основной файл (PDF)"
+msgstr "Asosiy fayl (PDF)"
+
+#: .\apps\requests\forms.py:59
+msgid "Приложения"
+msgstr "Ilovalar"
+
+#: .\apps\requests\forms.py:87
+msgid "Основной файл должен быть PDF."
+msgstr "Asosiy fayl PDF formatida bo'lishi kerak."
+
+#: .\apps\requests\forms.py:97
+msgid "Разрешены только: PDF, Word, Excel."
+msgstr "Faqat ruxsat berilgan fayllar: PDF, Word, Excel."
+
+#: .\apps\requests\forms.py:107
+msgid "ИНН компании"
+msgstr "Kompaniya STIR"
+
+#: .\apps\requests\forms.py:111 .\templates\public\track_requests.html:106
+msgid "Номер обращения"
+msgstr "Murojaat raqami"
+
+#: .\apps\requests\forms.py:113 .\apps\requests\models.py:104
+msgid "Формат: YYYY-000001"
+msgstr "Format: YYYY-000001"
+
+#: .\apps\requests\models.py:21
+msgid "Название"
+msgstr "Nomi"
+
+#: .\apps\requests\models.py:22
+msgid "Описание"
+msgstr "Tavsif"
+
+#: .\apps\requests\models.py:26 .\templates\public\request_form.html:78
+msgid "Направление"
+msgstr "Yo'nalish"
+
+#: .\apps\requests\models.py:35
+msgid "Год"
+msgstr "Yil"
+
+#: .\apps\requests\models.py:36
+msgid "Последний номер"
+msgstr "Oxirgi raqam"
+
+#: .\apps\requests\models.py:39
+msgid "Счётчик обращений"
+msgstr "Murojaat hisoblagichi"
+
+#: .\apps\requests\models.py:40
+msgid "Счётчики обращений"
+msgstr "Murojaat hisoblagichlari"
+
+#: .\apps\requests\models.py:48
+msgid "Новое"
+msgstr "Yangi"
+
+#: .\apps\requests\models.py:49
+msgid "Зарегистрировано (канцелярия)"
+msgstr "Ro'yxatdan o'tgan (devonxona)"
+
+#: .\apps\requests\models.py:50
+msgid "На резолюции"
+msgstr "Rezolyutsiyada"
+
+#: .\apps\requests\models.py:51
+msgid "Назначено исполнителю"
+msgstr "Ijrochiga tayinlangan"
+
+#: .\apps\requests\models.py:52
+msgid "В работе"
+msgstr "Jarayonda"
+
+#: .\apps\requests\models.py:53
+msgid "Обработано"
+msgstr "Ishlab chiqilgan"
+
+#: .\apps\requests\models.py:54
+msgid "Отменено"
+msgstr "Bekor qilingan"
+
+#: .\apps\requests\models.py:86
+msgid "Только PDF"
+msgstr "Faqat PDF"
+
+#: .\apps\requests\models.py:90
+msgid "Статус"
+msgstr "Holat"
+
+#: .\apps\requests\models.py:98
+msgid "Публичный номер"
+msgstr "Unikal raqami"
+
+#: .\apps\requests\models.py:107
+msgid "Год (публичный)"
+msgstr "Yil"
+
+#: .\apps\requests\models.py:108
+msgid "Порядковый номер (публичный)"
+msgstr "Tartib raqami"
+
+#: .\apps\requests\models.py:113
+msgid "Назначенный департамент"
+msgstr "Tayinlangan departamnet"
+
+#: .\apps\requests\models.py:121
+msgid "Назначенный сотрудник"
+msgstr "Tainlangan xodim"
+
+#: .\apps\requests\models.py:129 .\apps\requests\models.py:218
+msgid "Срок исполнения"
+msgstr "Bajarish muddati"
+
+#: .\apps\requests\models.py:132
+msgid "Срок по резолюции/контролю"
+msgstr "Qaror/nazorat bo'yicha muddat"
+
+#: .\apps\requests\models.py:135
+msgid "Дата завершения"
+msgstr "Yakunlangan sana"
+
+#: .\apps\requests\models.py:138
+msgid "Дата обновления"
+msgstr "Yangilangan sana"
+
+#: .\apps\requests\models.py:141 .\apps\requests\models.py:160
+#: .\apps\requests\models.py:187 .\apps\requests\models.py:242
+#: .\apps\requests\models.py:285 .\templates\public\request_form.html:75
+msgid "Обращение"
+msgstr "Murojaat"
+
+#: .\apps\requests\models.py:142
+msgid "Обращения"
+msgstr "Murojaatlar"
+
+#: .\apps\requests\models.py:156
+msgid "Приложение"
+msgstr "Ilovalar"
+
+#: .\apps\requests\models.py:164
+msgid "Тип"
+msgstr "Turi"
+
+#: .\apps\requests\models.py:167
+msgid "Файл"
+msgstr "Fayl"
+
+#: .\apps\requests\models.py:172
+msgid "Дата загрузки"
+msgstr "Yuklash sanasi"
+
+#: .\apps\requests\models.py:175
+msgid "Файл обращения"
+msgstr "Murojaat fayli"
+
+#: .\apps\requests\models.py:176
+msgid "Файлы обращения"
+msgstr "Murojaat fayllari"
+
+#: .\apps\requests\models.py:194
+msgid "Автор резолюции"
+msgstr "Qaror (rezolyutsiya) muallifi"
+
+#: .\apps\requests\models.py:199 .\apps\requests\models.py:223
+msgid "Резолюция"
+msgstr "Qaror (Rezolyutsiya)"
+
+#: .\apps\requests\models.py:211
+msgid "Сотрудник"
+msgstr "Xodim"
+
+#: .\apps\requests\models.py:220
+msgid "Дата резолюции"
+msgstr "Qaror (rezolyutsiya) sanasi"
+
+#: .\apps\requests\models.py:224
+msgid "Резолюции"
+msgstr "Rezolyutsiyalar"
+
+#: .\apps\requests\models.py:248
+msgid "Автор шага"
+msgstr "Qadam muallifi"
+
+#: .\apps\requests\models.py:252
+msgid "Описание шага"
+msgstr "Qadam tavsifi"
+
+#: .\apps\requests\models.py:253
+msgid "Дата шага"
+msgstr "Qadam aratilgan sana"
+
+#: .\apps\requests\models.py:256
+msgid "Шаг по обращению"
+msgstr "Murojaat bo'yicha qadam"
+
+#: .\apps\requests\models.py:257
+msgid "Шаги по обращению"
+msgstr "Murojaat bo'yicha qadamlar"
+
+#: .\apps\requests\models.py:272
+msgid "Создано"
+msgstr "Yaratildi"
+
+#: .\apps\requests\models.py:273
+msgid "Зарегистрировано"
+msgstr "Ro'yhatdan o'tkazildi"
+
+#: .\apps\requests\models.py:274
+msgid "Отправлено на резолюцию"
+msgstr "Qaror (Rezolyutsiya) uchun yuborildi"
+
+#: .\apps\requests\models.py:275
+msgid "Резолюция поставлена"
+msgstr "Qaror (Rezolyutsiya) qo'yildi"
+
+#: .\apps\requests\models.py:276
+msgid "Назначено"
+msgstr "Tayinlandi"
+
+#: .\apps\requests\models.py:277
+msgid "Статус изменён"
+msgstr "Holati o'zgartirildi"
+
+#: .\apps\requests\models.py:278
+msgid "Добавлен шаг"
+msgstr "Qadam qo'shildi"
+
+#: .\apps\requests\models.py:279
+msgid "Добавлен файл"
+msgstr "Fayl qo'shildi"
+
+#: .\apps\requests\models.py:280
+msgid "Завершено"
+msgstr "Tugallandi"
+
+#: .\apps\requests\models.py:281
+msgid "Другое"
+msgstr "Boshqa"
+
+#: .\apps\requests\models.py:291
+msgid "Кто сделал"
+msgstr "Kim tomonidan bajarildi"
+
+#: .\apps\requests\models.py:298
+msgid "Действие"
+msgstr "Amal"
+
+#: .\apps\requests\models.py:300
+msgid "Статус до"
+msgstr "Oldingi holat"
+
+#: .\apps\requests\models.py:301
+msgid "Статус после"
+msgstr "Keyingi holat"
+
+#: .\apps\requests\models.py:303
+msgid "Комментарий"
+msgstr "Izoh"
+
+#: .\apps\requests\models.py:305
+msgid "Дата действия"
+msgstr "Qilingan amal sanasi"
+
+#: .\apps\requests\models.py:308 .\templates\public\track_requests.html:143
+msgid "История обращения"
+msgstr "Murojaat tarixi"
+
+#: .\apps\requests\models.py:309
+msgid "История обращений"
+msgstr "Murojaatlar tarixi"
+
+#: .\apps\requests\services.py:124
+msgid "Обращение создано через публичную форму"
+msgstr "So'rov ommaviy shakl orqali yaratildi."
+
+#: .\apps\requests\services.py:224
+msgid "Резолюция добавлена"
+msgstr "Rezolyutsiya qo'shildi"
+
+#: .\apps\requests\services.py:234
+#, python-format
+msgid "Назначено: департамент=%(dep)s, сотрудник=%(emp)s"
+msgstr "Tayinlangan: departament=%(dep)s, xodim=%(emp)s"
+
+#: .\apps\requests\services.py:246
+msgid "Резолюция добавлена (без изменения назначения в обращении)"
+msgstr "Rezolyutsiya qo'shildi (murojaat tayinlovini o'zgartirmagan xolda)"
+
+#: .\apps\requests\services.py:260
+msgid "Добавлен шаг работы"
+msgstr "Ish qadami qo'shildi"
+
+#: .\apps\requests\services.py:265
+msgid "Начата работа"
+msgstr "Ish boshlandi"
+
+#: .\apps\requests\services.py:281
+msgid "Обращение обработано"
+msgstr "Murojaat ishlab chiqildi"
+
+#: .\apps\requests\views.py:60
+msgid "Обращение отправлено. Спасибо!"
+msgstr "Murojaatingiz yuborildi. Rahmat!"
+
+#: .\apps\requests\views.py:63
+msgid "Проверьте форму: есть ошибки."
+msgstr "Iltimos, shaklni tekshiring: xatolar mavjud."
+
+#: .\apps\users\apps.py:6
+msgid "Arizachilar"
+msgstr "Arizachilar"
+
+#: .\config\settings.py:122
+msgid "Oʻzbekcha"
+msgstr "Oʻzbekcha"
+
+#: .\config\settings.py:123
+msgid "Русский"
+msgstr "Русский"
+
+#: .\templates\base.html:37
+msgid "Проверить обращение"
+msgstr "Murojaat tekshirish"
+
+#: .\templates\partials\messages.html:46
+msgid "Успешно"
+msgstr "Muvaffaqiyatli"
+
+#: .\templates\partials\messages.html:47
+msgid "Ошибка"
+msgstr "Xato"
+
+#: .\templates\partials\messages.html:48
+msgid "Предупреждение"
+msgstr "Ogohlantirish"
+
+#: .\templates\partials\messages.html:49
+msgid "Сообщение"
+msgstr "Xabar"
+
+#: .\templates\partials\messages.html:57
+#: .\templates\public\track_requests.html:157
+msgid "Закрыть"
+msgstr "Yopish"
+
+#: .\templates\public\request_form.html:4
+#: .\templates\public\request_form.html:11
+msgid "Отправка обращения"
+msgstr "Murojaat yuborish"
+
+#: .\templates\public\request_form.html:13
+msgid "Заполните данные для отправки обращения."
+msgstr "Murojaat yuborish uchun ma'lumotlarni to'ldiring."
+
+#: .\templates\public\request_form.html:17
+msgid "ADLI • Форма для обращений"
+msgstr "ADLI • Muroojatlar shakli"
+
+#: .\templates\public\request_form.html:48
+msgid "Отправитель"
+msgstr "Yuboruvchi"
+
+#: .\templates\public\request_form.html:112
+msgid "Описание обращения"
+msgstr "Murojaat matni"
+
+#: .\templates\public\request_form.html:118
+msgid "Основной файл обращения (PDF)"
+msgstr "Murojaat asosiy fayli (PDF)"
+
+#: .\templates\public\request_form.html:120
+msgid "Только PDF. Рекомендуется до 10MB."
+msgstr "Faqat PDF formatida. Tavsiya etilgan hajmi: 10 MB gacha."
+
+#: .\templates\public\request_form.html:123
+msgid "Приложения обращения"
+msgstr "Murojaat ilovasi"
+
+#: .\templates\public\request_form.html:144
+msgid "Добавить файл"
+msgstr "Fayl qo'shish"
+
+#: .\templates\public\request_form.html:149
+msgid "PDF, Word, Excel. Можно добавить несколько файлов."
+msgstr "PDF, Word, Excel. Bir nechta fayllarni qo'shish mumkin."
+
+#: .\templates\public\request_form.html:159
+msgid "Отправить"
+msgstr "Yuborish"
+
+#: .\templates\public\track_requests.html:13
+msgid "Проверка статуса обращения"
+msgstr "Murojaat holatini tekshirish"
+
+#: .\templates\public\track_requests.html:16
+msgid "Введите паспортную серию, ИНН компании и номер обращения."
+msgstr "Pasport seriyasini, kompaniya soliq identifikatsiya raqamingizni va ariza raqamingizni kiriting."
+
+#: .\templates\public\track_requests.html:61
+msgid "Данные используются только для поиска обращений в системе."
+msgstr "Ma'lumotlar faqat tizimdagi so'rovlarni qidirish uchun ishlatiladi."
+
+#: .\templates\public\track_requests.html:67
+msgid "Найти обращения"
+msgstr "Murojaatni topish"
+
+#: .\templates\public\track_requests.html:81
+msgid "Обращения не найдены"
+msgstr "Murojaatlar topilmadi"
+
+#: .\templates\public\track_requests.html:83
+msgid "Проверьте введённые данные и попробуйте снова."
+msgstr "Kiritilgan ma'lumotlarni tekshiring va qaytadan urinib ko'ring."
+
+#: .\templates\public\track_requests.html:94
+msgid "Компания:"
+msgstr "Kompaniya:"
+
+#: .\templates\public\track_requests.html:95
+msgid "Сотрудник:"
+msgstr "Xodim:"
+
+#: .\templates\public\track_requests.html:109
+msgid "Статус:"
+msgstr "Holat:"
+
+#: .\templates\public\track_requests.html:112
+msgid "Срок:"
+msgstr "Muddat:"
+
+#: .\templates\public\track_requests.html:123
+msgid "История"
+msgstr "Tarix"
+
+#: .\templates\public\track_requests.html:151
+#: .\templates\public\track_requests.html:174
+msgid "Загрузка..."
+msgstr "Yuklanmoqda..."
+
+#: .\templates\public\track_requests.html:181
+msgid "История пока пустая."
+msgstr "Tarix hozircha bo'sh."
+
+#: .\templates\public\track_requests.html:208
+msgid "Ошибка загрузки истории."
+msgstr "Tarixni yuklashda xatolik."

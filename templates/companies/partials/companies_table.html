@@ -1,0 +1,104 @@
+{% load i18n %}
+<div class="w-full overflow-x-auto rounded-2xl border bg-white">
+    <table class="min-w-full text-sm">
+        <thead class="bg-gray-50 text-gray-600">
+        <tr>
+            <th class="text-left px-4 py-3">{% trans "Компания" %}</th>
+            <th class="text-left px-4 py-3">{% trans "ИНН" %}</th>
+            <th class="text-left px-4 py-3">{% trans "Категория" %}</th>
+            <th class="text-left px-4 py-3">{% trans "Регион" %}</th>
+            <th class="text-left px-4 py-3">{% trans "Район" %}</th>
+            <th class="text-left px-4 py-3">{% trans "Направления" %}</th>
+            <th class="text-left px-4 py-3">{% trans "Руководитель компании" %}</th>
+            <th class="text-left px-4 py-3">{% trans "Мощность/год" %}</th>
+            <th class="text-left px-4 py-3">{% trans "Телефон" %}</th>
+            <th class="text-left px-4 py-3">{% trans "Рабочие места" %}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for c in page_obj.object_list %}
+            <tr class="border-t hover:bg-gray-50 align-top">
+                <td class="px-4 py-3 font-medium text-gray-900">{{ c.name }}</td>
+                <td class="px-4 py-3">{{ c.inn }}</td>
+                <td class="px-4 py-3">{{ c.category }}</td>
+
+                <td class="px-4 py-3">{{ c.region.name|default:"-" }}</td>
+                <td class="px-4 py-3">{{ c.district.name|default:"-" }}</td>
+
+                <td class="px-4 py-3">
+                    {% for d in c.directions.all %}
+                        <span class="inline-flex rounded-md bg-gray-100 px-2 py-1 text-xs">{{ d.title }}</span>
+                    {% empty %}-{% endfor %}
+                </td>
+
+                <td class="px-4 py-3">
+                    {% with emp=c.employee_company.all.0 %}
+                        {% if emp %}
+                            <div class="text-gray-900">
+                                {{ emp.last_name }}
+                                {{ emp.first_name }}{% if emp.middle_name %} {{ emp.middle_name }}{% endif %}
+                            </div>
+                            <div class="text-xs text-gray-500">{{ emp.position.name }}</div>
+                        {% else %}
+                            -
+                        {% endif %}
+                    {% endwith %}
+                </td>
+
+                <td class="px-4 py-3">
+                    {% if c.annual_capacity %}
+                        {{ c.annual_capacity }}
+                        {% if c.unit %}<span class="text-xs text-gray-500">{{ c.unit.short_name }}</span>{% endif %}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td class="px-4 py-3">
+                    {% for p in c.phones.all %}
+                        <span class="inline-flex rounded-md bg-gray-100 px-2 py-1 text-xs">{{ p.phone }}</span>
+                    {% empty %}-{% endfor %}
+                </td>
+
+                <td class="px-4 py-3">{{ c.number_of_jobs|default:"-" }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td class="px-4 py-6 text-gray-500" colspan="10">{% trans "Ничего не найдено" %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% with dir_qs=direction_ids|join:"&direction=" %}
+    <div class="flex items-center justify-between pt-3 text-sm">
+        <div class="text-gray-500">
+            {% trans "Страница" %} {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+        </div>
+
+        <div class="flex gap-2">
+            {% if page_obj.has_previous %}
+                <a class="rounded-lg border px-3 py-2 hover:bg-gray-50 cursor-pointer"
+                   hx-get="{% url 'companies:companies_table_partial' %}?page={{ page_obj.previous_page_number }}&q={{ q|urlencode }}&category={{ category }}&region={{ region }}&district=
+                           {{ district }}{% if direction_ids %}&direction={{ dir_qs }}{% endif %}"
+                   hx-target="#companiesTable"
+                   hx-push-url="{% url 'companies:companies_page' %}">
+                    ← {% trans "Назад" %}
+                </a>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <a class="rounded-lg border px-3 py-2 hover:bg-gray-50 cursor-pointer"
+                   hx-get="{% url 'companies:companies_table_partial' %}?page={{ page_obj.next_page_number }}&q={{ q|urlencode }}&category={{ category }}&region={{ region }}&district={{ district }}{% if direction_ids %}&direction={{ dir_qs }}{% endif %}"
+                   hx-target="#companiesTable"
+                   hx-push-url="{% url 'companies:companies_page' %}">
+                    {% trans "Далее" %} →
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endwith %}
+

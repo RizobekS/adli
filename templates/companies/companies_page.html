@@ -1,0 +1,179 @@
+{% extends "base_panel.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Компании" %}{% endblock %}
+
+{% block content %}
+    <div class="space-y-5">
+
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-semibold">{% trans "Список компаний" %}</h1>
+            </div>
+        </div>
+
+        <form id="filters"
+              class="space-y-3"
+              hx-get="{% url 'companies:companies_table_partial' %}"
+              hx-push-url="{% url 'companies:companies_page' %}"
+              hx-target="#companiesTable"
+              hx-trigger="filters-changed">
+
+            <input name="q"
+                   placeholder="{% trans 'Поиск: ИНН, название, телефон, директор…' %}"
+                   class="form-control w-full"/>
+
+            <input type="hidden" name="category" id="categoryValue" value="">
+            <input type="hidden" name="region" id="regionValue" value="">
+            <input type="hidden" name="district" id="districtValue" value="">
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+
+                <!-- Category dropdown -->
+                <div class="relative">
+                    <button id="categoryBtn" data-dropdown-toggle="categoryMenu" type="button"
+                            class="form-control flex items-center justify-between">
+                        <span id="categoryLabel">{% trans "Категория" %}</span>
+                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <div id="categoryMenu"
+                         class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
+                        <ul class="max-h-64 overflow-auto py-1 text-sm">
+                            <li>
+                                <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                        data-set="category" data-id="" data-label="{% trans 'Категория' %}">
+                                    {% trans "Все категории" %}
+                                </button>
+                            </li>
+                            {% for c in categories %}
+                                <li>
+                                    <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                            data-set="category" data-id="{{ c.id }}" data-label="{{ c.name }}">
+                                        {{ c.name }}
+                                    </button>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Region dropdown -->
+                <div class="relative">
+                    <button id="regionBtn" data-dropdown-toggle="regionMenu" type="button"
+                            class="form-control flex items-center justify-between">
+                        <span id="regionLabel">{% trans "Регион" %}</span>
+                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <div id="regionMenu"
+                         class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
+                        <ul class="max-h-64 overflow-auto py-1 text-sm">
+                            <li>
+                                <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                        data-set="region" data-id="" data-label="{% trans 'Регион' %}">
+                                    {% trans "Все регионы" %}
+                                </button>
+                            </li>
+                            {% for r in regions %}
+                                <li>
+                                    <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                            data-set="region" data-id="{{ r.id }}" data-label="{{ r.name }}">
+                                        {{ r.name }}
+                                    </button>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- District dropdown (depends on region) -->
+                <div class="relative">
+                    <button id="districtBtn" data-dropdown-toggle="districtMenu" type="button"
+                            class="form-control flex items-center justify-between disabled:opacity-60"
+                            disabled>
+                        <span id="districtLabel">{% trans "Район" %}</span>
+                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+
+                    <div id="districtMenu"
+                         class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
+                        <div class="p-2 border-b">
+                            <input id="districtSearch" type="text" class="form-control"
+                                   placeholder="{% trans 'Поиск района…' %}">
+                        </div>
+                        <ul id="districtList" class="max-h-64 overflow-auto py-1 text-sm">
+                            <li class="px-3 py-2 text-gray-500">{% trans "Сначала выберите регион" %}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Directions multi dropdown -->
+                <div class="relative">
+                    <button id="dirBtn" data-dropdown-toggle="dirMenu" type="button"
+                            class="form-control flex items-center justify-between">
+                        <span class="truncate">{% trans "Направления" %}</span>
+                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <div id="dirMenu"
+                         class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
+                        <div class="p-2 border-b">
+                            <input id="dirSearch" type="text" class="form-control"
+                                   placeholder="{% trans 'Поиск направления…' %}">
+                        </div>
+
+                        <div class="p-2 flex flex-wrap gap-2" id="dirChips"></div>
+
+                        <ul id="dirList" class="max-h-64 overflow-auto py-1 text-sm">
+                            {% for d in directions %}
+                                <li class="dir-item" data-name="{{ d.title|lower }}">
+                                    <label class="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600"
+                                               name="direction" value="{{ d.id }}">
+                                        <span>{{ d.title }}</span>
+                                    </label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="flex items-center justify-between gap-2 p-2 border-t">
+                            <button type="button" id="dirClear"
+                                    class="rounded-lg border px-3 py-2 text-sm hover:bg-gray-50">
+                                {% trans "Очистить" %}
+                            </button>
+                            <button type="button" id="dirApply"
+                                    class="rounded-lg bg-blue-600 text-white px-3 py-2 text-sm hover:bg-blue-700">
+                                {% trans "Применить" %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+
+        <div id="companiesTable"
+             hx-get="{% url 'companies:companies_table_partial' %}"
+             hx-trigger="load"
+             hx-include="#filters">
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block js_partial %}
+    <script src="{% static 'js/companies_filters.js' %}"></script>
+{% endblock %}

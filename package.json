@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "flowbite": "^2.0.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "scripts": {
+    "dev": "tailwindcss -i ./assets/css/input.css -o ./static/css/app.css --watch",
+    "build": "tailwindcss -i ./assets/css/input.css -o ./static/css/app.css --minify"
+  }
+}

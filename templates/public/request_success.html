@@ -1,0 +1,68 @@
+{# templates/public/request_success.html #}
+{% extends "base_public.html" %}
+
+{% block title %}Успешно | ADLI{% endblock %}
+
+{% block content %}
+<div class="flex min-h-[70vh] items-center justify-center py-10">
+  <div class="w-full max-w-xl rounded-2xl border bg-white p-8 text-center shadow-sm">
+    <!-- Animated check -->
+    <div class="mx-auto mb-5 h-16 w-16 rounded-full bg-green-50 border border-green-100 flex items-center justify-center">
+      <svg class="h-9 w-9 text-green-600 animate-[pop_450ms_ease-out]" viewBox="0 0 24 24" fill="none">
+        <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </div>
+
+    <h1 class="text-2xl font-semibold">Обращение отправлено</h1>
+    <p class="mt-2 text-gray-500">
+      Спасибо. Ваше обращение принято и будет рассмотрено.
+    </p>
+
+    {% if public_id %}
+      <div class="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-4">
+        <div class="text-sm text-gray-600">Номер обращения</div>
+        <div class="mt-1 flex items-center justify-center gap-2">
+          <span id="publicId" class="text-xl font-semibold tracking-wide">{{ public_id }}</span>
+          <button type="button"
+                  class="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm hover:bg-gray-50"
+                  onclick="copyPublicId()">
+            Скопировать
+          </button>
+        </div>
+        <div class="mt-2 text-xs text-gray-500">
+          Сохраните номер. Он пригодится при обращении в службу поддержки.
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+      <a href="{% url 'requests:public_request_create' %}"
+         class="inline-flex justify-center rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+        Отправить ещё одно
+      </a>
+
+      <a href="{% url 'requests:public_track_requests' %}{% if public_id %}?rid={{ public_id }}{% endif %}"
+         class="inline-flex justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800">
+        Проверить статус
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function copyPublicId() {
+    const el = document.getElementById('publicId');
+    if (!el) return;
+    const text = el.textContent.trim();
+    navigator.clipboard.writeText(text);
+  }
+</script>
+
+<style>
+    @keyframes pop {
+      0% { transform: scale(0.6); opacity: 0; }
+      70% { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+</style>
+{% endblock %}

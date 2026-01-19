@@ -1,0 +1,471 @@
+{% extends "base_public.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Отправка обращения" %} | ADLI{% endblock %}
+
+{% block content %}
+    <section class="mb-6">
+        <div class="rounded-2xl shadow bg-white p-6">
+            <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h1 class="text-2xl font-semibold">{% trans 'Отправка обращения' %}</h1>
+                    <p class="text-gray-500">{% trans 'Заполните данные для отправки обращения.' %}</p>
+                </div>
+                <div class="mt-2 md:mt-0">
+          <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 border border-blue-100">
+            {% trans 'ADLI • Форма для обращений' %}
+          </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="rounded-2xl shadow bg-white p-6">
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- скрытые реальные select'ы, на них висит HTMX/валидация -->
+            <div class="hidden">
+                {{ form.category }}
+                {{ form.position }}
+                {{ form.region }}
+                {{ form.district }}
+            </div>
+
+            <!-- Company -->
+            <div>
+                <h2 class="text-lg font-medium mb-3">{% trans "Компания" %}</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        {{ form.inn.label_tag }}
+                        {{ form.inn }}
+                        {% if form.inn.errors %}<p class="text-sm text-red-600">{{ form.inn.errors }}</p>{% endif %}
+                    </div>
+
+                    <div>
+                        {{ form.company_name.label_tag }}
+                        {{ form.company_name }}
+                        {% if form.company_name.errors %}
+                            <p class="text-sm text-red-600">{{ form.company_name.errors }}</p>{% endif %}
+                    </div>
+                </div>
+
+                <!-- Region/District dropdowns -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <!-- Region -->
+                    <div class="relative">
+                        <label class="block mb-2 text-sm font-medium">{% trans "Регион" %}</label>
+
+                        <button id="reqRegionBtn" data-dropdown-toggle="reqRegionMenu" type="button"
+                                class="form-control flex items-center justify-between px-4">
+                            <span id="reqRegionLabel">{% trans "Выберите регион" %}</span>
+                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div id="reqRegionMenu"
+                             class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
+                            <ul class="max-h-64 overflow-auto py-1 text-sm">
+                                <li>
+                                    <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                            data-set="req-region" data-id="" data-label="{% trans 'Выберите регион' %}">
+                                        {% trans "Не выбрано" %}
+                                    </button>
+                                </li>
+                                {% for r in regions %}
+                                    <li>
+                                        <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                                data-set="req-region" data-id="{{ r.id }}" data-label="{{ r.name }}">
+                                            {{ r.name }}
+                                        </button>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- District -->
+                    <div class="relative">
+                        <label class="block mb-2 text-sm font-medium">{% trans "Район/город" %}</label>
+
+                        <button id="reqDistrictBtn" data-dropdown-toggle="reqDistrictMenu" type="button"
+                                class="form-control flex items-center justify-between px-4 disabled:opacity-60"
+                                disabled>
+                            <span id="reqDistrictLabel">{% trans "Выберите район/город" %}</span>
+                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <p id="reqDistrictHint" class="mt-1 hidden text-xs text-amber-700">
+                            {% trans "Сначала выберите регион." %}
+                        </p>
+
+                        <div id="reqDistrictMenu"
+                             class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
+                            <div class="p-2 border-b">
+                                <input id="reqDistrictSearch" type="text" class="form-control"
+                                       placeholder="{% trans 'Поиск района…' %}">
+                            </div>
+                            <ul id="reqDistrictList" class="max-h-64 overflow-auto py-1 text-sm">
+                                <li class="px-3 py-2 text-gray-500">{% trans "Сначала выберите регион" %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee -->
+            <div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>{{ form.last_name.label_tag }}{{ form.last_name }}</div>
+                    <div>{{ form.first_name.label_tag }}{{ form.first_name }}</div>
+                    <div>{{ form.middle_name.label_tag }}{{ form.middle_name }}</div>
+                    <div>{{ form.phone.label_tag }}{{ form.phone }}</div>
+                    <div>{{ form.email.label_tag }}{{ form.email }}</div>
+
+                    <!-- Position dropdown -->
+                    <div class="relative">
+                        <label class="block mb-2 text-sm font-medium">{% trans "Должность" %}</label>
+
+                        <button id="reqPositionBtn" data-dropdown-toggle="reqPositionMenu" type="button"
+                                class="form-control flex items-center justify-between px-4">
+                            <span id="reqPositionLabel">{% trans "Выберите должность" %}</span>
+                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div id="reqPositionMenu"
+                             class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
+                            <ul class="max-h-64 overflow-auto py-1 text-sm">
+                                <li>
+                                    <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                            data-set="req-position" data-id=""
+                                            data-label="{% trans 'Выберите должность' %}">
+                                        {% trans "Не выбрано" %}
+                                    </button>
+                                </li>
+                                {% for p in positions %}
+                                    <li>
+                                        <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                                data-set="req-position" data-id="{{ p.id }}" data-label="{{ p.name }}">
+                                            {{ p.name }}
+                                        </button>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Request -->
+            <div>
+                <div class="grid grid-cols-1 gap-4">
+                    <!-- Category dropdown -->
+                    <div class="relative">
+                        <label class="block mb-2 text-sm font-medium">{% trans "Категория" %}</label>
+
+                        <button id="reqCategoryBtn" data-dropdown-toggle="reqCategoryMenu" type="button"
+                                class="form-control flex items-center justify-between px-4">
+                            <span id="reqCategoryLabel">{% trans "Выберите категорию" %}</span>
+                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div id="reqCategoryMenu"
+                             class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
+                            <ul class="max-h-64 overflow-auto py-1 text-sm">
+                                <li>
+                                    <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                            data-set="req-category" data-id=""
+                                            data-label="{% trans 'Выберите категорию' %}">
+                                        {% trans "Не выбрано" %}
+                                    </button>
+                                </li>
+                                {% for c in categories %}
+                                    <li>
+                                        <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                                data-set="req-category" data-id="{{ c.id }}" data-label="{{ c.name }}">
+                                            {{ c.name }}
+                                        </button>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Directions cards -->
+                    <div>
+                        <div id="directions-box" class="mt-1"></div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="block mb-2 text-sm font-medium">{% trans "Описание обращения" %}</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <p class="text-sm text-red-600">{{ form.description.errors }}</p>{% endif %}
+                </div>
+
+                <!-- Attachments -->
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-2 text-sm font-medium">{% trans "Приложения обращения" %}</label>
+
+                        <div id="attachments-container" class="space-y-2">
+                            <div class="flex gap-2">
+                                <input type="file"
+                                       name="attachments"
+                                       accept=".pdf,.doc,.docx,.xls,.xlsx"
+                                       class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer p-2 bg-gray-50">
+                                <button type="button"
+                                        class="remove-attachment hidden shrink-0 rounded-lg border border-gray-300 bg-white px-3 text-sm hover:bg-gray-50">
+                                    ✕
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="button" id="add-attachment"
+                                class="mt-2 inline-flex items-center gap-2 text-sm font-medium text-blue-700 hover:text-blue-800">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            {% trans "Добавить файл" %}
+                        </button>
+
+                        <p class="text-xs text-gray-500 mt-1">
+                            {% trans "PDF, Word, Excel. Можно добавить несколько файлов." %}<br>
+                            {% trans "Максимальный допустимый размер файлов 10MB." %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center my-3 gap-3">
+                <button type="submit"
+                        class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
+                    {% trans "Отправить" %}
+                </button>
+            </div>
+
+            {% if form.non_field_errors %}
+                <div class="p-4 text-sm text-red-800 rounded-lg bg-red-50 border border-red-200">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- attachments script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("attachments-container");
+            const addBtn = document.getElementById("add-attachment");
+
+            function wireRemove(btn) {
+                btn.addEventListener("click", function () {
+                    btn.closest(".flex").remove();
+                });
+            }
+
+            const firstRemove = container.querySelector(".remove-attachment");
+            if (firstRemove) wireRemove(firstRemove);
+
+            addBtn.addEventListener("click", function () {
+                const row = document.createElement("div");
+                row.className = "flex gap-2";
+
+                const input = document.createElement("input");
+                input.type = "file";
+                input.name = "attachments";
+                input.accept = ".pdf,.doc,.docx,.xls,.xlsx";
+                input.className = "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer p-2 bg-gray-50";
+
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "remove-attachment shrink-0 rounded-lg border border-gray-300 bg-white px-3 text-sm hover:bg-gray-50";
+                btn.textContent = "✕";
+
+                wireRemove(btn);
+
+                row.appendChild(input);
+                row.appendChild(btn);
+                container.appendChild(row);
+
+                const rows = container.querySelectorAll(".flex");
+                if (rows.length > 1) {
+                    const firstBtn = rows[0].querySelector(".remove-attachment");
+                    if (firstBtn) firstBtn.classList.remove("hidden");
+                }
+            });
+
+            container.addEventListener("click", function () {
+                const rows = container.querySelectorAll(".flex");
+                if (rows.length === 1) {
+                    const btn = rows[0].querySelector(".remove-attachment");
+                    if (btn) btn.classList.add("hidden");
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block js_partial %}
+    <script>
+        (function () {
+            const selCategory = document.getElementById("id_category");
+            const selPosition = document.getElementById("id_position");
+            const selRegion = document.getElementById("id_region");
+            const selDistrict = document.getElementById("id_district");
+
+            const regionLabel = document.getElementById("reqRegionLabel");
+            const districtBtn = document.getElementById("reqDistrictBtn");
+            const districtLabel = document.getElementById("reqDistrictLabel");
+            const districtHint = document.getElementById("reqDistrictHint");
+            const districtList = document.getElementById("reqDistrictList");
+            const districtSearch = document.getElementById("reqDistrictSearch");
+
+            function closeMenu(id) {
+                const el = document.getElementById(id);
+                if (el) el.classList.add("hidden");
+            }
+
+            function closeAll() {
+                document.querySelectorAll("[data-dropdown-toggle]").forEach(btn => {
+                    closeMenu(btn.getAttribute("data-dropdown-toggle"));
+                });
+            }
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") closeAll();
+            });
+
+            function escapeHtml(s) {
+                return String(s).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+            }
+
+            async function loadDistricts(regionId) {
+                districtList.innerHTML = "";
+                if (!regionId) {
+                    districtBtn.disabled = true;
+                    districtList.innerHTML = `<li class="px-3 py-2 text-gray-500">{% trans "Сначала выберите регион" %}</li>`;
+                    return;
+                }
+
+                districtBtn.disabled = false;
+                if (districtHint) districtHint.classList.add("hidden");
+                districtList.innerHTML = `<li class="px-3 py-2 text-gray-500">{% trans "Загрузка..." %}</li>`;
+
+                const url = "{% url 'companies:districts_by_region' %}" + `?region_id=${encodeURIComponent(regionId)}`;
+                const res = await fetch(url, {headers: {"X-Requested-With": "XMLHttpRequest"}});
+                const data = await res.json();
+                const items = data.results || [];
+
+                if (!items.length) {
+                    districtList.innerHTML = `<li class="px-3 py-2 text-gray-500">{% trans "Нет районов" %}</li>`;
+                    return;
+                }
+
+                districtList.innerHTML =
+                    `<li>
+        <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                data-set="req-district" data-id="" data-label="{% trans 'Выберите район/город' %}">
+          {% trans "Не выбрано" %}
+        </button>
+      </li>` +
+                    items.map(d => `
+        <li class="req-district-item" data-name="${escapeHtml((d.name || "").toLowerCase())}">
+          <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                  data-set="req-district" data-id="${d.id}" data-label="${escapeHtml(d.name)}">
+            ${escapeHtml(d.name)}
+          </button>
+        </li>`).join("");
+            }
+
+            districtBtn.addEventListener("click", (e) => {
+                if (!selRegion.value) {
+                    e.preventDefault();
+                    if (districtHint) {
+                        districtHint.classList.remove("hidden");
+                        setTimeout(() => districtHint.classList.add("hidden"), 2500);
+                    }
+                    closeMenu("reqDistrictMenu");
+                }
+            });
+
+            if (districtSearch) {
+                districtSearch.addEventListener("input", () => {
+                    const q = districtSearch.value.trim().toLowerCase();
+                    districtList.querySelectorAll(".req-district-item").forEach(li => {
+                        const name = li.dataset.name || "";
+                        li.style.display = name.includes(q) ? "" : "none";
+                    });
+                });
+            }
+
+            // dropdown click handling
+            document.addEventListener("click", async (e) => {
+                const btn = e.target.closest("button[data-set]");
+                if (!btn) return;
+
+                const set = btn.dataset.set;
+                const id = btn.dataset.id || "";
+                const label = btn.dataset.label || "";
+
+                if (set === "req-region") {
+                    selRegion.value = id;
+                    regionLabel.textContent = label || "{% trans 'Выберите регион' %}";
+
+                    // reset district
+                    selDistrict.value = "";
+                    districtLabel.textContent = "{% trans 'Выберите район/город' %}";
+                    await loadDistricts(id);
+
+                    selRegion.dispatchEvent(new Event("change", {bubbles: true}));
+                    closeMenu("reqRegionMenu");
+                    return;
+                }
+
+                if (set === "req-district") {
+                    selDistrict.value = id;
+                    districtLabel.textContent = label || "{% trans 'Выберите район/город' %}";
+                    selDistrict.dispatchEvent(new Event("change", {bubbles: true}));
+                    closeMenu("reqDistrictMenu");
+                    return;
+                }
+
+                if (set === "req-category") {
+                    // IMPORTANT: this triggers HTMX to load directions cards
+                    selCategory.value = id;
+                    document.getElementById("reqCategoryLabel").textContent = label || "{% trans 'Выберите категорию' %}";
+                    selCategory.dispatchEvent(new Event("change", {bubbles: true}));
+                    closeMenu("reqCategoryMenu");
+                    return;
+                }
+
+                if (set === "req-position") {
+                    selPosition.value = id;
+                    document.getElementById("reqPositionLabel").textContent = label || "{% trans 'Выберите должность' %}";
+                    selPosition.dispatchEvent(new Event("change", {bubbles: true}));
+                    closeMenu("reqPositionMenu");
+                    return;
+                }
+            });
+
+            // initial: preload districts if region already selected
+            if (selRegion && selRegion.value) loadDistricts(selRegion.value);
+
+            // initial: preload directions for initial category (HTMX trigger "load" is already set on select in forms.py)
+        })();
+    </script>
+{% endblock js_partial %}

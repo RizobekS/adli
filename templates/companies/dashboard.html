@@ -1,0 +1,101 @@
+{% extends "base_panel.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Дашборд" %}{% endblock %}
+
+{% block content %}
+    <div class="space-y-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-semibold">{% trans "Дашборд компаний" %}</h1>
+                <p class="text-sm text-gray-500">{% trans "Сводная статистика" %}</p>
+            </div>
+            <a href="{% url 'companies:companies_page' %}"
+               class="rounded-lg border px-3 py-2 text-sm font-medium hover:bg-gray-50">
+                {% trans "К списку компаний" %}
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="rounded-2xl border bg-white p-4">
+                <div class="text-sm text-gray-500">{% trans "Всего компаний" %}</div>
+                <div class="text-2xl font-semibold">{{ total_companies }}</div>
+            </div>
+            <div class="rounded-2xl border bg-white p-4">
+                <div class="text-sm text-gray-500">{% trans "С указанным регионом" %}</div>
+                <div class="text-2xl font-semibold">{{ with_region }}</div>
+            </div>
+            <div class="rounded-2xl border bg-white p-4">
+                <div class="text-sm text-gray-500">{% trans "Без региона" %}</div>
+                <div class="text-2xl font-semibold">{{ without_region }}</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="rounded-2xl border bg-white p-4 shadow-sm">
+                <div class="mb-2 text-sm font-semibold text-gray-700">{% trans 'Компании по категориям' %}</div>
+                <div id="chartByCategory" class="h-80 w-full"></div>
+            </div>
+
+            <div class="rounded-2xl border bg-white p-4 shadow-sm">
+                <div class="mb-2 text-sm font-semibold text-gray-700">{% trans 'Компании по регионам' %}</div>
+                <div id="chartByRegion" class="h-80 w-full"></div>
+            </div>
+        </div>
+
+    </div>
+
+    {{ by_category|json_script:"byCategoryData" }}
+    {{ by_region|json_script:"byRegionData" }}
+
+{% endblock %}
+
+{% block js_partial %}
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script>
+        (function () {
+            const byCategory = JSON.parse(document.getElementById('byCategoryData').textContent || "[]");
+            const byRegionAll = JSON.parse(document.getElementById('byRegionData').textContent || "[]");
+
+            function makeBarOption(title, labels, values) {
+                return {
+                    grid: {left: 10, right: 10, top: 30, bottom: 10, containLabel: true},
+                    tooltip: {trigger: 'axis', axisPointer: {type: 'shadow'}},
+                    xAxis: {type: 'value'},
+                    yAxis: {
+                        type: 'category',
+                        data: labels,
+                        axisLabel: {width: 140, overflow: 'truncate'}
+                    },
+                    series: [{
+                        name: title,
+                        type: 'bar',
+                        data: values,
+                        barMaxWidth: 22,
+                        itemStyle: {borderRadius: [6, 6, 6, 6]}
+                    }]
+                };
+            }
+
+            const catEl = document.getElementById('chartByCategory');
+            const regEl = document.getElementById('chartByRegion');
+
+            if (catEl && byCategory.length) {
+                const labels = byCategory.map(x => x.category__name ?? "-");
+                const values = byCategory.map(x => x.cnt ?? 0);
+                const chart = echarts.init(catEl);
+                chart.setOption(makeBarOption('{% trans "Категории" %}', labels, values));
+                window.addEventListener('resize', () => chart.resize());
+            }
+
+            if (regEl && byRegionAll.length) {
+                const labels = byRegionAll.map(x => x.region__name ?? "-");
+                const values = byRegionAll.map(x => x.cnt ?? 0);
+                const chart = echarts.init(regEl);
+                chart.setOption(makeBarOption('{% trans "Регионы" %}', labels, values));
+                window.addEventListener('resize', () => chart.resize());
+            }
+        })();
+    </script>
+
+{% endblock js_partial %}

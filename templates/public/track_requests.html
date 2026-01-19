@@ -1,0 +1,149 @@
+{% extends "base_public.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}Статус обращения | ADLI{% endblock %}
+
+{% block content %}
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-white border-b border-gray-200 rounded-xl shadow-sm">
+            <div class="max-w-5xl mx-auto px-4 py-5">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-semibold">
+                            {% trans "Проверка статуса обращения" %}
+                        </h1>
+                        <p class="text-sm text-gray-600 mt-1">
+                            {% trans "Введите ИНН компании и номер обращения." %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <main class="max-w-5xl mx-auto px-4 py-6">
+            <!-- Form card -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+                <div class="p-5 sm:p-6">
+                    <form method="post" class=" ">
+                        {% csrf_token %}
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">{{ form.inn.label }}</label>
+                                {{ form.inn }}
+                                {% if form.inn.errors %}
+                                    <p class="text-sm text-red-600 mt-1">{{ form.inn.errors|striptags }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    {{ form.public_id.label }}
+                                </label>
+                                {{ form.public_id }}
+                                {% if form.public_id.errors %}
+                                    <p class="text-sm text-red-600 mt-1">
+                                        {{ form.public_id.errors|striptags }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="md:flex items-center justify-between gap-3 pt-2">
+                            <p class="text-xs text-gray-500">
+                                {% trans "Данные используются только для поиска обращений в системе." %}
+                            </p>
+                            <button
+                                    type="submit"
+                                    class="w-40 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 mt-1 md:mt-0 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                {% trans "Найти обращения" %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% if not_found %}
+                <div class="mt-5 bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 font-bold">
+                            i
+                        </div>
+                        <div>
+                            <div class="font-semibold">{% trans "Обращения не найдены" %}</div>
+                            <p class="text-sm text-gray-600 mt-1">
+                                {% trans "Проверьте введённые данные и попробуйте снова." %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if requests_list %}
+                <!-- Employee/company info -->
+                {% with r0=requests_list.0 %}
+                    <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+                        <div class="text-sm text-gray-700">
+                            <span class="font-semibold">{% trans "Компания:" %}</span>
+                            {{ r0.company.name }} ({{ r0.company.inn }})<br>
+
+                            {% if r0.employee %}
+                                <span class="font-semibold">{% trans "Сотрудник:" %}</span>
+                                {{ r0.employee.last_name }} {{ r0.employee.first_name }} {{ r0.employee.middle_name }}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endwith %}
+
+                <!-- Requests list -->
+                <div class="mt-5 grid grid-cols-1 gap-4">
+                    {% for r in requests_list %}
+                        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div>
+                                    <div class="text-sm text-gray-500">{% trans "Номер обращения" %}</div>
+                                    <div class="text-lg font-semibold">{{ r.public_id }}</div>
+                                    <div class="text-sm text-gray-600 mt-1">
+                                        <span class="font-medium">{% trans "Статус:" %}</span> {{ r.get_status_display }}
+                                        {% if r.due_date %}
+                                            <span class="mx-2 text-gray-300">•</span>
+                                            <span class="font-medium">{% trans "Срок:" %}</span> {{ r.due_date }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-2">
+                                    <button
+                                            type="button"
+                                            class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
+                                            onclick="openHistory('{{ r.public_id }}')"
+                                    >
+                                        {% trans "История" %}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 text-sm text-gray-700 line-clamp-3">
+                                {{ r.description|truncatechars:220 }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </main>
+    </div>
+
+
+{% endblock %}
+{% block js_partial %}
+    <div id="adli-modal-config"
+       data-history-url-template="{% url 'requests:public_request_history_json' 'PUBLIC_ID' %}"
+       data-i18n-loading="{% trans 'Загрузка...' %}"
+       data-i18n-empty="{% trans 'История пока пустая.' %}"
+       data-i18n-error="{% trans 'Ошибка загрузки истории.' %}"
+       data-i18n-title="{% trans 'История обращения' %}"
+       data-i18n-close="{% trans 'Закрыть' %}">
+    </div>
+<script src="{% static 'js/modals.js' %}"></script>
+{% endblock js_partial %}

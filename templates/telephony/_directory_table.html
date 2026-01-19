@@ -1,0 +1,94 @@
+{% load i18n %}
+<div id="directoryTable" class="rounded-2xl border border-gray-200 bg-white/60 backdrop-blur">
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+            <thead class="bg-gray-50/60 text-gray-600">
+            <tr>
+                <th class="text-left font-medium px-4 py-3">{% trans "Сотрудник" %}</th>
+                <th class="text-left font-medium px-4 py-3">{% trans "Должность" %}</th>
+                <th class="text-left font-medium px-4 py-3">{% trans "Внутренний" %}</th>
+                <th class="text-left font-medium px-4 py-3">{% trans "Сотовый" %}</th>
+                <th class="text-left font-medium px-4 py-3">{% trans "Email" %}</th>
+                <th class="text-left font-medium px-4 py-3">{% trans "Статус" %}</th>
+            </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-100">
+            {% for u in items %}
+            <tr data-row="user"
+                data-name="{{ u.full_name|default_if_none:'' }}"
+                data-numbers="{{ u.extension|default_if_none:'' }} {{ u.mobile_phone|default_if_none:'' }}"
+                class="hover:bg-gray-50/60 transition">
+                <td class="px-4 py-3">
+                    <div class="flex items-center gap-3">
+                        {% if u.photo %}
+                        <img src="{{ u.photo }}" class="h-9 w-9 rounded-full object-cover border border-gray-200"
+                             alt="">
+                        {% else %}
+                        <div class="h-9 w-9 rounded-full bg-gray-100 border border-gray-200"></div>
+                        {% endif %}
+                        <div>
+                            <div class="font-medium text-gray-900">{{ u.full_name }}</div>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="px-4 py-3">
+                    {% if u.position %}
+                    <span class="inline-flex items-center rounded-full bg-blue-50 text-blue-700 border border-blue-100 px-2.5 py-1 text-xs font-semibold">
+                  {{ u.position }}
+                </span>
+                    {% else %}
+                    <span class="text-xs text-gray-400">{% trans "не задан" %}</span>
+                    {% endif %}
+                </td>
+
+                <td class="px-4 py-3">
+                    {% if u.extension %}
+                    <span class="inline-flex items-center rounded-full bg-blue-50 text-blue-700 border border-blue-100 px-2.5 py-1 text-xs font-semibold">
+                  {{ u.extension }}
+                </span>
+                    {% else %}
+                    <span class="text-xs text-gray-400">{% trans "не задан" %}</span>
+                    {% endif %}
+                </td>
+
+                <td class="px-4 py-3 text-gray-700">
+                    {{ u.mobile_phone|default:"—" }}
+                </td>
+
+                <td class="px-4 py-3 text-gray-700">
+                    {{ u.email|default:"—" }}
+                </td>
+
+                <td class="px-4 py-3">
+                    {% if u.kerio_disabled %}
+                    <span class="inline-flex items-center rounded-full bg-red-50 text-red-700 border border-red-100 px-2.5 py-1 text-xs font-semibold">
+                    {% trans "Отключён" %}
+                    </span>
+                    {% else %}
+                    <span class="inline-flex items-center rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 px-2.5 py-1 text-xs font-semibold">
+                    {% trans "Активен" %}
+                    </span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="px-4 py-8 text-center text-gray-500">
+                    {% trans "Данные не найдены." %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex items-center justify-between px-4 py-3 border-t border-gray-100">
+        <div class="text-sm text-gray-700">
+            {% trans "Показано:" %}
+            <span class="font-semibold" id="visibleCount">{{ items|length }}</span>
+            <span class="font-semibold text-gray-500">/ {{ items|length }}</span>
+        </div>
+    </div>
+</div>

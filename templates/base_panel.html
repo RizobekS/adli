@@ -1,0 +1,193 @@
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}ADLI | Panel{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+
+<body class="min-h-screen text-gray-900 flex flex-col">
+<!-- background -->
+<div class="fixed inset-0 -z-10">
+    <div class="absolute inset-0 bg-linear-to-br from-blue-50 via-white to-slate-100"></div>
+    <div class="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-blue-200/40 blur-3xl"></div>
+    <div class="absolute top-20 -right-24 h-96 w-96 rounded-full bg-indigo-200/40 blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-sky-200/30 blur-3xl"></div>
+</div>
+
+<!-- DESKTOP sidebar -->
+{% include "partials/sidebar.html" %}
+
+<!-- OFF-CANVAS mobile sidebar -->
+<div id="panelMobileBackdrop"
+     class="fixed inset-0 z-40 bg-black/30 opacity-0 pointer-events-none transition-opacity duration-200 lg:hidden"></div>
+
+
+<aside id="panelMobileSidebar"
+       class="fixed inset-y-0 left-0 z-50 w-72 border-r border-gray-200 bg-white shadow-xl lg:hidden
+              -translate-x-full opacity-0 pointer-events-none transition-all duration-200 ease-out">
+    <div class="flex items-center justify-between border-b border-gray-200/70">
+        <div class="text-sm font-semibold">
+            <!-- Brand -->
+            <a href="{% url 'panel:dashboard' %}" class="px-4 py-4 flex items-center gap-3 border-b border-gray-200/60">
+                <img src="{% static 'img/gerb.svg' %}" alt="ADLI" class="h-10 w-auto shrink-0"/>
+                <div class="sidebar-label text-xs font-semibold leading-snug">
+                    O'zbekiston Respublikasi Vazirlar<br>
+                    Mahkamasi huzuridagi Yengil<br>
+                    sanoatni rivojlantirish agentligi
+                </div>
+            </a>
+        </div>
+        <button id="panelMobileClose"
+                class="absolute top-4 left-[calc(100%+0.3rem)] z-50 rounded-lg border border-gray-200 bg-white p-2 shadow">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+
+    <div class="space-y-1 text-sm border-b border-gray-200/70">
+        <a href="{% url 'panel:dashboard' %}" class="nav-link w-full justify-start">{% trans "Дашборд" %}</a>
+        <a href="{% url 'companies:companies_page' %}" class="nav-link w-full justify-start">{% trans "Компании" %}</a>
+        <a href="{% url 'telephony:directory_page' %}" class="nav-link w-full justify-start">{% trans "Телефония" %}</a>
+    </div>
+    <div class="space-y-1 text-sm">
+        <form method="post" action="{% url 'users:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="nav-link w-full justify-start">{% trans "Выйти" %}</button>
+        </form>
+    </div>
+</aside>
+
+<!-- HEADER -->
+<header class="bg-white border-b">
+    <div class="w-full panel-offset px-4 py-4">
+        <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <!-- Mobile burger (opens off-canvas) -->
+                <button id="panelMobileOpen" type="button"
+                        class="lg:hidden inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+
+                <!-- Desktop sidebar toggle -->
+                <button id="panelSidebarToggle" type="button"
+                        class="hidden cursor-pointer lg:inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm hover:bg-gray-50 mx-3">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Language dropdown (desktop) -->
+            <div class="flex items-center gap-2">
+                <button id="langDropdownButton" data-dropdown-toggle="langDropdown"
+                        class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white/70 px-3 py-2 text-sm font-medium hover:bg-white">
+                    {% if LANGUAGE_CODE == "uz" %}Oʻzbekcha{% else %}Русский{% endif %}
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="langDropdown" class="z-10 hidden w-40 rounded-lg border border-gray-200 bg-white shadow">
+                    <ul class="py-2 text-sm text-gray-700">
+                        <li><a href="{% url 'set_language_from_url' 'uz' %}?next={{ request.get_full_path|urlencode }}"
+                               class="block px-4 py-2 hover:bg-gray-50">Oʻzbekcha</a></li>
+                        <li><a href="{% url 'set_language_from_url' 'ru' %}?next={{ request.get_full_path|urlencode }}"
+                               class="block px-4 py-2 hover:bg-gray-50">Русский</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+{% include "partials/messages.html" %}
+
+<!-- MAIN -->
+<div class="flex-1">
+    <main class="px-3 sm:px-4 py-4 sm:py-6 panel-offset">
+        <div class="rounded-3xl border border-white/60 bg-white/55 backdrop-blur-xl shadow-sm p-3 sm:p-6 mx-3">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+</div>
+
+<footer class="border-t bg-white">
+    <div class="w-full panel-offset px-4 py-6 text-sm text-gray-500">
+        © {% now "Y" %} ADLI
+    </div>
+</footer>
+
+<div id="modal-root"></div>
+{% block js_partial %}{% endblock js_partial %}
+
+<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+<script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
+
+<!-- Mobile off-canvas script -->
+<script>
+    (function () {
+      const openBtn = document.getElementById("panelMobileOpen");
+      const closeBtn = document.getElementById("panelMobileClose");
+      const sidebar = document.getElementById("panelMobileSidebar");
+      const backdrop = document.getElementById("panelMobileBackdrop");
+      if (!openBtn || !closeBtn || !sidebar || !backdrop) return;
+
+      let isOpen = false;
+
+      const open = () => {
+        if (isOpen) return;
+        isOpen = true;
+
+        // enable interactions
+        backdrop.classList.remove("pointer-events-none");
+        sidebar.classList.remove("pointer-events-none");
+
+        // animate in
+        backdrop.classList.remove("opacity-0");
+        backdrop.classList.add("opacity-100");
+
+        sidebar.classList.remove("-translate-x-full", "opacity-0");
+        sidebar.classList.add("translate-x-0", "opacity-100");
+      };
+
+      const close = () => {
+        if (!isOpen) return;
+        isOpen = false;
+
+        // animate out
+        backdrop.classList.remove("opacity-100");
+        backdrop.classList.add("opacity-0");
+
+        sidebar.classList.remove("translate-x-0", "opacity-100");
+        sidebar.classList.add("-translate-x-full", "opacity-0");
+
+        // disable interactions after animation ends
+        window.setTimeout(() => {
+          if (isOpen) return; // reopened meanwhile
+          backdrop.classList.add("pointer-events-none");
+          sidebar.classList.add("pointer-events-none");
+        }, 220);
+      };
+
+      openBtn.addEventListener("click", open);
+      closeBtn.addEventListener("click", close);
+      backdrop.addEventListener("click", close);
+
+      // ESC closes
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+      });
+    })();
+</script>
+
+</body>
+</html>

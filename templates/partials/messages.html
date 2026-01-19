@@ -1,0 +1,102 @@
+{% load i18n %}
+{% if messages %}
+  <div id="toast-stack"
+       class="fixed top-4 right-4 z-50 flex w-[92vw] max-w-sm flex-col gap-3">
+
+    {% for message in messages %}
+      <div class="adli-toast pointer-events-auto w-full overflow-hidden rounded-xl border bg-white shadow-lg
+                  opacity-0 translate-x-8 transition duration-300 ease-out"
+           data-autohide="true"
+           data-delay="4500"
+           role="alert"
+           aria-live="polite">
+
+        <div class="flex items-start gap-3 p-4">
+
+          <!-- icon box -->
+          <div class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border
+                      {% if 'success' in message.tags %}bg-green-50 text-green-700 border-green-100{% endif %}
+                      {% if 'error' in message.tags %}bg-red-50 text-red-700 border-red-100{% endif %}
+                      {% if 'warning' in message.tags %}bg-yellow-50 text-yellow-700 border-yellow-100{% endif %}
+                      {% if 'info' in message.tags or message.tags == '' %}bg-blue-50 text-blue-700 border-blue-100{% endif %}">
+
+            {% if 'success' in message.tags %}
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 6L9 17l-5-5"></path>
+              </svg>
+            {% elif 'error' in message.tags %}
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            {% elif 'warning' in message.tags %}
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                      d="M12 9v4m0 4h.01M10.29 3.86l-8.02 14A2 2 0 004 21h16a2 2 0 001.73-3.14l-8.02-14a2 2 0 00-3.46 0z"></path>
+              </svg>
+            {% else %}
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                      d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"></path>
+              </svg>
+            {% endif %}
+          </div>
+
+          <div class="min-w-0 flex-1">
+            <p class="text-sm font-semibold text-gray-900">
+              {% if 'success' in message.tags %}{% trans "Успешно" %}
+              {% elif 'error' in message.tags %}{% trans "Ошибка" %}
+              {% elif 'warning' in message.tags %}{% trans "Предупреждение" %}
+              {% else %}{% trans "Сообщение" %}
+              {% endif %}
+            </p>
+            <p class="mt-0.5 text-sm text-gray-600 break-words">{{ message }}</p>
+          </div>
+
+          <button type="button"
+                  class="adli-toast-close inline-flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition"
+                  aria-label="{% trans 'Закрыть' %}">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- полоска снизу -->
+        <div class="h-1 w-full
+                    {% if 'success' in message.tags %}bg-green-500
+                    {% elif 'error' in message.tags %}bg-red-500
+                    {% elif 'warning' in message.tags %}bg-yellow-500
+                    {% else %}bg-blue-500{% endif %}"></div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    (function () {
+      const toasts = document.querySelectorAll(".adli-toast");
+
+      function showToast(t) {
+        requestAnimationFrame(() => {
+          t.classList.remove("opacity-0", "translate-x-8");
+          t.classList.add("opacity-100", "translate-x-0");
+        });
+      }
+
+      function hideToast(t) {
+        t.classList.remove("opacity-100", "translate-x-0");
+        t.classList.add("opacity-0", "translate-x-8");
+        window.setTimeout(() => t.remove(), 320);
+      }
+
+      toasts.forEach((t) => {
+        showToast(t);
+
+        const closeBtn = t.querySelector(".adli-toast-close");
+        if (closeBtn) closeBtn.addEventListener("click", () => hideToast(t));
+
+        const delay = parseInt(t.dataset.delay || "4500", 10);
+        window.setTimeout(() => hideToast(t), delay);
+      });
+    })();
+  </script>
+{% endif %}

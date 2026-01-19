@@ -1,0 +1,90 @@
+{% extends "base_panel.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Телефонный справочник" %} | ADLI{% endblock %}
+
+{% block content %}
+    <div class="flex flex-col gap-5">
+
+        <!-- header -->
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+            <div>
+                <h1 class="text-xl sm:text-2xl font-semibold tracking-tight">
+                    {% trans "Телефонный справочник" %}
+                </h1>
+                <p class="text-sm text-gray-600 mt-1">
+                    {% trans "Список внутренних номеров телефонии." %}
+                </p>
+            </div>
+
+            <div class="flex gap-2">
+
+                <form method="post" action="{% url 'telephony:pull_sync' %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white/70 px-3 py-2 text-sm font-medium
+                               hover:bg-white transition">
+                        {% trans "Pull из Kerio" %}
+                    </button>
+                </form>
+
+                <button
+                        class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-medium text-white
+                       hover:bg-blue-700 transition"
+                        hx-get="{% url 'telephony:directory_table' %}"
+                        hx-target="#directoryTable"
+                        hx-swap="outerHTML">
+                    {% trans "Обновить" %}
+                </button>
+
+            </div>
+        </div>
+
+        <!-- filters -->
+        <div class="grid  gap-3">
+            <div class=" my-3">
+                <label class="block text-xs font-medium text-gray-600 mb-1">{% trans "Поиск" %}</label>
+                <input id="q"
+                       type="text"
+                       placeholder="{% trans 'ФИО или номер…' %}"
+                       class="w-full rounded-xl border border-gray-200 bg-white/70 px-3 py-2 text-sm outline-none
+                              focus:ring-2 focus:ring-blue-200 focus:border-blue-300"
+                       oninput="filterDirectory()">
+            </div>
+
+        </div>
+
+        <!-- table wrapper (HTMX replaces this block) -->
+        {% include "telephony/_directory_table.html" %}
+
+    </div>
+
+    <script>
+        function normalize(s) {
+            return (s || "").toString().trim().toLowerCase();
+        }
+
+        function filterDirectory() {
+            const q = normalize(document.getElementById("q").value);
+
+            const rows = document.querySelectorAll("[data-row='user']");
+            let visible = 0;
+
+            rows.forEach(row => {
+                const name = normalize(row.getAttribute("data-name"));
+                const numbers = normalize(row.getAttribute("data-numbers"));
+                const hasNumbers = row.getAttribute("data-has-numbers") === "1";
+
+                const show = !q || name.includes(q) || numbers.includes(q);
+                row.style.display = show ? "" : "none";
+                if (show) visible++;
+            });
+
+            const badge = document.getElementById("visibleCount");
+            if (badge) badge.textContent = visible.toString();
+        }
+
+        // run once on load
+        document.addEventListener("DOMContentLoaded", () => filterDirectory());
+    </script>
+{% endblock %}

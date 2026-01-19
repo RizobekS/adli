@@ -1,0 +1,710 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-26 10:47+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\apps\agency\admin.py:28 .\apps\agency\models.py:38
+msgid "Пользователь"
+msgstr "Пользователь"
+
+#: .\apps\agency\admin.py:29
+msgid "Структура"
+msgstr "Структура"
+
+#: .\apps\agency\admin.py:30
+msgid "Контакты"
+msgstr "Контакты"
+
+#: .\apps\agency\admin.py:31 .\apps\companies\admin.py:65
+#: .\apps\requests\admin.py:121
+msgid "Служебное"
+msgstr "Служебное"
+
+#: .\apps\agency\apps.py:6
+msgid "Агентство"
+msgstr "Агентство"
+
+#: .\apps\agency\models.py:8
+#, fuzzy
+#| msgid "Название компании"
+msgid "Название департамента"
+msgstr "Название компании"
+
+#: .\apps\agency\models.py:10
+msgid "Код"
+msgstr "Код"
+
+#: .\apps\agency\models.py:13
+msgid "Опционально: короткий код департамента, например LEG, IT, HR"
+msgstr "Опционально: короткий код департамента, например LEG, IT, HR"
+
+#: .\apps\agency\models.py:15 .\apps\agency\models.py:60
+msgid "Активен"
+msgstr "Активен"
+
+#: .\apps\agency\models.py:16 .\apps\agency\models.py:62
+#: .\apps\companies\models.py:20 .\apps\companies\models.py:38
+#: .\apps\companies\models.py:74 .\apps\requests\models.py:23
+#: .\apps\requests\models.py:137
+msgid "Дата создания"
+msgstr "Дата создания"
+
+#: .\apps\agency\models.py:19 .\apps\agency\models.py:45
+#: .\apps\requests\models.py:203
+msgid "Департамент"
+msgstr "Департамент"
+
+#: .\apps\agency\models.py:20
+msgid "Департаменты"
+msgstr "Департаменты"
+
+#: .\apps\agency\models.py:53
+msgid "Должность (в агентстве)"
+msgstr "Должность (в агентстве)"
+
+#: .\apps\agency\models.py:56
+msgid "Например: специалист, начальник отдела, помощник замдиректора"
+msgstr "Например: специалист, начальник отдела, помощник замдиректора"
+
+#: .\apps\agency\models.py:59
+msgid "Телефон"
+msgstr "Телефон"
+
+#: .\apps\agency\models.py:65
+msgid "Сотрудник агентства"
+msgstr "Сотрудник агентства"
+
+#: .\apps\agency\models.py:66
+msgid "Сотрудники агентства"
+msgstr "Сотрудники агентства"
+
+#: .\apps\companies\admin.py:27 .\apps\companies\models.py:23
+#: .\apps\companies\models.py:52 .\apps\requests\models.py:58
+#: .\templates\public\request_form.html:31
+msgid "Компания"
+msgstr "Компания"
+
+#: .\apps\companies\admin.py:62
+msgid "Связь"
+msgstr "Связь"
+
+#: .\apps\companies\admin.py:63
+msgid "ФИО"
+msgstr "ФИО"
+
+#: .\apps\companies\admin.py:64
+msgid "Документ"
+msgstr "Документ"
+
+#: .\apps\companies\apps.py:7
+msgid "Tashkilotlar"
+msgstr "Компания"
+
+#: .\apps\companies\models.py:6 .\apps\requests\forms.py:35
+#: .\templates\public\request_form.html:34
+msgid "Название компании"
+msgstr "Название компании"
+
+#: .\apps\companies\models.py:8 .\apps\requests\forms.py:36
+#: .\templates\public\request_form.html:39
+msgid "ИНН"
+msgstr "ИНН"
+
+#: .\apps\companies\models.py:11
+msgid "Идентификационный номер налогоплательщика компании"
+msgstr "Идентификационный номер налогоплательщика компании"
+
+#: .\apps\companies\models.py:15
+msgid "Описание (о компании/доп. сведения)"
+msgstr "Описание (о компании/доп. сведения)"
+
+#: .\apps\companies\models.py:17
+msgid "Если нужно хранить доп. информацию о компании/отправителе"
+msgstr "Если нужно хранить доп. информацию о компании/отправителе"
+
+#: .\apps\companies\models.py:24
+msgid "Компании"
+msgstr "Компании"
+
+#: .\apps\companies\models.py:36
+msgid "Название должности"
+msgstr "Название должности"
+
+#: .\apps\companies\models.py:41 .\apps\companies\models.py:58
+#: .\apps\requests\forms.py:44 .\templates\public\request_form.html:67
+msgid "Должность"
+msgstr "Должность"
+
+#: .\apps\companies\models.py:42
+msgid "Должности"
+msgstr "Должности"
+
+#: .\apps\companies\models.py:63 .\apps\requests\forms.py:39
+#: .\templates\public\request_form.html:55
+msgid "Имя"
+msgstr "Имя"
+
+#: .\apps\companies\models.py:64 .\apps\requests\forms.py:40
+#: .\templates\public\request_form.html:51
+msgid "Фамилия"
+msgstr "Фамилия"
+
+#: .\apps\companies\models.py:65 .\apps\requests\forms.py:41
+#: .\templates\public\request_form.html:59
+msgid "Отчество"
+msgstr "Отчество"
+
+#: .\apps\companies\models.py:68 .\apps\requests\forms.py:42
+#: .\apps\requests\forms.py:103 .\templates\public\request_form.html:63
+msgid "Паспортная серия"
+msgstr "Паспортная серия"
+
+#: .\apps\companies\models.py:70
+msgid "Например: AA1234567 или серия+номер по вашему формату"
+msgstr "Например: AA1234567 или серия+номер по вашему формату"
+
+#: .\apps\companies\models.py:77 .\apps\requests\models.py:64
+msgid "Сотрудник компании"
+msgstr "Сотрудник компании"
+
+#: .\apps\companies\models.py:78
+msgid "Сотрудники компании"
+msgstr "Сотрудники компании"
+
+#: .\apps\requests\admin.py:117
+msgid "Основное"
+msgstr "Основное"
+
+#: .\apps\requests\admin.py:118 .\apps\requests\forms.py:51
+#: .\apps\requests\models.py:27 .\apps\requests\models.py:73
+msgid "Направления"
+msgstr "Направления"
+
+#: .\apps\requests\admin.py:119 .\apps\requests\forms.py:56
+#: .\apps\requests\models.py:78
+msgid "Текст обращения"
+msgstr "Текст обращения"
+
+#: .\apps\requests\admin.py:120
+msgid "Назначение и контроль"
+msgstr "Назначение и контроль"
+
+#: .\apps\requests\admin.py:134
+msgid "Зарегистрировать (канцелярия)"
+msgstr "Зарегистрировать (канцелярия)"
+
+#: .\apps\requests\admin.py:138 .\apps\requests\admin.py:146
+#: .\apps\requests\admin.py:154
+msgid "Действие из админки"
+msgstr "Действие из админки"
+
+#: .\apps\requests\admin.py:140
+#, python-format
+msgid "Зарегистрировано: %(cnt)s"
+msgstr "Зарегистрировано: %(cnt)s"
+
+#: .\apps\requests\admin.py:142
+msgid "Отправить на резолюцию"
+msgstr "Отправить на резолюцию"
+
+#: .\apps\requests\admin.py:148
+#, python-format
+msgid "Отправлено на резолюцию: %(cnt)s"
+msgstr "Отправлено на резолюцию: %(cnt)s"
+
+#: .\apps\requests\admin.py:150
+msgid "Пометить как обработано"
+msgstr "Пометить как обработано"
+
+#: .\apps\requests\admin.py:156
+#, python-format
+msgid "Обработано: %(cnt)s"
+msgstr "Обработано: %(cnt)s"
+
+#: .\apps\requests\admin.py:179
+msgid "Резолюция добавлена из админки"
+msgstr "Резолюция добавлена из админки"
+
+#: .\apps\requests\admin.py:191
+msgid "Шаг добавлен из админки"
+msgstr "Шаг добавлен из админки"
+
+#: .\apps\requests\apps.py:6
+msgid "Murojaatlar"
+msgstr "Обращения"
+
+#: .\apps\requests\forms.py:17
+#, python-format
+msgid "Файл слишком большой (макс. %(mb)s MB)."
+msgstr "Файл слишком большой (макс. %(mb)s MB)."
+
+#: .\apps\requests\forms.py:46
+msgid "Выберите должность"
+msgstr "Выберите должность"
+
+#: .\apps\requests\forms.py:58 .\apps\requests\models.py:81
+msgid "Основной файл (PDF)"
+msgstr "Основной файл (PDF)"
+
+#: .\apps\requests\forms.py:59
+msgid "Приложения"
+msgstr "Приложения"
+
+#: .\apps\requests\forms.py:87
+msgid "Основной файл должен быть PDF."
+msgstr "Основной файл должен быть PDF."
+
+#: .\apps\requests\forms.py:97
+msgid "Разрешены только: PDF, Word, Excel."
+msgstr "Разрешены только: PDF, Word, Excel."
+
+#: .\apps\requests\forms.py:107
+msgid "ИНН компании"
+msgstr "ИНН компании"
+
+#: .\apps\requests\forms.py:111 .\templates\public\track_requests.html:106
+msgid "Номер обращения"
+msgstr "Номер обращения"
+
+#: .\apps\requests\forms.py:113 .\apps\requests\models.py:104
+msgid "Формат: YYYY-000001"
+msgstr "Формат: YYYY-000001"
+
+#: .\apps\requests\models.py:21
+msgid "Название"
+msgstr "Название"
+
+#: .\apps\requests\models.py:22
+msgid "Описание"
+msgstr "Описание"
+
+#: .\apps\requests\models.py:26 .\templates\public\request_form.html:78
+msgid "Направление"
+msgstr "Направление"
+
+#: .\apps\requests\models.py:35
+msgid "Год"
+msgstr "Год"
+
+#: .\apps\requests\models.py:36
+msgid "Последний номер"
+msgstr "Последний номер"
+
+#: .\apps\requests\models.py:39
+msgid "Счётчик обращений"
+msgstr "Счётчик обращений"
+
+#: .\apps\requests\models.py:40
+msgid "Счётчики обращений"
+msgstr "Счётчики обращений"
+
+#: .\apps\requests\models.py:48
+msgid "Новое"
+msgstr "Новое"
+
+#: .\apps\requests\models.py:49
+msgid "Зарегистрировано (канцелярия)"
+msgstr "Зарегистрировано (канцелярия)"
+
+#: .\apps\requests\models.py:50
+msgid "На резолюции"
+msgstr "На резолюции"
+
+#: .\apps\requests\models.py:51
+msgid "Назначено исполнителю"
+msgstr "Назначено исполнителю"
+
+#: .\apps\requests\models.py:52
+msgid "В работе"
+msgstr "В работе"
+
+#: .\apps\requests\models.py:53
+msgid "Обработано"
+msgstr "Обработано"
+
+#: .\apps\requests\models.py:54
+msgid "Отменено"
+msgstr "Отменено"
+
+#: .\apps\requests\models.py:86
+msgid "Только PDF"
+msgstr "Только PDF"
+
+#: .\apps\requests\models.py:90
+msgid "Статус"
+msgstr "Статус"
+
+#: .\apps\requests\models.py:98
+msgid "Публичный номер"
+msgstr "Публичный номер"
+
+#: .\apps\requests\models.py:107
+msgid "Год (публичный)"
+msgstr "Год (публичный)"
+
+#: .\apps\requests\models.py:108
+msgid "Порядковый номер (публичный)"
+msgstr "Порядковый номер (публичный)"
+
+#: .\apps\requests\models.py:113
+msgid "Назначенный департамент"
+msgstr "Назначенный департамент"
+
+#: .\apps\requests\models.py:121
+msgid "Назначенный сотрудник"
+msgstr "Назначенный сотрудник"
+
+#: .\apps\requests\models.py:129 .\apps\requests\models.py:218
+msgid "Срок исполнения"
+msgstr "Срок исполнения"
+
+#: .\apps\requests\models.py:132
+msgid "Срок по резолюции/контролю"
+msgstr "Срок по резолюции/контролю"
+
+#: .\apps\requests\models.py:135
+msgid "Дата завершения"
+msgstr "Дата завершения"
+
+#: .\apps\requests\models.py:138
+msgid "Дата обновления"
+msgstr "Дата обновления"
+
+#: .\apps\requests\models.py:141 .\apps\requests\models.py:160
+#: .\apps\requests\models.py:187 .\apps\requests\models.py:242
+#: .\apps\requests\models.py:285 .\templates\public\request_form.html:75
+msgid "Обращение"
+msgstr "Обращение"
+
+#: .\apps\requests\models.py:142
+msgid "Обращения"
+msgstr "Обращения"
+
+#: .\apps\requests\models.py:156
+msgid "Приложение"
+msgstr "Приложение"
+
+#: .\apps\requests\models.py:164
+msgid "Тип"
+msgstr "Тип"
+
+#: .\apps\requests\models.py:167
+msgid "Файл"
+msgstr "Файл"
+
+#: .\apps\requests\models.py:172
+msgid "Дата загрузки"
+msgstr "Дата загрузки"
+
+#: .\apps\requests\models.py:175
+msgid "Файл обращения"
+msgstr "Файл обращения"
+
+#: .\apps\requests\models.py:176
+msgid "Файлы обращения"
+msgstr "Файлы обращения"
+
+#: .\apps\requests\models.py:194
+msgid "Автор резолюции"
+msgstr "Автор резолюции"
+
+#: .\apps\requests\models.py:199 .\apps\requests\models.py:223
+msgid "Резолюция"
+msgstr "Резолюция"
+
+#: .\apps\requests\models.py:211
+msgid "Сотрудник"
+msgstr "Сотрудник"
+
+#: .\apps\requests\models.py:220
+msgid "Дата резолюции"
+msgstr "Дата резолюции"
+
+#: .\apps\requests\models.py:224
+msgid "Резолюции"
+msgstr "Резолюции"
+
+#: .\apps\requests\models.py:248
+msgid "Автор шага"
+msgstr "Автор шага"
+
+#: .\apps\requests\models.py:252
+msgid "Описание шага"
+msgstr "Описание шага"
+
+#: .\apps\requests\models.py:253
+msgid "Дата шага"
+msgstr "Дата шага"
+
+#: .\apps\requests\models.py:256
+msgid "Шаг по обращению"
+msgstr "Шаг по обращению"
+
+#: .\apps\requests\models.py:257
+msgid "Шаги по обращению"
+msgstr "Шаги по обращению"
+
+#: .\apps\requests\models.py:272
+msgid "Создано"
+msgstr "Создано"
+
+#: .\apps\requests\models.py:273
+msgid "Зарегистрировано"
+msgstr "Зарегистрировано"
+
+#: .\apps\requests\models.py:274
+msgid "Отправлено на резолюцию"
+msgstr "Отправлено на резолюцию"
+
+#: .\apps\requests\models.py:275
+msgid "Резолюция поставлена"
+msgstr "Резолюция поставлена"
+
+#: .\apps\requests\models.py:276
+msgid "Назначено"
+msgstr "Назначено"
+
+#: .\apps\requests\models.py:277
+msgid "Статус изменён"
+msgstr "Статус изменён"
+
+#: .\apps\requests\models.py:278
+msgid "Добавлен шаг"
+msgstr "Добавлен шаг"
+
+#: .\apps\requests\models.py:279
+msgid "Добавлен файл"
+msgstr "Добавлен файл"
+
+#: .\apps\requests\models.py:280
+msgid "Завершено"
+msgstr "Завершено"
+
+#: .\apps\requests\models.py:281
+msgid "Другое"
+msgstr "Другое"
+
+#: .\apps\requests\models.py:291
+msgid "Кто сделал"
+msgstr "Кто сделал"
+
+#: .\apps\requests\models.py:298
+msgid "Действие"
+msgstr "Действие"
+
+#: .\apps\requests\models.py:300
+msgid "Статус до"
+msgstr "Статус до"
+
+#: .\apps\requests\models.py:301
+msgid "Статус после"
+msgstr "Статус после"
+
+#: .\apps\requests\models.py:303
+msgid "Комментарий"
+msgstr "Комментарий"
+
+#: .\apps\requests\models.py:305
+msgid "Дата действия"
+msgstr "Дата действия"
+
+#: .\apps\requests\models.py:308 .\templates\public\track_requests.html:143
+msgid "История обращения"
+msgstr "История обращения"
+
+#: .\apps\requests\models.py:309
+msgid "История обращений"
+msgstr "История обращений"
+
+#: .\apps\requests\services.py:124
+msgid "Обращение создано через публичную форму"
+msgstr "Обращение создано через публичную форму"
+
+#: .\apps\requests\services.py:224
+msgid "Резолюция добавлена"
+msgstr "Резолюция добавлена"
+
+#: .\apps\requests\services.py:234
+#, python-format
+msgid "Назначено: департамент=%(dep)s, сотрудник=%(emp)s"
+msgstr "Назначено: департамент=%(dep)s, сотрудник=%(emp)s"
+
+#: .\apps\requests\services.py:246
+msgid "Резолюция добавлена (без изменения назначения в обращении)"
+msgstr "Резолюция добавлена (без изменения назначения в обращении)"
+
+#: .\apps\requests\services.py:260
+msgid "Добавлен шаг работы"
+msgstr "Добавлен шаг работы"
+
+#: .\apps\requests\services.py:265
+msgid "Начата работа"
+msgstr "Начата работа"
+
+#: .\apps\requests\services.py:281
+msgid "Обращение обработано"
+msgstr "Обращение обработано"
+
+#: .\apps\requests\views.py:60
+msgid "Обращение отправлено. Спасибо!"
+msgstr "Обращение отправлено. Спасибо!"
+
+#: .\apps\requests\views.py:63
+msgid "Проверьте форму: есть ошибки."
+msgstr "Проверьте форму: есть ошибки."
+
+#: .\apps\users\apps.py:6
+msgid "Arizachilar"
+msgstr "Заявители"
+
+#: .\config\settings.py:122
+msgid "Oʻzbekcha"
+msgstr ""
+
+#: .\config\settings.py:123
+msgid "Русский"
+msgstr "Русский"
+
+#: .\templates\base.html:37
+msgid "Проверить обращение"
+msgstr "Проверить обращение"
+
+#: .\templates\partials\messages.html:46
+msgid "Успешно"
+msgstr "Успешно"
+
+#: .\templates\partials\messages.html:47
+msgid "Ошибка"
+msgstr "Ошибка"
+
+#: .\templates\partials\messages.html:48
+msgid "Предупреждение"
+msgstr "Предупреждение"
+
+#: .\templates\partials\messages.html:49
+msgid "Сообщение"
+msgstr "Сообщение"
+
+#: .\templates\partials\messages.html:57
+#: .\templates\public\track_requests.html:157
+msgid "Закрыть"
+msgstr "Закрыть"
+
+#: .\templates\public\request_form.html:4
+#: .\templates\public\request_form.html:11
+msgid "Отправка обращения"
+msgstr "Отправка обращения"
+
+#: .\templates\public\request_form.html:13
+msgid "Заполните данные для отправки обращения."
+msgstr "Заполните данные для отправки обращения."
+
+#: .\templates\public\request_form.html:17
+msgid "ADLI • Форма для обращений"
+msgstr "ADLI • Форма для обращений"
+
+#: .\templates\public\request_form.html:48
+msgid "Отправитель"
+msgstr "Отправитель"
+
+#: .\templates\public\request_form.html:112
+msgid "Описание обращения"
+msgstr "Текст обращения"
+
+#: .\templates\public\request_form.html:118
+msgid "Основной файл обращения (PDF)"
+msgstr "Основной файл обращения (PDF)"
+
+#: .\templates\public\request_form.html:120
+msgid "Только PDF. Рекомендуется до 10MB."
+msgstr "Только PDF. Рекомендуется до 10MB."
+
+#: .\templates\public\request_form.html:123
+msgid "Приложения обращения"
+msgstr "Приложения обращения"
+
+#: .\templates\public\request_form.html:144
+msgid "Добавить файл"
+msgstr "Добавить файл"
+
+#: .\templates\public\request_form.html:149
+msgid "PDF, Word, Excel. Можно добавить несколько файлов."
+msgstr "PDF, Word, Excel. Можно добавить несколько файлов."
+
+#: .\templates\public\request_form.html:159
+msgid "Отправить"
+msgstr "Отправить"
+
+#: .\templates\public\track_requests.html:13
+msgid "Проверка статуса обращения"
+msgstr "Проверка статуса обращения"
+
+#: .\templates\public\track_requests.html:16
+msgid "Введите паспортную серию, ИНН компании и номер обращения."
+msgstr "Введите паспортную серию, ИНН компании и номер обращения."
+
+#: .\templates\public\track_requests.html:61
+msgid "Данные используются только для поиска обращений в системе."
+msgstr "Данные используются только для поиска обращений в системе."
+
+#: .\templates\public\track_requests.html:67
+msgid "Найти обращения"
+msgstr "Найти обращения"
+
+#: .\templates\public\track_requests.html:81
+msgid "Обращения не найдены"
+msgstr "Обращения не найдены"
+
+#: .\templates\public\track_requests.html:83
+msgid "Проверьте введённые данные и попробуйте снова."
+msgstr "Проверьте введённые данные и попробуйте снова."
+
+#: .\templates\public\track_requests.html:94
+msgid "Компания:"
+msgstr "Компания:"
+
+#: .\templates\public\track_requests.html:95
+msgid "Сотрудник:"
+msgstr "Сотрудник:"
+
+#: .\templates\public\track_requests.html:109
+msgid "Статус:"
+msgstr "Статус:"
+
+#: .\templates\public\track_requests.html:112
+msgid "Срок:"
+msgstr "Срок:"
+
+#: .\templates\public\track_requests.html:123
+msgid "История"
+msgstr "История"
+
+#: .\templates\public\track_requests.html:151
+#: .\templates\public\track_requests.html:174
+msgid "Загрузка..."
+msgstr "Загрузка..."
+
+#: .\templates\public\track_requests.html:181
+msgid "История пока пустая."
+msgstr "История пока пустая."
+
+#: .\templates\public\track_requests.html:208
+msgid "Ошибка загрузки истории."
+msgstr "Ошибка загрузки истории."

@@ -1,0 +1,51 @@
+{% extends "base_public.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Вход" %} | ADLI{% endblock %}
+
+{% block content %}
+    <div class="min-h-[70vh] flex items-center justify-center">
+        <div class="w-full max-w-md">
+            <div class="rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl shadow-sm p-6 sm:p-8">
+                <div class="text-center my-3">
+                    <h1 class="text-lg font-semibold leading-tight text-center">{% trans "Вход в панель" %}</h1>
+                </div>
+
+                {% if form.non_field_errors %}
+                    <div class="rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-800 mb-4">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <form method="post" class="space-y-4">
+                    {% csrf_token %}
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">{% trans "Логин" %}</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <p class="mt-1 text-xs text-red-700">{{ form.username.errors|striptags }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">{% trans "Пароль" %}</label>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            <p class="mt-1 text-xs text-red-700">{{ form.password.errors|striptags }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="text-center">
+
+                        <button type="submit"
+                                class="w-40 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 mt-1 md:mt-0 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            {% trans "Войти" %}
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

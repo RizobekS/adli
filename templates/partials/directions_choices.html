@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<label class="block mb-2 text-sm font-medium">{% trans "Направление" %}</label>
+
+{% if directions %}
+  <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+    {% for d in directions %}
+      <label class="flex bg-gray-50 cursor-pointer items-center gap-3 rounded-xl border p-4 transition hover:bg-blue-50
+        {% if d.pk|stringformat:"s" in selected %}bg-blue-50 border-blue-300{% else %}bg-white{% endif %}">
+        
+        <input
+          type="checkbox"
+          name="directions"
+          value="{{ d.pk }}"
+          {% if d.pk|stringformat:"s" in selected %}checked{% endif %}
+          class="peer sr-only"
+        />
+
+        <span class="text-sm font-medium">{{ d.title }}</span>
+
+        <svg class="ml-auto h-5 w-5 text-blue-700 opacity-0 transition peer-checked:opacity-100"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                d="M5 13l4 4L19 7"></path>
+        </svg>
+      </label>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="rounded-xl border bg-gray-50 p-4 text-sm text-gray-600">
+    {% trans "Нет направлений." %}
+  </div>
+{% endif %}

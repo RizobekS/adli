@@ -1,0 +1,96 @@
+{% load static i18n %}
+<aside id="panelSidebar"
+       class="hidden lg:flex fixed inset-y-0 left-0 z-40 w-72 flex-col border-r border-white/60 bg-white/55 backdrop-blur-xl
+              transition-all duration-300 ease-out">
+
+    <!-- Brand -->
+    <a href="{% url 'panel:dashboard' %}" class="px-4 py-4 flex items-center gap-3 border-b border-gray-200/60">
+        <img src="{% static 'img/gerb.svg' %}" alt="ADLI" class="h-10 w-auto shrink-0"/>
+        <div class="sidebar-label text-xs font-semibold leading-snug">
+            O'zbekiston Respublikasi Vazirlar<br>
+            Mahkamasi huzuridagi Yengil<br>
+            sanoatni rivojlantirish agentligi
+        </div>
+    </a>
+
+    <nav class="px-3 py-4 space-y-1 text-sm">
+        <a href="{% url 'panel:dashboard' %}" class="nav-link w-full justify-start">
+            <span class="sidebar-icon">🏠</span><span class="sidebar-label">{% trans "Дашборд" %}</span>
+        </a>
+        <a href="{% url 'companies:companies_page' %}" class="nav-link w-full justify-start">
+            <span class="sidebar-icon">🏢</span><span class="sidebar-label">{% trans "Компании" %}</span>
+        </a>
+        <a href="{% url 'telephony:directory_page' %}" class="nav-link w-full justify-start">
+            <span class="sidebar-icon">☎️</span><span class="sidebar-label">{% trans "Телефония" %}</span>
+        </a>
+
+        <div class="my-3 border-t border-gray-200/70"></div>
+
+        <form method="post" action="{% url 'users:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="nav-link w-full justify-start cursor-pointer">
+                <span class="sidebar-icon">🚪</span><span class="sidebar-label">{% trans "Выйти" %}</span>
+            </button>
+        </form>
+    </nav>
+</aside>
+
+<script>
+(function () {
+  const init = () => {
+    const sidebar = document.getElementById("panelSidebar");
+    const toggleBtn = document.getElementById("panelSidebarToggle");
+    if (!sidebar) return;
+
+    const KEY = "adli_sidebar_collapsed";
+
+    const setState = (collapsed) => {
+      sidebar.classList.toggle("w-72", !collapsed);
+      sidebar.classList.toggle("w-20", collapsed);
+      sidebar.querySelectorAll(".sidebar-label").forEach(el => el.classList.toggle("hidden", collapsed));
+      document.documentElement.style.setProperty("--sidebar-w", collapsed ? "5rem" : "18rem");
+      document.documentElement.dataset.sidebarCollapsed = collapsed ? "1" : "0";
+    };
+
+    // init state
+    const saved = localStorage.getItem(KEY) === "1";
+    setState(saved);
+
+    // desktop toggle (button is in header, so may appear after sidebar)
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", () => {
+        const next = !(localStorage.getItem(KEY) === "1");
+        localStorage.setItem(KEY, next ? "1" : "0");
+        setState(next);
+      });
+    }
+
+    // Hover expand only when collapsed is pinned
+    sidebar.addEventListener("mouseenter", () => {
+      if (document.documentElement.dataset.sidebarCollapsed === "1") {
+        sidebar.classList.remove("w-20");
+        sidebar.classList.add("w-72");
+        sidebar.querySelectorAll(".sidebar-label").forEach(el => el.classList.remove("hidden"));
+        document.documentElement.style.setProperty("--sidebar-w", "18rem");
+      }
+    });
+
+    sidebar.addEventListener("mouseleave", () => {
+      if (document.documentElement.dataset.sidebarCollapsed === "1") {
+        sidebar.classList.remove("w-72");
+        sidebar.classList.add("w-20");
+        sidebar.querySelectorAll(".sidebar-label").forEach(el => el.classList.add("hidden"));
+        document.documentElement.style.setProperty("--sidebar-w", "5rem");
+      }
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+
