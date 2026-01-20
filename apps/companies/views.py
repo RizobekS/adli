@@ -99,7 +99,6 @@ def companies_table_partial(request):
 
 
 @require_GET
-@agency_required
 def districts_by_region(request):
     """
     AJAX-эндпоинт:

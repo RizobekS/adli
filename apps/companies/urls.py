@@ -9,7 +9,7 @@ from .views import (
 app_name = "companies"
 
 urlpatterns = [
-    path("panel/districts-json/", districts_by_region, name="districts_by_region"),
+    path("districts-json/", districts_by_region, name="districts_by_region"),
 
 
     path("panel/companies/", companies_page, name="companies_page"),

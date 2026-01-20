@@ -20,6 +20,7 @@
       error: el.dataset.i18nError || 'Error.',
       title: el.dataset.i18nTitle || 'History',
       close: el.dataset.i18nClose || 'Close',
+      inn: el.dataset.inn || '',
     };
   }
 
@@ -84,7 +85,11 @@
     modalTitle.textContent = publicId;
     modalBody.innerHTML = `<div class="text-gray-500">${escapeHtml(cfg.loading)}</div>`;
 
-    const url = cfg.urlTemplate.replace("PUBLIC_ID", publicId);
+    let url = cfg.urlTemplate.replace("PUBLIC_ID", publicId);
+    if (cfg.inn) {
+      const sep = url.includes('?') ? '&' : '?';
+      url = url + sep + 'inn=' + encodeURIComponent(cfg.inn);
+    }
 
     fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
       .then(r => r.json())
