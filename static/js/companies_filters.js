@@ -68,7 +68,8 @@
         districtBtn.disabled = false;
         districtList.innerHTML = `<li class="px-3 py-2 text-gray-500">Загрузка...</li>`;
 
-        const url = "/districts-json/?region_id=" + encodeURIComponent(regionId);
+        const base = form.dataset.districtsUrl || "/panel/districts-json/";
+        const url = base + "?region_id=" + encodeURIComponent(regionId);
         const res = await fetch(url, {headers: {"X-Requested-With": "XMLHttpRequest"}});
         const data = await res.json();
 

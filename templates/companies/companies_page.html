@@ -15,6 +15,7 @@
 
         <form id="filters"
               class="space-y-3"
+              data-districts-url="{% url 'companies:districts_by_region' %}"
               hx-get="{% url 'companies:companies_table_partial' %}"
               hx-push-url="{% url 'companies:companies_page' %}"
               hx-target="#companiesTable"
