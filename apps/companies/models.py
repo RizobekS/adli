@@ -143,6 +143,16 @@ class Company(models.Model):
         help_text=_("Если нужно хранить доп. информацию о компании/отправителе"),
     )
 
+    annual_capacity = models.IntegerField(_("Годовая мощность"), blank=True, null=True)
+    unit = models.ForeignKey(
+        "companies.Unit",
+        verbose_name=_("Единица измерения"),
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="companies",
+    )
+
     number_of_jobs = models.IntegerField(_("Количество рабочих мест"), blank=True, null=True)
 
     created_at = models.DateTimeField(_("Дата создания"), auto_now_add=True)
