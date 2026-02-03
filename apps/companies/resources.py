@@ -2,7 +2,8 @@ import re
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
 
-from .models import Company, Category, Region, District, Unit, Direction, CompanyPhone, EmployeeCompany, Position
+from .models import Company, Category, Region, District, Unit, Direction, CompanyPhone, EmployeeCompany, Position, \
+    CompanyDirectionStat
 
 DEFAULT_DIRECTOR_POSITION = "Директор"
 
@@ -54,11 +55,6 @@ class CompanyResource(resources.ModelResource):
         column_name="district_code",
         widget=ForeignKeyWidget(District, "code"),
     )
-    unit = fields.Field(
-        attribute="unit",
-        column_name="unit",
-        widget=ForeignKeyWidget(Unit, "short_name"),
-    )
 
     # M2M в одной колонке
     directions = fields.Field(column_name="directions")
@@ -70,6 +66,7 @@ class CompanyResource(resources.ModelResource):
     director_last_name = fields.Field(column_name="director_last_name")
     director_first_name = fields.Field(column_name="director_first_name")
     director_middle_name = fields.Field(column_name="director_middle_name")
+    director_email = fields.Field(column_name="director_email")
 
     class Meta:
         model = Company
@@ -80,8 +77,6 @@ class CompanyResource(resources.ModelResource):
             "category",
             "region",
             "district",
-            "annual_capacity",
-            "unit",
             "number_of_jobs",
             "description",
             "directions",
@@ -91,6 +86,7 @@ class CompanyResource(resources.ModelResource):
             "director_last_name",
             "director_first_name",
             "director_middle_name",
+            "director_email",
         )
         skip_unchanged = True
         report_skipped = True
@@ -120,10 +116,6 @@ class CompanyResource(resources.ModelResource):
         e = _pick_director(obj)
         return e.middle_name or "" if e else ""
 
-    def dehydrate_director_phone(self, obj):
-        e = _pick_director(obj)
-        return e.phone or "" if e else ""
-
     def dehydrate_director_email(self, obj):
         e = _pick_director(obj)
         return e.email or "" if e else ""
@@ -134,7 +126,12 @@ class CompanyResource(resources.ModelResource):
         if row.get("inn"):
             row["inn"] = str(row["inn"]).replace(".0", "").strip()
 
+        if (row.get("directions") or "").strip() and not (row.get("category") or "").strip():
+            raise ValueError("Указаны directions, но не указана category (нельзя привязать направления).")
+
     def after_save_instance(self, instance, row, **kwargs):
+        if instance.category_id:
+            instance.categories.add(instance.category)
         # directions
         dirs_raw = row.get("directions") or ""
         titles = _split_list(dirs_raw.replace(",", "|"), "|")
@@ -172,6 +169,7 @@ class CompanyResource(resources.ModelResource):
         last_name = str(row.get("director_last_name") or "").strip()
         first_name = str(row.get("director_first_name") or "").strip()
         middle_name = str(row.get("director_middle_name") or "").strip() or None
+        email = str(row.get("director_email") or "").strip() or None
 
         # создаём сотрудника только если есть хоть что-то адекватное по ФИО
         if last_name or first_name:
@@ -184,3 +182,28 @@ class CompanyResource(resources.ModelResource):
                 first_name=first_name or None,
                 middle_name=middle_name,
             )
+            if email: emp.email = email
+            emp.save(update_fields=["email"])
+
+
+class CompanyDirectionStatResource(resources.ModelResource):
+    company = fields.Field(
+        attribute="company",
+        column_name="inn",
+        widget=ForeignKeyWidget(Company, "inn"),
+    )
+    direction = fields.Field(
+        attribute="direction",
+        column_name="direction",
+        widget=ForeignKeyWidget(Direction, "title"),
+    )
+    unit = fields.Field(
+        attribute="unit",
+        column_name="unit",
+        widget=ForeignKeyWidget(Unit, "short_name"),
+    )
+
+    class Meta:
+        model = CompanyDirectionStat
+        import_id_fields = ("company", "direction", "year")
+        fields = ("company", "direction", "year", "unit", "quantity", "volume_bln_sum")

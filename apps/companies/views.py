@@ -27,7 +27,7 @@ def _resolve_lang(request: HttpRequest, url_lang: Optional[str] = None) -> Lang:
 def _company_filters_qs(request):
     qs = (
         Company.objects
-        .select_related("category", "region", "district", "unit")
+        .select_related("category", "region", "district")
         .prefetch_related("phones", "directions", "employee_company__position")
         .all()
     )

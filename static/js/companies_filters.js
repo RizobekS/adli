@@ -1,6 +1,9 @@
 (function () {
     const form = document.getElementById("filters");
     if (!form) return;
+    // prevent double init (template duplication, htmx, etc.)
+    if (form.dataset.bound === "1") return;
+    form.dataset.bound = "1";
 
     const qInput = form.querySelector('input[name="q"]');
 

@@ -1,11 +1,18 @@
 {
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.18",
+    "esbuild": "^0.27.2",
     "flowbite": "^2.0.0",
     "tailwindcss": "^4.1.18"
   },
   "scripts": {
-    "dev": "tailwindcss -i ./assets/css/input.css -o ./static/css/app.css --watch",
-    "build": "tailwindcss -i ./assets/css/input.css -o ./static/css/app.css --minify"
+    "dev:css": "tailwindcss -i ./assets/css/input.css -o ./static/css/app.css --watch",
+    "build:css": "tailwindcss -i ./assets/css/input.css -o ./static/css/app.css --minify",
+
+    "dev:js": "esbuild ./assets/js/app.js --bundle --outfile=./static/js/app.js --sourcemap --watch",
+    "build:js": "esbuild ./assets/js/app.js --bundle --minify --outfile=./static/js/app.js",
+
+    "dev": "npm run dev:css & npm run dev:js",
+    "build": "npm run build:css && npm run build:js"
   }
 }

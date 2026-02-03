@@ -113,20 +113,20 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-2">
-                        <button
-                                type="button"
-                                class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
-                                onclick="openHistory('{{ r.public_id }}')"
-                        >
-                            {% trans "История" %}
-                        </button>
-                    </div>
+<!--                    <div class="flex items-center gap-2">-->
+<!--                        <button-->
+<!--                                type="button"-->
+<!--                                class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"-->
+<!--                                onclick="openHistory('{{ r.public_id }}')"-->
+<!--                        >-->
+<!--                            {% trans "История" %}-->
+<!--                        </button>-->
+<!--                    </div>-->
                 </div>
 
-                <div class="mt-4 text-sm text-gray-700 line-clamp-3">
-                    {{ r.description|truncatechars:220 }}
-                </div>
+<!--                <div class="mt-4 text-sm text-gray-700 line-clamp-3">-->
+<!--                    {{ r.description|truncatechars:220 }}-->
+<!--                </div>-->
             </div>
             {% endfor %}
         </div>

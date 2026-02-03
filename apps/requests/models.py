@@ -51,6 +51,14 @@ class Request(models.Model):
         blank=True,
     )
 
+    deputy_assistant = models.ForeignKey(
+        AgencyEmployee,
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name="requests_as_deputy",
+        verbose_name="Помощник руководителя"
+    )
+
     directions = models.ManyToManyField(
         Direction,
         verbose_name=_("Направления"),

@@ -21,11 +21,13 @@
 
                 <form method="post" action="{% url 'telephony:pull_sync' %}">
                     {% csrf_token %}
+                    {% if user.is_superuser %}
                     <button type="submit"
                             class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white/70 px-3 py-2 text-sm font-medium
                                hover:bg-white transition">
                         {% trans "Pull из Kerio" %}
                     </button>
+                    {% endif %}
                 </form>
 
                 <button

@@ -116,6 +116,13 @@ class Company(models.Model):
         related_name="companies",
         null=True
     )
+    categories = models.ManyToManyField(
+        "companies.Category",
+        blank=True,
+        related_name="companies_m2m",
+        verbose_name=_("Категории (множественные)"),
+    )
+
     directions = models.ManyToManyField(
         Direction,
         verbose_name=_("Направления"),
@@ -136,15 +143,6 @@ class Company(models.Model):
         help_text=_("Если нужно хранить доп. информацию о компании/отправителе"),
     )
 
-    annual_capacity = models.IntegerField(_("Годовая мощность"), blank=True, null=True)
-    unit = models.ForeignKey(
-        "companies.Unit",
-        verbose_name=_("Единица измерения"),
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        related_name="companies",
-    )
     number_of_jobs = models.IntegerField(_("Количество рабочих мест"), blank=True, null=True)
 
     created_at = models.DateTimeField(_("Дата создания"), auto_now_add=True)
@@ -166,6 +164,37 @@ class Company(models.Model):
         if self.region_id and self.district_id:
             if self.district.region_id != self.region_id:
                 raise ValidationError({"district": _("Выбранный район/город не относится к выбранному региону.")})
+
+class CompanyDirectionStat(models.Model):
+    company = models.ForeignKey(
+        "companies.Company",
+        on_delete=models.CASCADE,
+        related_name="direction_stats",
+        verbose_name=_("Компания"),
+    )
+    direction = models.ForeignKey(
+        "companies.Direction",
+        on_delete=models.PROTECT,
+        related_name="company_stats",
+        verbose_name=_("Направление"),
+    )
+    year = models.PositiveSmallIntegerField(_("Год"))
+    unit = models.ForeignKey(
+        "companies.Unit",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        verbose_name=_("Единица измерения"),
+    )
+    quantity = models.DecimalField(_("Количество"), max_digits=20, decimal_places=6, null=True, blank=True)
+    volume_bln_sum = models.DecimalField(_("Объём (млрд сум)"), max_digits=20, decimal_places=6, null=True, blank=True)
+
+    class Meta:
+        verbose_name = _("Показатель компании по направлению")
+        verbose_name_plural = _("Показатели компаний по направлениям")
+        constraints = [
+            models.UniqueConstraint(fields=["company", "direction", "year"], name="uniq_company_direction_year")
+        ]
 
 
 class Position(models.Model):

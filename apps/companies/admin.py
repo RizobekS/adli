@@ -8,7 +8,8 @@ from modeltranslation.admin import TranslationAdmin
 from import_export.admin import ImportExportModelAdmin
 from .resources import CompanyResource
 
-from .models import Category, Direction, Company, Position, EmployeeCompany, Region, District, Unit, CompanyPhone
+from .models import Category, Direction, Company, Position, EmployeeCompany, Region, District, Unit, CompanyPhone, \
+    CompanyDirectionStat
 
 
 @admin.register(Region)
@@ -78,6 +79,13 @@ class CompanyPhoneInline(admin.TabularInline):
     fields = ("phone", "kind", "is_primary")
 
 
+class CompanyDirectionStatInline(admin.TabularInline):
+    model = CompanyDirectionStat
+    extra = 0
+    fields = ("direction", "year", "unit", "quantity", "volume_bln_sum")
+    autocomplete_fields = ("direction", "unit")
+
+
 class CompanyAdminForm(forms.ModelForm):
     class Meta:
         model = Company
@@ -120,31 +128,30 @@ class CompanyAdminForm(forms.ModelForm):
 class CompanyAdmin(TranslationAdmin, ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = CompanyResource
     form = CompanyAdminForm
-    list_display = ("name", "inn", "category", "region", "district", "annual_capacity", "unit", "number_of_jobs", "created_at")
+    list_display = ("name", "inn", "category", "region", "district", "number_of_jobs", "created_at")
     list_select_related = ("category", "region", "district",)
     search_fields = ("name", "inn", "description", "category__name", "region__name", "district__name",)
     list_filter = ("region", "district", "category", "created_at")
     ordering = ("name",)
     readonly_fields = ("created_at",)
     date_hierarchy = "created_at"
-    inlines = (EmployeeCompanyInline, CompanyPhoneInline,)
+    inlines = (CompanyDirectionStatInline, EmployeeCompanyInline, CompanyPhoneInline,)
 
     fields = (
         "category",
+        "categories",
         "directions",
         "region",
         "district",
         "name",
         "inn",
         "description",
-        "annual_capacity",
-        "unit",
         "number_of_jobs",
         "created_at",
     )
 
-    filter_horizontal = ("directions",)
-    autocomplete_fields = ("category", "region", "unit",)
+    filter_horizontal = ("categories", "directions",)
+    autocomplete_fields = ("category", "region",)
 
 
 @admin.register(Position)

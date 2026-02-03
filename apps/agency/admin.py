@@ -26,16 +26,19 @@ class PositionAdmin(TranslationAdmin, admin.ModelAdmin):
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ("user", "department", "position", "phone", "is_active", "created_at")
+    list_display = ("display_name", "department", "position", "pinpp", "phone", "is_active", "created_at")
     list_select_related = ("user", "department")
     list_filter = ("is_active", "department", "created_at")
-    search_fields = ("user__username", "user__email", "user__first_name", "user__last_name", "position__name", "phone")
+    search_fields = (
+        "first_name", "last_name", "middle_name", "pinpp",
+        "user__username", "user__email" "position__name", "phone"
+    )
     ordering = ("department__name", "user__username")
     autocomplete_fields = ("user", "department")
     date_hierarchy = "created_at"
 
     fieldsets = (
-        (_("Пользователь"), {"fields": ("user", "is_active", "department", "position", "phone", "email", "mobile_phone", "photo" )}),
+        (_("Пользователь"), {"fields": ("user", "first_name", "last_name", "middle_name", "pinpp", "is_active", "department", "position", "phone", "email", "mobile_phone", "photo" )}),
         (_("Служебное"), {"fields": ("created_at",)}),
     )
     readonly_fields = ("created_at",)

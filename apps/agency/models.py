@@ -72,6 +72,12 @@ class Employee(models.Model):
         null=True,
     )
 
+    first_name = models.CharField(_("Имя"), max_length=50, null=True)
+    last_name = models.CharField(_("Фамилия"), max_length=50, null=True)
+    middle_name = models.CharField(_("Отчество"), max_length=70, null=True, blank=True)
+
+    pinpp = models.CharField(_("ПИНФЛ"), max_length=14, null=True, blank=True)
+
     phone = models.CharField(_("Телефон"), max_length=50, blank=True)
 
     photo = models.ImageField(_("Фото"), upload_to="agency/employees/", blank=True, null=True)
@@ -90,6 +96,36 @@ class Employee(models.Model):
             models.Index(fields=["is_active"]),
         ]
 
+    def _build_full_name(self) -> str:
+        parts = [
+            (self.last_name or "").strip(),
+            (self.first_name or "").strip(),
+            (self.middle_name or "").strip(),
+        ]
+        return " ".join([p for p in parts if p]).strip()
+
+    @property
+    def full_name(self) -> str:
+        return self._build_full_name()
+
+    @property
+    def display_name(self) -> str:
+        """
+        Для UI: ФИО, иначе username.
+        """
+        fn = self.full_name
+        if fn:
+            return fn
+        # get_username() корректнее чем .username, если кастомный user
+        return self.user.get_username()
+
+    @property
+    def display_label(self) -> str:
+        """
+        То же самое + департамент (когда надо красиво в списках).
+        """
+        dep = self.department.name if self.department else ""
+        return f"{self.display_name} ({dep})" if dep else self.display_name
+
     def __str__(self):
-        dep = self.department.name if self.department else "-"
-        return f"{self.user.get_username()} ({dep})"
+        return self.display_label

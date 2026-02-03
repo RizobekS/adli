@@ -145,13 +145,18 @@ def register_request(*, request: Request, actor, comment: str = "") -> ServiceRe
 
 
 @transaction.atomic
-def send_for_resolution(*, request: Request, actor, comment: str = "") -> ServiceResult:
+def send_for_resolution(*, request: Request, actor, deputy_assistant: Optional[AgencyEmployee] = None, comment: str = "") -> ServiceResult:
     """
-    Канцелярия отправляет на резолюцию.
+    Канцелярия отправляет на резолюцию + фиксирует кому отправили (помощнику руководителя).
     """
     old = request.status
+
+    if deputy_assistant is not None:
+        request.deputy_assistant = deputy_assistant
+
     request.status = Request.Status.SENT_FOR_RESOLUTION
-    request.save(update_fields=["status", "updated_at"])
+    request.save(update_fields=["status", "deputy_assistant", "updated_at"])
+
     _add_history(
         request=request,
         actor=actor,
@@ -161,6 +166,7 @@ def send_for_resolution(*, request: Request, actor, comment: str = "") -> Servic
         to_status=request.status,
     )
     return ServiceResult(request=request)
+
 
 
 @transaction.atomic
@@ -249,6 +255,9 @@ def create_resolution(
 
 @transaction.atomic
 def add_step(*, request: Request, author, text: str, comment: str = "") -> ServiceResult:
+    if request.status == Request.Status.DONE:
+        # тихо и без истерики: просто не даём добавлять
+        return ServiceResult(request=request)
     RequestStep.objects.create(request=request, author=author, text=text)
 
     _add_history(

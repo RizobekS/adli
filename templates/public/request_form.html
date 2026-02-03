@@ -371,6 +371,24 @@
                 const data = await res.json();
                 const items = data.results || [];
 
+                // ВАЖНО: синхронизируем скрытый <select> id_district, иначе value не запишется
+                selDistrict.innerHTML = ""; // чистим options
+
+                // пустой option
+                const optEmpty = document.createElement("option");
+                optEmpty.value = "";
+                optEmpty.textContent = "{% trans 'Выберите район/город' %}";
+                selDistrict.appendChild(optEmpty);
+
+                // реальные options
+                items.forEach((d) => {
+                  const opt = document.createElement("option");
+                  opt.value = String(d.id);
+                  opt.textContent = d.name;
+                  selDistrict.appendChild(opt);
+                });
+
+
                 if (!items.length) {
                     districtList.innerHTML = `<li class="px-3 py-2 text-gray-500">{% trans "Нет районов" %}</li>`;
                     return;
@@ -438,6 +456,14 @@
 
                 if (set === "req-district") {
                     selDistrict.value = id;
+                    if (![...selDistrict.options].some(o => o.value === String(id))) {
+                      const opt = document.createElement("option");
+                      opt.value = String(id);
+                      opt.textContent = label;
+                      selDistrict.appendChild(opt);
+                    }
+                    selDistrict.value = String(id);
+
                     districtLabel.textContent = label || "{% trans 'Выберите район/город' %}";
                     selDistrict.dispatchEvent(new Event("change", {bubbles: true}));
                     closeMenu("reqDistrictMenu");

@@ -1,0 +1,135 @@
+{% extends "base_panel.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="p-6 space-y-6">
+
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-semibold text-gray-800">
+            {% trans "Обращения" %}
+        </h1>
+    </div>
+
+    <!-- Filters -->
+    <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white p-4 rounded-lg shadow">
+        <input
+                type="text"
+                name="q"
+                value="{{ filter_form.q.value|default:'' }}"
+                placeholder="{% trans 'Поиск по ID, компании, ИНН' %}"
+                class="w-full rounded-lg border border-gray-300 p-2 text-sm"
+        >
+
+        <input
+                type="text"
+                name="status"
+                value="{{ filter_form.status.value|default:'' }}"
+                placeholder="{% trans 'Статус' %}"
+                class="w-full rounded-lg border border-gray-300 p-2 text-sm"
+        >
+
+        <label class="flex items-center gap-2 text-sm text-gray-700">
+            <input type="checkbox" name="overdue" {% if filter_form.overdue.value %}checked{% endif %}>
+            {% trans "Просроченные" %}
+        </label>
+
+        <button
+                type="submit"
+                class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+        >
+            {% trans "Применить" %}
+        </button>
+    </form>
+
+    <!-- Table -->
+    <div class="overflow-x-auto bg-white rounded-lg shadow">
+        <table class="w-full text-sm text-left text-gray-600">
+            <thead class="bg-gray-50 text-xs uppercase text-gray-500">
+            <tr>
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">{% trans "Компания" %}</th>
+                <th class="px-4 py-3">{% trans "Направления" %}</th>
+                <th class="px-4 py-3">{% trans "Статус" %}</th>
+                <th class="px-4 py-3">{% trans "Исполнитель" %}</th>
+                <th class="px-4 py-3">{% trans "Срок" %}</th>
+                <th class="px-4 py-3"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in items %}
+            <tr class="border-t hover:bg-gray-50">
+                <td class="px-2 py-2 font-mono text-xs">{{ obj.public_id }}</td>
+                <td class="px-2 py-2">{{ obj.company.name }} ({{ obj.company.inn }})</td>
+                <td class="px-2 py-2">
+                    {% if obj.directions.all %}
+                    <div class="flex flex-wrap gap-1">
+                        {% for d in obj.directions.all|slice:":3" %}
+                        <span class="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
+                          {{ d.title }}
+                        </span>
+                        {% endfor %}
+                        {% if obj.directions.count > 3 %}
+                        <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+                          +{{ obj.directions.count|add:"-3" }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    —
+                    {% endif %}
+                </td>
+
+                <td class="px-2 py-2">
+                    <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium">
+                      {{ obj.get_status_display }}
+                    </span>
+                </td>
+                <td class="px-2 py-2">
+                    {% if obj.assigned_employee %}
+                    {{ obj.assigned_employee }}
+                    {% elif obj.assigned_department %}
+                    {{ obj.assigned_department }}
+                    {% else %}
+                    —
+                    {% endif %}
+                </td>
+                <td class="px-2 py-2">
+                    {% if obj.due_date %}
+                    <span class="{% if obj.is_overdue_ui %}text-red-600 font-semibold{% endif %} block mb-1">
+                        {{ obj.due_date }}
+                    </span>
+                    <span class="rounded-full px-3 py-1 text-xs font-medium
+                            {% if obj.sla_level == 'ok' %}bg-green-100 text-green-800{% endif %}
+                            {% if obj.sla_level == 'warn' %}bg-yellow-100 text-yellow-800{% endif %}
+                            {% if obj.sla_level == 'bad' %}bg-red-100 text-red-800{% endif %}
+                            {% if obj.sla_level == 'info' %}bg-blue-100 text-blue-800{% endif %}
+                          ">
+                        {{ obj.sla_label }}
+                    </span>
+                    {% else %}
+                    —
+                    {% endif %}
+                </td>
+
+                <td class="px-2 py-2 text-right">
+                    <a
+                            href="{% url 'panel:request_detail' obj.pk %}"
+                            class="text-blue-600 hover:underline text-sm"
+                    >
+                        {% trans "Открыть" %}
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="px-4 py-6 text-center text-gray-500">
+                    {% trans "Обращения не найдены" %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

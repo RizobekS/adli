@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
 </head>
 
-<body class="min-h-screen text-gray-900 flex flex-col">
+<body class="min-h-screen text-gray-900 flex flex-col" data-not-selected="{% trans 'Не выбран' %}">
 <!-- background -->
 <div class="fixed inset-0 -z-10">
     <div class="absolute inset-0 bg-linear-to-br from-blue-50 via-white to-slate-100"></div>
@@ -53,6 +53,7 @@
         <a href="{% url 'panel:dashboard' %}" class="nav-link w-full justify-start">{% trans "Дашборд" %}</a>
         <a href="{% url 'companies:companies_page' %}" class="nav-link w-full justify-start">{% trans "Компании" %}</a>
         <a href="{% url 'telephony:directory_page' %}" class="nav-link w-full justify-start">{% trans "Телефония" %}</a>
+        <a href="{% url 'panel:requests_list' %}" class="nav-link w-full justify-start">{% trans "Обращения" %}</a>
     </div>
     <div class="space-y-1 text-sm">
         <form method="post" action="{% url 'users:logout' %}">
@@ -109,7 +110,11 @@
     </div>
 </header>
 
-{% include "partials/messages.html" %}
+<div id="toast-stack"
+     class="fixed top-4 right-4 z-50 flex w-[92vw] max-w-sm flex-col gap-3">
+    {% include "partials/messages.html" %}
+</div>
+
 
 <!-- MAIN -->
 <div class="flex-1">
@@ -131,63 +136,7 @@
 
 <script src="https://unpkg.com/htmx.org@1.9.12"></script>
 <script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
-
-<!-- Mobile off-canvas script -->
-<script>
-    (function () {
-      const openBtn = document.getElementById("panelMobileOpen");
-      const closeBtn = document.getElementById("panelMobileClose");
-      const sidebar = document.getElementById("panelMobileSidebar");
-      const backdrop = document.getElementById("panelMobileBackdrop");
-      if (!openBtn || !closeBtn || !sidebar || !backdrop) return;
-
-      let isOpen = false;
-
-      const open = () => {
-        if (isOpen) return;
-        isOpen = true;
-
-        // enable interactions
-        backdrop.classList.remove("pointer-events-none");
-        sidebar.classList.remove("pointer-events-none");
-
-        // animate in
-        backdrop.classList.remove("opacity-0");
-        backdrop.classList.add("opacity-100");
-
-        sidebar.classList.remove("-translate-x-full", "opacity-0");
-        sidebar.classList.add("translate-x-0", "opacity-100");
-      };
-
-      const close = () => {
-        if (!isOpen) return;
-        isOpen = false;
-
-        // animate out
-        backdrop.classList.remove("opacity-100");
-        backdrop.classList.add("opacity-0");
-
-        sidebar.classList.remove("translate-x-0", "opacity-100");
-        sidebar.classList.add("-translate-x-full", "opacity-0");
-
-        // disable interactions after animation ends
-        window.setTimeout(() => {
-          if (isOpen) return; // reopened meanwhile
-          backdrop.classList.add("pointer-events-none");
-          sidebar.classList.add("pointer-events-none");
-        }, 220);
-      };
-
-      openBtn.addEventListener("click", open);
-      closeBtn.addEventListener("click", close);
-      backdrop.addEventListener("click", close);
-
-      // ESC closes
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") close();
-      });
-    })();
-</script>
+<script src="{% static 'js/app.js' %}"></script>
 
 </body>
 </html>

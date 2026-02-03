@@ -35,19 +35,19 @@ def public_request_create(request):
             inn = form.cleaned_data["inn"].strip()
             company_name = form.cleaned_data["company_name"].strip()
 
+            chosen_cat = form.cleaned_data["category"]
+
             company, _created = Company.objects.get_or_create(
                 inn=inn,
                 defaults={
                     "name": company_name,
-                    "category": form.cleaned_data["category"],
+                    "category": chosen_cat,
                     "region": form.cleaned_data.get("region"),
                     "district": form.cleaned_data.get("district"),
                 }
             )
 
-            # если компания уже существует: можно обновить поля аккуратно
             updated = False
-
             new_region = form.cleaned_data.get("region")
             new_district = form.cleaned_data.get("district")
 
@@ -59,18 +59,23 @@ def public_request_create(request):
                 company.district = new_district
                 updated = True
 
-            if company.name != form.cleaned_data["company_name"] and form.cleaned_data["company_name"]:
-                company.name = form.cleaned_data["company_name"]
+            if company.name != company_name and company_name:
+                company.name = company_name
                 updated = True
 
-            # category тоже можно обновить (если хочешь разрешить)
-            if company.category_id != form.cleaned_data["category"].id:
-                company.category = form.cleaned_data["category"]
+            # обновляем primary category (если разрешаешь)
+            if company.category_id != chosen_cat.id:
+                company.category = chosen_cat
                 updated = True
-
 
             if updated:
                 company.save()
+
+            company.categories.add(chosen_cat)
+
+            dirs = form.cleaned_data.get("directions")
+            if dirs:
+                company.directions.add(*dirs)
 
             # 2) position
             position = form.cleaned_data["position"]
@@ -256,12 +261,29 @@ def public_request_history_json(request, public_id: str):
 
     data = []
     for h in items:
+        status_map = {s.value: str(s.label) for s in Request.Status}
+
+        comment = ""
+        if h.action == RequestHistory.Action.ASSIGNED:
+            # красиво: департамент + сотрудник (пока username)
+            dep = req.assigned_department.name if req.assigned_department else ""
+            emp = str(req.assigned_employee) if req.assigned_employee else ""
+            if dep:
+                comment = _("Назначено: %(dep)s") % {"dep": dep}
+            if emp:
+                comment = (comment + "\n" if comment else "") + _("Сотрудник: %(emp)s") % {"emp": emp}
+
+        elif h.action == RequestHistory.Action.STATUS_CHANGED:
+            fs = status_map.get(h.from_status, h.from_status)
+            ts = status_map.get(h.to_status, h.to_status)
+            comment = _("Статус изменён: %(a)s → %(b)s") % {"a": fs, "b": ts}
+
         data.append({
             "created_at": h.created_at.isoformat(),
             "action": h.get_action_display(),
             "from_status": h.from_status,
             "to_status": h.to_status,
-            "comment": h.comment,
+            "comment": comment,
         })
 
     return JsonResponse({
@@ -279,7 +301,7 @@ def htmx_directions_by_category(request):
     category_id = request.GET.get("category")  # имя поля select'а
     selected = request.GET.getlist("directions")  # уже выбранные чекбоксы
 
-    qs = Direction.objects.all().order_by("title")
+    qs = Direction.objects.filter(category__isnull=False).order_by("title")
     if category_id:
         qs = qs.filter(category_id=category_id)
 
