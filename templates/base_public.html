@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
 </head>
 
-<body class="min-h-screen text-gray-900 flex flex-col">
+<body class="min-h-screen text-gray-900 flex flex-col isolate">
 <!-- background -->
 <div class="fixed inset-0 -z-10">
     <div class="absolute inset-0 bg-linear-to-br from-blue-50 via-white to-slate-100"></div>
@@ -47,6 +47,55 @@
 
             <!-- Desktop nav -->
             <nav class="hidden sm:flex items-center gap-2 text-sm text-gray-700">
+
+                <!-- About dropdown -->
+                <button id="orgDropdownButton" data-dropdown-toggle="orgDropdown"
+                        class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white/70 px-3 py-2 text-sm font-medium hover:bg-white">
+                    {% trans "Об организации" %}
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <div id="orgDropdown" class="z-10 hidden w-56 rounded-lg border border-gray-200 bg-white shadow">
+                    <ul class="py-2 text-sm text-gray-700">
+                        <li>
+                            <a href="{% url 'agency:public_about_detail' %}" class="block px-4 py-2 hover:bg-gray-50">
+                                {% trans "Об организации" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'agency:public_leadership_list' %}" class="block px-4 py-2 hover:bg-gray-50">
+                                {% trans "Руководство" %}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Press center dropdown -->
+                <button id="pressDropdownButton" data-dropdown-toggle="pressDropdown"
+                        class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white/70 px-3 py-2 text-sm font-medium hover:bg-white">
+                    {% trans "Пресс-Центр" %}
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <div id="pressDropdown" class="z-10 hidden w-48 rounded-lg border border-gray-200 bg-white shadow">
+                    <ul class="py-2 text-sm text-gray-700">
+                        <li>
+                            <a href="{% url 'agency:public_news_list' %}" class="block px-4 py-2 hover:bg-gray-50">
+                                {% trans "Новости" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'agency:public_announcements_list' %}" class="block px-4 py-2 hover:bg-gray-50">
+                                {% trans "Объявления" %}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
                 <a href="{% url 'requests:public_request_create' %}" class="nav-link">{% trans "Обращение" %}</a>
                 <a href="{% url 'requests:public_track_requests' %}" class="nav-link">{% trans "Проверить обращение" %}</a>
                 <a href="{% url 'users:login' %}" class="nav-link">{% trans "Вход" %}</a>
@@ -73,6 +122,10 @@
         <!-- Mobile nav panel -->
         <div id="mobileNav" class="hidden sm:hidden mt-3 rounded-2xl border border-gray-200 bg-white p-2">
             <div class="flex flex-col gap-1 text-sm">
+                <a href="{% url 'agency:public_about_detail' %}" class="nav-link w-full justify-start">{% trans "Об организации" %}</a>
+                <a href="{% url 'agency:public_leadership_list' %}" class="nav-link w-full justify-start">{% trans "Руководство" %}</a>
+                <a href="{% url 'agency:public_news_list' %}" class="nav-link w-full justify-start">{% trans "Новости" %}</a>
+                <a href="{% url 'agency:public_announcements_list' %}" class="nav-link w-full justify-start">{% trans "Объявления" %}</a>
                 <a href="{% url 'requests:public_request_create' %}" class="nav-link w-full justify-start">
                     {% trans "Обращение" %}</a>
                 <a href="{% url 'requests:public_track_requests' %}" class="nav-link w-full justify-start">
@@ -111,5 +164,6 @@
 
 <script src="https://unpkg.com/htmx.org@1.9.12"></script>
 <script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
+<script src="{% static 'js/app.js' %}"></script>
 </body>
 </html>

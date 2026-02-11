@@ -62,6 +62,51 @@
                     </div>
                 </div>
 
+                <!-- Directions multi dropdown -->
+                <div class="relative">
+                    <button id="dirBtn" data-dropdown-toggle="dirMenu" type="button"
+                            class="form-control flex items-center justify-between">
+                        <span class="truncate">{% trans "Направления" %}</span>
+                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <div id="dirMenu"
+                         class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
+                        <div class="p-2 border-b">
+                            <input id="dirSearch" type="text" class="form-control"
+                                   placeholder="{% trans 'Поиск направления…' %}">
+                        </div>
+
+                        <div class="p-2 flex flex-wrap gap-2" id="dirChips"></div>
+
+                        <ul id="dirList" class="max-h-64 overflow-auto py-1 text-sm">
+                            {% for d in directions %}
+                                <li class="dir-item" data-name="{{ d.title|lower }}">
+                                    <label class="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600"
+                                               name="direction" value="{{ d.id }}">
+                                        <span>{{ d.title }}</span>
+                                    </label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="flex items-center justify-between gap-2 p-2 border-t">
+                            <button type="button" id="dirClear"
+                                    class="rounded-lg border px-3 py-2 text-sm hover:bg-gray-50">
+                                {% trans "Очистить" %}
+                            </button>
+                            <button type="button" id="dirApply"
+                                    class="rounded-lg bg-blue-600 text-white px-3 py-2 text-sm hover:bg-blue-700">
+                                {% trans "Применить" %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Region dropdown -->
                 <div class="relative">
                     <button id="regionBtn" data-dropdown-toggle="regionMenu" type="button"
@@ -114,51 +159,6 @@
                         <ul id="districtList" class="max-h-64 overflow-auto py-1 text-sm">
                             <li class="px-3 py-2 text-gray-500">{% trans "Сначала выберите регион" %}</li>
                         </ul>
-                    </div>
-                </div>
-
-                <!-- Directions multi dropdown -->
-                <div class="relative">
-                    <button id="dirBtn" data-dropdown-toggle="dirMenu" type="button"
-                            class="form-control flex items-center justify-between">
-                        <span class="truncate">{% trans "Направления" %}</span>
-                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-
-                    <div id="dirMenu"
-                         class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
-                        <div class="p-2 border-b">
-                            <input id="dirSearch" type="text" class="form-control"
-                                   placeholder="{% trans 'Поиск направления…' %}">
-                        </div>
-
-                        <div class="p-2 flex flex-wrap gap-2" id="dirChips"></div>
-
-                        <ul id="dirList" class="max-h-64 overflow-auto py-1 text-sm">
-                            {% for d in directions %}
-                                <li class="dir-item" data-name="{{ d.title|lower }}">
-                                    <label class="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer">
-                                        <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600"
-                                               name="direction" value="{{ d.id }}">
-                                        <span>{{ d.title }}</span>
-                                    </label>
-                                </li>
-                            {% endfor %}
-                        </ul>
-
-                        <div class="flex items-center justify-between gap-2 p-2 border-t">
-                            <button type="button" id="dirClear"
-                                    class="rounded-lg border px-3 py-2 text-sm hover:bg-gray-50">
-                                {% trans "Очистить" %}
-                            </button>
-                            <button type="button" id="dirApply"
-                                    class="rounded-lg bg-blue-600 text-white px-3 py-2 text-sm hover:bg-blue-700">
-                                {% trans "Применить" %}
-                            </button>
-                        </div>
                     </div>
                 </div>
 

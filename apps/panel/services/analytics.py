@@ -4,6 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from typing import Any, Dict, Iterable, List, Optional, Tuple
+from django.utils.translation import get_language_from_request, get_language, gettext as _
 
 from django.contrib.auth.models import Group
 from django.db.models import (
@@ -36,6 +37,20 @@ GROUP_DIRECTORS = "directors"
 # -----------------------------
 # Helpers
 # -----------------------------
+def _lang_code() -> str:
+    lang = (get_language() or "uz").split("-")[0].lower()
+    return lang
+
+def _mt_field(base: str) -> str:
+    """
+    modeltranslation: ru odatda original field (name/title),
+    uz bo‘lsa name_uz/title_uz kabi.
+    """
+    lang = _lang_code()
+    if lang in ("uz", "ru"):
+        return f"{base}_{lang}"
+    return f"{base}_{lang}"
+
 def _today() -> date:
     return timezone.localdate()
 
@@ -222,14 +237,16 @@ def requests_by_direction(*, user=None, limit: int = 12) -> Dict[str, Any]:
     """
     qs = _base_requests_qs(user=user)
 
+    title_field = _mt_field("title")
+
     rows = (
-        qs.values("directions__title")
+        qs.values(f"directions__{title_field}")
         .annotate(cnt=Count("id", distinct=True))
-        .exclude(directions__title__isnull=True)
+        .exclude(**{f"directions__{title_field}__isnull": True})
         .order_by("-cnt")
     )
 
-    items = [(r["directions__title"], r["cnt"]) for r in rows[: int(limit)]]
+    items = [(r.get(f"directions__{title_field}") or _("— Noma’lum"), r["cnt"]) for r in rows[: int(limit)]]
     return _echarts_bar(items)
 
 
@@ -240,15 +257,17 @@ def requests_by_region(*, user=None, limit: int = 10) -> Dict[str, Any]:
     """
     qs = _base_requests_qs(user=user)
 
+    name_field = _mt_field("name")
+
     rows = (
-        qs.values("company__region__name")
+        qs.values(f"company__region__{name_field}")
         .annotate(cnt=Count("id"))
         .order_by("-cnt")
     )
 
     items = []
     for r in rows:
-        name = r["company__region__name"] or "— Без региона"
+        name = r.get(f"company__region__{name_field}") or _("— Без региона")
         items.append((name, r["cnt"]))
 
     return _echarts_bar(items[: int(limit)])
@@ -300,15 +319,17 @@ def sla_overdue_by_department(*, user=None, limit: int = 10) -> Dict[str, Any]:
         .exclude(status=Request.Status.DONE)
     )
 
+    name_field = _mt_field("name")
+
     rows = (
-        qs.values("assigned_department__name")
+        qs.values(f"assigned_department__{name_field}")
         .annotate(cnt=Count("id"))
         .order_by("-cnt")
     )
 
     items = []
     for r in rows:
-        name = r["assigned_department__name"] or "— Не назначено"
+        name = r.get(f"assigned_department__{name_field}") or _("— Не выявлено")
         items.append((name, r["cnt"]))
 
     return _echarts_bar(items[: int(limit)])
@@ -346,16 +367,17 @@ def companies_by_category(*, limit: int = 12) -> Dict[str, Any]:
     Bar: компании по категориям (primary category).
     """
     qs = _base_companies_qs()
+    name_field = _mt_field("name")
 
     rows = (
-        qs.values("category__name")
+        qs.values(f"category__{name_field}")
         .annotate(cnt=Count("id"))
         .order_by("-cnt")
     )
 
     items = []
     for r in rows:
-        name = r["category__name"] or "— Без категории"
+        name = r.get(f"category__{name_field}") or _("— Без категории")
         items.append((name, r["cnt"]))
 
     return _echarts_bar(items[: int(limit)])
@@ -366,16 +388,17 @@ def companies_by_region(*, limit: int = 14) -> Dict[str, Any]:
     Bar: компании по регионам.
     """
     qs = _base_companies_qs()
+    name_field = _mt_field("name")
 
     rows = (
-        qs.values("region__name")
+        qs.values(f"region__{name_field}")
         .annotate(cnt=Count("id"))
         .order_by("-cnt")
     )
 
     items = []
     for r in rows:
-        name = r["region__name"] or "— Без региона"
+        name = r.get(f"region__{name_field}") or _("— Без региона")
         items.append((name, r["cnt"]))
 
     return _echarts_bar(items[: int(limit)])
@@ -386,15 +409,16 @@ def companies_by_direction(*, limit: int = 12) -> Dict[str, Any]:
     Bar: топ направлений по количеству компаний (M2M).
     """
     qs = _base_companies_qs()
+    title_field = _mt_field("title")
 
     rows = (
-        qs.values("directions__title")
+        qs.values(f"directions__{title_field}")
         .annotate(cnt=Count("id", distinct=True))
-        .exclude(directions__title__isnull=True)
+        .exclude(**{f'directions__{title_field}__isnull': True})
         .order_by("-cnt")
     )
 
-    items = [(r["directions__title"], r["cnt"]) for r in rows[: int(limit)]]
+    items = [(r.get(f"directions__{title_field}") or _("Неизвестно"), r["cnt"]) for r in rows[: int(limit)]]
     return _echarts_bar(items)
 
 

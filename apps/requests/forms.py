@@ -1,10 +1,8 @@
 from django import forms
-from django.forms import CheckboxSelectMultiple
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from apps.companies.models import Company, EmployeeCompany, Position, Category, Direction, Region, District
-from .models import Request, RequestFile
+from apps.companies.models import Category, Direction, Region, District
 
 BASE_INPUT = "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm focus:border-blue-500 focus:ring-blue-500"
 BASE_TEXTAREA = BASE_INPUT + " min-h-[120px]"
@@ -61,18 +59,11 @@ class PublicRequestForm(forms.Form):
     phone = forms.CharField(label=_("Телефон номер"), max_length=15)
     email = forms.EmailField(label=_("Электронная почта"))
 
-    position = forms.ModelChoiceField(
-        label=_("Должность"),
-        queryset=Position.objects.none(),
-        empty_label=_("Выберите должность")
-    )
-
     # request
     directions = forms.ModelMultipleChoiceField(
         label=_("Направления"),
         queryset=Direction.objects.none(),
         required=False,
-        widget=CheckboxSelectMultiple,
     )
 
     description = forms.CharField(label=_("Текст обращения"), widget=forms.Textarea)
@@ -81,12 +72,10 @@ class PublicRequestForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         directions_qs = kwargs.pop("directions_qs", Direction.objects.all())
-        positions_qs = kwargs.pop("positions_qs", Position.objects.all())
         district_qs = kwargs.pop("district_qs", District.objects.none())
         super().__init__(*args, **kwargs)
 
         self.fields["directions"].queryset = directions_qs
-        self.fields["position"].queryset = positions_qs
         self.fields["district"].queryset = district_qs
 
         # классы
@@ -97,15 +86,9 @@ class PublicRequestForm(forms.Form):
         ]:
             self.fields[name].widget.attrs.update({"class": BASE_INPUT})
 
-        self.fields["category"].widget.attrs.update({
-            "class": BASE_INPUT,
-            "hx-get": "/htmx/directions/",
-            "hx-target": "#directions-box",
-            "hx-swap": "innerHTML",
-            "hx-include": "[name='category'], [name='directions']",
-            "hx-trigger": "load, change",
-        })
-        self.fields["position"].widget.attrs.update({"class": BASE_INPUT})
+        self.fields["category"].widget.attrs.update({"class": BASE_INPUT})
+        self.fields["directions"].widget.attrs.update({"class": BASE_INPUT, "multiple": True})
+
         self.fields["description"].widget.attrs.update({"class": BASE_TEXTAREA})
 
         file_cls = "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg p-2 cursor-pointer bg-gray-50"

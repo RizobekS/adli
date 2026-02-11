@@ -11,7 +11,7 @@ app_name = "requests"
 
 urlpatterns = [
     path("request/", public_request_create, name="public_request_create"),
-    path("", public_request_create, name="public_request_create"),
+
     path("request/success/<str:token>/", public_request_success, name="public_request_success"),
 
     path("track/", public_track_requests, name="public_track_requests"),

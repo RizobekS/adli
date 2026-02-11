@@ -142,4 +142,19 @@
 
 {# ECharts подключаем один раз, безопасно для шаблонов панели #}
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script>
+      window.DASH_I18N = {
+        created: "{% trans 'Создано' %}",
+        closed: "{% trans 'Закрыто' %}",
+
+        dq_title: "{% trans 'Качество данных' %}",
+        dq_no_region: "{% trans 'Без региона' %}",
+        dq_no_district: "{% trans 'Без района' %}",
+        dq_no_category: "{% trans 'Без категории' %}",
+        dq_no_directions: "{% trans 'Без направлений' %}",
+
+        no_overdue: "{% trans 'Просроченных заявок нет' %}",
+        no_data: "{% trans 'Нет данных' %}"
+      };
+    </script>
 {% endblock %}

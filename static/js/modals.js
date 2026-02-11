@@ -58,6 +58,87 @@
     `;
   }
 
+    function renderBioModal() {
+        modalRoot.insertAdjacentHTML("beforeend", `
+          <div id="bioModal"
+               class="fixed inset-0 z-[1000] hidden items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+            <div id="bioPanel"
+                 class="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-gray-200
+                        opacity-0 translate-y-3 scale-[0.98] transition duration-200 ease-out">
+              <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200">
+                <div>
+                  <div class="text-sm text-gray-500">${escapeHtml("Биография")}</div>
+                  <div id="bioTitle" class="text-lg font-semibold">-</div>
+                </div>
+                <button type="button" class="text-gray-600 hover:text-gray-900" id="bioCloseX">✕</button>
+              </div>
+
+              <div class="px-5 py-4">
+                <div id="bioBody" class="text-sm text-gray-700 whitespace-pre-line leading-relaxed"></div>
+              </div>
+
+              <div class="px-5 py-4 border-t border-gray-200 flex justify-end">
+                <button type="button"
+                        class="rounded-lg bg-gray-100 px-4 py-2 text-sm hover:bg-gray-200"
+                        id="bioCloseBtn">
+                  ${escapeHtml("Закрыть")}
+                </button>
+              </div>
+            </div>
+          </div>
+        `);
+    }
+
+      function escCloseBioOnce(e) {
+        if (e.key === 'Escape') window.closeBio();
+      }
+
+      window.openBio = function (fullName, bioText) {
+        if (!document.getElementById('bioModal')) renderBioModal();
+
+        const modal = document.getElementById('bioModal');
+        const panel = document.getElementById('bioPanel');
+        const title = document.getElementById('bioTitle');
+        const body = document.getElementById('bioBody');
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        requestAnimationFrame(() => {
+          panel.classList.remove('opacity-0', 'translate-y-3', 'scale-[0.98]');
+          panel.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+        });
+
+        title.textContent = fullName || '-';
+        body.textContent = bioText || '';
+
+        // close on click outside
+        modal.onclick = (e) => { if (e.target === modal) window.closeBio(); };
+        document.addEventListener('keydown', escCloseBioOnce);
+
+        // buttons
+        const closeX = document.getElementById('bioCloseX');
+        const closeBtn = document.getElementById('bioCloseBtn');
+        if (closeX) closeX.onclick = window.closeBio;
+        if (closeBtn) closeBtn.onclick = window.closeBio;
+      };
+
+      window.closeBio = function () {
+        const modal = document.getElementById('bioModal');
+        const panel = document.getElementById('bioPanel');
+        if (!modal || !panel) return;
+
+        panel.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+        panel.classList.add('opacity-0', 'translate-y-3', 'scale-[0.98]');
+
+        setTimeout(() => {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+          document.removeEventListener('keydown', escCloseBioOnce);
+        }, 180);
+      };
+
+
   function escCloseOnce(e) {
     if (e.key === 'Escape') window.closeHistory();
   }

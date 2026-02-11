@@ -1,0 +1,42 @@
+{% extends "base_public.html" %}
+{% load i18n %}
+
+{% block title %}{{ about.title }} | ADLI{% endblock %}
+
+{% block content %}
+<article class="space-y-5">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div class="text-sm text-gray-500">
+      <a href="{% url 'agency:public_home' %}" class="hover:text-gray-700">{% trans "Главная" %}</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-700">{% trans "О агентстве" %}</span>
+    </div>
+
+    <span class="inline-flex items-center rounded-full border border-gray-200 bg-white px-3 py-1 text-xs text-gray-600">
+      {% trans "Просмотры" %}: {{ about.views_count }}
+    </span>
+  </div>
+
+  <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900">
+    {{ about.title }}
+  </h1>
+
+  {% if about.photo %}
+    <div class="rounded-3xl overflow-hidden border border-gray-200 bg-gray-50">
+      <img src="{{ about.photo.url }}" alt="{{ about.title }}" class="w-full max-h-[520px] object-cover">
+    </div>
+  {% endif %}
+
+  {% if about.description %}
+    <div class="text-gray-800 leading-relaxed whitespace-pre-line">
+      {{ about.description }}
+    </div>
+  {% elif about.short_description %}
+    <div class="text-gray-800 leading-relaxed whitespace-pre-line">
+      {{ about.short_description }}
+    </div>
+  {% else %}
+    <p class="text-gray-500">{% trans "Описание пока не заполнено." %}</p>
+  {% endif %}
+</article>
+{% endblock %}

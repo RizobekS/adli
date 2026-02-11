@@ -1,0 +1,110 @@
+{% extends "base_public.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Главная" %} | ADLI{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+
+    <!-- Latest news -->
+  <section class="rounded-3xl border border-gray-200 bg-white p-5 sm:p-8">
+    <div class="flex items-center justify-between gap-3">
+      <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">{% trans "Последние новости" %}</h2>
+      <a href="{% url 'agency:public_news_list' %}" class="text-sm font-medium text-blue-700 hover:text-blue-800">
+        {% trans "Смотреть все" %}
+      </a>
+    </div>
+
+    {% if news_list %}
+      <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for n in news_list %}
+          <a href="{% url 'agency:public_news_detail' n.pk %}"
+             class="group rounded-2xl border border-gray-200 bg-white hover:bg-gray-50 overflow-hidden">
+            {% if n.photo %}
+              <img src="{{ n.photo.url }}" alt="{{ n.title }}" class="h-44 w-full object-cover">
+            {% else %}
+              <div class="h-44 w-full bg-gray-100 flex items-center justify-center text-gray-400">
+                {% trans "Без фото" %}
+              </div>
+            {% endif %}
+
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-3 text-xs text-gray-500">
+                <span>{{ n.published_at|date:"d.m.Y" }}</span>
+                <span>{% trans "Просмотры" %}: {{ n.views_count }}</span>
+              </div>
+              <div class="mt-2 font-semibold text-gray-900 group-hover:text-blue-700 line-clamp-2">
+                {{ n.title }}
+              </div>
+              {% if n.description %}
+                <div class="mt-2 text-sm text-gray-600 line-clamp-3">
+                  {{ n.description }}
+                </div>
+              {% endif %}
+              {% if n.announcement %}
+              <span class="mt-3 inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+                {% trans "Объявление" %}
+              </span>
+            {% endif %}
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="mt-4 text-gray-500">{% trans "Новостей пока нет." %}</p>
+    {% endif %}
+  </section>
+
+  <!-- About -->
+  <section class="rounded-3xl border border-gray-200 bg-white overflow-hidden">
+    {% if about %}
+      <div class="flex flex-col sm:flex-row">
+        <!-- Photo -->
+        <div class="sm:w-2/5 bg-gray-50">
+          {% if about.photo %}
+            <img src="{{ about.photo.url }}" alt="{{ about.title }}" class="h-full w-full object-cover">
+          {% else %}
+            <div class="h-full flex items-center justify-center text-gray-400">
+              {% trans "Фото не загружено" %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Text -->
+        <div class="sm:w-3/5 p-5 sm:p-8">
+          <div class="flex items-start justify-between gap-4">
+            <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">{{ about.title }}</h2>
+          </div>
+
+          {% if about.short_description %}
+            <div class="mt-3 text-gray-700 leading-relaxed whitespace-pre-line">
+              {{ about.short_description }}
+            </div>
+          {% elif about.description %}
+            <div class="mt-3 text-gray-700 leading-relaxed whitespace-pre-line">
+              {{ about.description }}
+            </div>
+          {% else %}
+            <p class="mt-3 text-gray-500">{% trans "Описание пока не заполнено." %}</p>
+          {% endif %}
+
+          <div class="mt-5">
+            <a href="{% url 'agency:public_about_detail' %}"
+               class="inline-flex items-center justify-center rounded-xl border border-blue-300 bg-blue-200 px-4 py-2 text-sm font-medium text-blue-800 hover:bg-blue-300">
+              {% trans "Подробнее" %}
+            </a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="p-6 sm:p-8">
+        <h2 class="text-xl font-semibold text-gray-900">{% trans "О агентстве" %}</h2>
+        <p class="mt-2 text-gray-500">
+          {% trans "Контент пока не опубликован. Добавьте запись AgencyAbout в админке и включите 'Опубликовано'." %}
+        </p>
+      </div>
+    {% endif %}
+  </section>
+
+</div>
+{% endblock %}

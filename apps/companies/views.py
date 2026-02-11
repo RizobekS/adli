@@ -132,3 +132,22 @@ def districts_by_region(request):
         })
 
     return JsonResponse({"results": results})
+
+
+
+
+
+@require_GET
+def directions_by_category_json(request):
+    category_id = (request.GET.get("category") or "").strip()
+
+    qs = Direction.objects.filter(category__isnull=False).order_by("title")
+    if category_id:
+        qs = qs.filter(category_id=category_id)
+    else:
+        # если категория не выбрана: возвращаем все (но на фронте будем disable)
+        qs = qs
+
+    return JsonResponse({
+        "results": [{"id": d.id, "title": d.title} for d in qs]
+    })

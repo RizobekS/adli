@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.http import JsonResponse
 from django.utils.translation import gettext_lazy as _
-
 
 class Region(models.Model):
     code = models.CharField(_("Код региона"), max_length=10, unique=True, db_index=True)
@@ -222,7 +222,9 @@ class EmployeeCompany(models.Model):
         Position,
         verbose_name=_("Должность"),
         on_delete=models.PROTECT,
-        related_name="employee_company"
+        related_name="employee_company",
+        null=True,
+        blank=True,
     )
 
     first_name = models.CharField(_("Имя"), max_length=150, null=True)

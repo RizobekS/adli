@@ -1,6 +1,8 @@
 # apps/agency/models.py
 from django.conf import settings
 from django.db import models
+from django.db.models import F
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
@@ -129,3 +131,118 @@ class Employee(models.Model):
 
     def __str__(self):
         return self.display_label
+
+
+class AgencyAbout(models.Model):
+    """
+    Контент 'О агентстве' (обычно 1 запись).
+    """
+    title = models.CharField(_("Заголовок"), max_length=255)
+    short_description = models.TextField(_("Краткое описание"), blank=True, null=True)
+    description = models.TextField(_("Описание"), blank=True)
+
+    photo = models.ImageField(_("Фото"), upload_to="agency/about/", blank=True, null=True)
+
+    views_count = models.PositiveBigIntegerField(_("Просмотры"), default=0, db_index=True)
+
+    is_published = models.BooleanField(_("Опубликовано"), default=True)
+    created_at = models.DateTimeField(_("Создано"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Обновлено"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("О агентстве")
+        verbose_name_plural = _("О агентстве")
+        ordering = ("-updated_at",)
+
+    def __str__(self):
+        return self.title
+
+    @classmethod
+    def get_public(cls):
+        # Берём самую свежую опубликованную запись
+        return cls.objects.filter(is_published=True).order_by("-updated_at").first()
+
+    def inc_views(self):
+        type(self).objects.filter(pk=self.pk).update(views_count=F("views_count") + 1)
+        # обновим объект в памяти (не обязательно, но приятно)
+        self.views_count += 1
+
+
+class LeadershipProfile(models.Model):
+    """
+    Публичный профиль руководства (витрина для сайта),
+    привязан к сотруднику Employee.
+    """
+    employee = models.OneToOneField(
+        "agency.Employee",
+        verbose_name=_("Сотрудник"),
+        on_delete=models.CASCADE,
+        related_name="leadership_profile",
+    )
+
+    is_published = models.BooleanField(_("Опубликовано"), default=True, db_index=True)
+    sort_order = models.PositiveIntegerField(_("Порядок"), default=100, db_index=True)
+
+    public_email = models.EmailField(_("Почта (публичная)"), blank=True)
+    public_site_url = models.URLField(_("Ссылка на сайт"), blank=True)
+
+    reception_time = models.CharField(
+        _("Время приема"),
+        max_length=255,
+        blank=True,
+        help_text=_("Например: Понедельник 10:00–13:00"),
+    )
+
+    biography = models.TextField(_("Биография"), blank=True)
+
+    views_count = models.PositiveBigIntegerField(_("Просмотры"), default=0, db_index=True)
+
+    created_at = models.DateTimeField(_("Создано"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Обновлено"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("Профиль руководства")
+        verbose_name_plural = _("Руководство")
+        ordering = ("sort_order", "employee__last_name", "employee__first_name")
+        indexes = [
+            models.Index(fields=["is_published", "sort_order"]),
+        ]
+
+    def __str__(self):
+        return self.employee.display_name
+
+    def inc_views(self):
+        type(self).objects.filter(pk=self.pk).update(views_count=F("views_count") + 1)
+        self.views_count += 1
+
+
+class News(models.Model):
+    title = models.CharField(_("Заголовок"), max_length=255)
+    description = models.TextField(_("Описание"), blank=True)
+
+    photo = models.ImageField(_("Фото"), upload_to="agency/news/", blank=True, null=True)
+
+    views_count = models.PositiveBigIntegerField(_("Просмотры"), default=0, db_index=True)
+
+    announcement = models.BooleanField(_("Объявление"), default=False)
+    is_published = models.BooleanField(_("Опубликовано"), default=True)
+    published_at = models.DateTimeField(_("Дата публикации"), default=timezone.now, db_index=True)
+
+    created_at = models.DateTimeField(_("Создано"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Обновлено"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("Новость")
+        verbose_name_plural = _("Новости")
+        ordering = ("-published_at", "-id")
+        indexes = [
+            models.Index(fields=["is_published", "published_at", "announcement"]),
+        ]
+
+    def __str__(self):
+        return self.title
+
+    def inc_views(self):
+        type(self).objects.filter(pk=self.pk).update(views_count=F("views_count") + 1)
+        self.views_count += 1
+

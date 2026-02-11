@@ -5,6 +5,7 @@ from django.db import transaction
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.http import require_GET
 
 from apps.companies.models import Company, EmployeeCompany, Position, Direction, Region, District, Category
 from .models import Request, RequestFile, RequestHistory
@@ -27,7 +28,6 @@ def public_request_create(request):
             request.POST,
             request.FILES,
             directions_qs=Direction.objects.all(),
-            positions_qs=Position.objects.all(),
             district_qs=district_qs,
         )
 
@@ -77,15 +77,11 @@ def public_request_create(request):
             if dirs:
                 company.directions.add(*dirs)
 
-            # 2) position
-            position = form.cleaned_data["position"]
-
             # 3) employee
             employee = (
                 EmployeeCompany.objects
                 .filter(
                     company=company,
-                    position=position,
                     first_name=form.cleaned_data["first_name"].strip(),
                     last_name=form.cleaned_data["last_name"].strip(),
                     middle_name=(form.cleaned_data.get("middle_name") or "").strip() or None,
@@ -96,7 +92,6 @@ def public_request_create(request):
             if employee is None:
                 employee = EmployeeCompany.objects.create(
                     company=company,
-                    position=position,
                     first_name=form.cleaned_data["first_name"].strip(),
                     last_name=form.cleaned_data["last_name"].strip(),
                     middle_name=(form.cleaned_data.get("middle_name") or "").strip() or None,
@@ -152,14 +147,12 @@ def public_request_create(request):
     else:
         form = PublicRequestForm(
             directions_qs=Direction.objects.all(),
-            positions_qs=Position.objects.all(),
             district_qs=District.objects.none(),
         )
 
     context = {
         "form": form,
         "categories": Category.objects.order_by("name"),
-        "positions": Position.objects.order_by("name"),
         "regions": Region.objects.order_by("name"),
     }
     return render(request, "public/request_form.html", context)

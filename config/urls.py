@@ -11,6 +11,8 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path("i18n/", include("django.conf.urls.i18n")),
                   path("set_language/<str:lang>/", ActivateLanguageView.as_view(), name="set_language_from_url"),
+
+                  path("", include("apps.agency.urls")),
     
                   path("", include("apps.users.urls")),
 
