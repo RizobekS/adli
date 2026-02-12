@@ -20,4 +20,6 @@ def panel_nav_context(request):
         "is_executor": _in_group(request.user, GROUP_EXECUTOR),
         "is_directors": _in_group(request.user, GROUP_DIRECTORS),
         "is_head_of_department": _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT),
+        "active_url": getattr(request.resolver_match, "url_name", ""),
+        "active_ns": getattr(request.resolver_match, "namespace", ""),
     }

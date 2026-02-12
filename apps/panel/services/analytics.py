@@ -32,6 +32,7 @@ GROUP_CHANCELLERY = "chancellery"
 GROUP_DEPUTY_ASSISTANT = "deputy_assistant"
 GROUP_EXECUTOR = "executor"
 GROUP_DIRECTORS = "directors"
+GROUP_HEAD_OF_DEPARTMENT = "head_of_department"
 
 
 # -----------------------------
@@ -71,29 +72,33 @@ def _in_group(user, name: str) -> bool:
 
 def filter_requests_for_user(qs, user):
     """
-    Повторяем ту же логику видимости, что у тебя в panel/views.py:
-    - chancellery: всё
+    Повторяем ту же логику видимости, что в panel/views.py:
+    - chancellery и directors: всё
     - deputy_assistant: только где deputy_assistant = emp
-    - executor: только по своему департаменту (assigned_department=emp.department)
+    - head_of_deparments: все обращения по своему департаменту - emp.departnment
+    - executor: только по свои обращения
 
     Важно: аналитика тоже должна уважать права доступа.
     """
-    if _in_group(user, GROUP_CHANCELLERY):
+    if _in_group(user, GROUP_CHANCELLERY) or _in_group(user, GROUP_DIRECTORS):
         return qs
-
-    if _in_group(user, GROUP_DIRECTORS):
-        return qs
-
-    if _in_group(user, GROUP_DEPUTY_ASSISTANT):
-        emp = getattr(user, "agency_employee", None)
-        if not emp:
-            return qs.none()
-        return qs.filter(deputy_assistant=emp)
 
     emp = getattr(user, "agency_employee", None)
-    if not emp or not emp.department_id:
+    if not emp:
         return qs.none()
-    return qs.filter(assigned_department=emp.department)
+
+    if _in_group(user, GROUP_DEPUTY_ASSISTANT):
+        return qs.filter(deputy_assistant=emp)
+
+    if _in_group(user, GROUP_HEAD_OF_DEPARTMENT):
+        if not emp.department_id:
+            return qs.none()
+        return qs.filter(assigned_department=emp.department)
+
+    if _in_group(user, GROUP_EXECUTOR):
+        return qs.filter(assigned_employee=emp)
+
+    return qs.none()
 
 
 def _base_requests_qs(user=None):

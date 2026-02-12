@@ -50,10 +50,58 @@
     </div>
 
     <div class="space-y-1 text-sm border-b border-gray-200/70">
-        <a href="{% url 'panel:dashboard' %}" class="nav-link w-full justify-start">{% trans "Дашборд" %}</a>
-        <a href="{% url 'companies:companies_page' %}" class="nav-link w-full justify-start">{% trans "Компании" %}</a>
-        <a href="{% url 'telephony:directory_page' %}" class="nav-link w-full justify-start">{% trans "Телефония" %}</a>
-        <a href="{% url 'panel:requests_list' %}?bucket=inbox" class="nav-link w-full justify-start">{% trans "Обращения" %}</a>
+        <a href="{% url 'panel:dashboard' %}"
+           class="nav-link w-full justify-start
+                  {% if active_ns == 'panel' and active_url == 'dashboard' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+          {% trans "Дашборд" %}
+        </a>
+        <a href="{% url 'companies:companies_page' %}"
+           class="nav-link w-full justify-start
+                  {% if active_ns == 'companies' and active_url == 'companies_page' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+            {% trans "Компании" %}
+        </a>
+        <a href="{% url 'telephony:directory_page' %}"
+           class="nav-link w-full justify-start
+                  {% if active_ns == 'telephony' and active_url == 'directory_page' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+            {% trans "Телефония" %}
+        </a>
+        <div class="px-1 py-2">
+            <button type="button"
+                    class="nav-link w-full justify-start flex items-center {% if active_ns == 'panel' and active_url == 'requests_list' %}bg-blue-50 text-blue-900{% endif %}"
+                    data-m-accordion-trigger
+                    data-m-accordion-target="m-req-sub"
+                    aria-controls="m-req-sub"
+                    aria-expanded="{% if bucket %}true{% else %}false{% endif %}">
+            {% trans "Обращения" %}
+            <svg class="ml-auto h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <div id="m-req-sub"
+             class="overflow-hidden transition-[max-height,opacity] duration-200
+                    {% if bucket %}max-h-96 opacity-100{% else %}max-h-0 opacity-0{% endif %}
+                    mt-1 ml-3 space-y-1">
+            <a href="{% url 'panel:requests_list' %}?bucket=inbox"
+               class="block rounded-lg px-3 py-2 text-sm hover:bg-blue-50 {% if bucket == 'inbox' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+              {% trans "Новые" %}
+            </a>
+            <a href="{% url 'panel:requests_list' %}?bucket=active"
+               class="block rounded-lg px-3 py-2 text-sm hover:bg-blue-50 {% if bucket == 'active' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+              {% trans "В исполнении" %}
+            </a>
+            <a href="{% url 'panel:requests_list' %}?bucket=done"
+               class="block rounded-lg px-3 py-2 text-sm hover:bg-blue-50 {% if bucket == 'done' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+              {% trans "Завершенные" %}
+            </a>
+
+            <a href="{% url 'panel:requests_list' %}?bucket=all"
+               class="block rounded-lg px-3 py-2 text-sm hover:bg-blue-50 {% if bucket == 'all' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+              {% trans "Все обращения" %}
+            </a>
+          </div>
+        </div>
+
     </div>
     <div class="space-y-1 text-sm">
         <form method="post" action="{% url 'users:logout' %}">

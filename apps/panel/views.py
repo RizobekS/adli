@@ -21,6 +21,7 @@ from apps.requests.services import (
     mark_done,
 )
 from .forms import ResolutionForm, StepForm, PanelRequestFilterForm
+from .services.request_buckets import visible_requests_qs, apply_bucket
 from ..agency.models import Employee
 
 from .services.analytics import (
@@ -223,69 +224,13 @@ def requests_list(request):
         .order_by("-created_at")
     )
 
-    qs = _filter_queryset_for_user(qs, request.user)
+    qs = visible_requests_qs(qs, request.user)
 
     bucket = (request.GET.get("bucket") or "").strip()
-
-    if bucket == "new":
-        bucket = "inbox"
-
     if not bucket:
         return redirect(f"{request.path}?bucket=inbox")
 
-    if bucket == "all":
-        pass
-
-    if bucket == "inbox":
-        if _in_group(request.user, GROUP_CHANCELLERY) or _in_group(request.user, GROUP_DIRECTORS):
-            qs = qs.filter(status=Request.Status.NEW)
-
-        elif _in_group(request.user, GROUP_DEPUTY_ASSISTANT):
-            qs = qs.filter(status=Request.Status.SENT_FOR_RESOLUTION)
-
-        elif _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT):
-            qs = qs.filter(status=Request.Status.ASSIGNED)
-
-        elif _in_group(request.user, GROUP_EXECUTOR):
-            qs = qs.filter(status=Request.Status.ASSIGNED)
-
-        else:
-            qs = qs.none()
-
-    elif bucket == "active":
-        # "в работе" (для каждой роли своё)
-        if _in_group(request.user, GROUP_CHANCELLERY) or _in_group(request.user, GROUP_DIRECTORS):
-            qs = qs.filter(status__in=[
-                Request.Status.REGISTERED,
-                Request.Status.SENT_FOR_RESOLUTION,
-                Request.Status.ASSIGNED,
-                Request.Status.IN_PROGRESS,
-            ])
-
-        elif _in_group(request.user, GROUP_DEPUTY_ASSISTANT):
-            qs = qs.filter(status__in=[
-                Request.Status.ASSIGNED,
-                Request.Status.IN_PROGRESS,
-            ])
-
-        elif _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT):
-            qs = qs.filter(status=Request.Status.IN_PROGRESS)
-
-        elif _in_group(request.user, GROUP_EXECUTOR):
-            qs = qs.filter(status=Request.Status.IN_PROGRESS)
-
-        else:
-            qs = qs.none()
-
-    elif bucket == "done":
-        qs = qs.filter(status=Request.Status.DONE)
-
-    elif bucket == "all":
-        pass
-
-    else:
-        # неизвестный bucket → inbox
-        return redirect(f"{request.path}?bucket=inbox")
+    qs = apply_bucket(qs, request.user, bucket)
 
     f = PanelRequestFilterForm(request.GET or None)
     if f.is_valid():
