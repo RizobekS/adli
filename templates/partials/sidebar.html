@@ -16,7 +16,8 @@
     <nav class="px-3 py-4 space-y-1 text-sm">
         <a href="{% url 'panel:dashboard' %}" class="nav-link w-full justify-start">
             <span class="sidebar-icon">
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                     width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M13.5 2c-.178 0-.356.013-.492.022l-.074.005a1 1 0 0 0-.934.998V11a1 1 0 0 0 1 1h7.975a1 1 0 0 0 .998-.934l.005-.074A7.04 7.04 0 0 0 22 10.5 8.5 8.5 0 0 0 13.5 2Z"/>
                   <path d="M11 6.025a1 1 0 0 0-1.065-.998 8.5 8.5 0 1 0 9.038 9.039A1 1 0 0 0 17.975 13H11V6.025Z"/>
                 </svg>
@@ -25,28 +26,78 @@
         </a>
         <a href="{% url 'companies:companies_page' %}" class="nav-link w-full justify-start">
             <span class="sidebar-icon">
-                <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                  <path fill-rule="evenodd" d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z" clip-rule="evenodd"/>
+                <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd"
+                        d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z"
+                        clip-rule="evenodd"/>
                 </svg>
             </span>
             <span class="sidebar-label transition-opacity duration-200 opacity-100">{% trans "Компании" %}</span>
         </a>
         <a href="{% url 'telephony:directory_page' %}" class="nav-link w-full justify-start">
             <span class="sidebar-icon">
-                <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z"/>
                 </svg>
             </span>
             <span class="sidebar-label transition-opacity duration-200 opacity-100">{% trans "Телефония" %}</span>
         </a>
-        <a href="{% url 'panel:requests_list' %}" class="nav-link w-full justify-start">
+        {# Requests accordion (no absolute dropdown) #}
+        <div class="rounded-lg">
+            <button type="button"
+                    class="nav-link w-full justify-start cursor-pointer flex items-center gap-2"
+                    aria-controls="sidebar-requests-sub"
+                    aria-expanded="{% if request.resolver_match.url_name == 'requests_list' %}true{% else %}false{% endif %}"
+                    onclick="document.getElementById('sidebar-requests-sub').classList.toggle('hidden')">
             <span class="sidebar-icon">
-                <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                  <path fill-rule="evenodd" d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z" clip-rule="evenodd"/>
-                </svg>
+              <svg class="w-[24px] h-[24px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                   width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd"
+                      d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z"
+                      clip-rule="evenodd"/>
+              </svg>
             </span>
-            <span class="sidebar-label transition-opacity duration-200 opacity-100">{% trans "Обращения" %}</span>
-        </a>
+                <span class="sidebar-label transition-opacity duration-200 opacity-100">{% trans "Обращения" %}</span>
+
+                <svg class="ml-auto h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+
+            <div id="sidebar-requests-sub"
+                 class="{% if request.resolver_match.url_name == 'requests_list' %}{% else %}hidden{% endif %} mt-1 ml-9 space-y-1">
+                <a href="{% url 'panel:requests_list' %}?bucket=inbox"
+                   class="block rounded-lg px-3 py-2 text-sm
+                          hover:bg-blue-50
+                          {% if bucket == 'inbox' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+                  {% trans "Новые" %}
+                </a>
+
+                <a href="{% url 'panel:requests_list' %}?bucket=active"
+                   class="block rounded-lg px-3 py-2 text-sm
+                          hover:bg-blue-50
+                          {% if bucket == 'active' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+                  {% trans "В исполнении" %}
+                </a>
+
+                <a href="{% url 'panel:requests_list' %}?bucket=done"
+                   class="block rounded-lg px-3 py-2 text-sm
+                          hover:bg-blue-50
+                          {% if bucket == 'done' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+                  {% trans "Завершенные" %}
+                </a>
+
+                <a href="{% url 'panel:requests_list' %}?bucket=all"
+                   class="block rounded-lg px-3 py-2 text-sm
+                          hover:bg-blue-50
+                          {% if bucket == 'all' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+                  {% trans "Все обращения" %}
+                </a>
+            </div>
+        </div>
+
 
         <div class="my-3 border-t border-gray-200/70"></div>
 
@@ -54,8 +105,10 @@
             {% csrf_token %}
             <button type="submit" class="nav-link w-full justify-start cursor-pointer">
                 <span class="sidebar-icon">
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"/>
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"/>
                     </svg>
                 </span>
                 <span class="sidebar-label transition-opacity duration-200 opacity-100">{% trans "Выйти" %}</span>

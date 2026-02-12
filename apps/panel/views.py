@@ -43,6 +43,8 @@ from .services.analytics import (
 GROUP_CHANCELLERY = "chancellery"
 GROUP_DEPUTY_ASSISTANT = "deputy_assistant"
 GROUP_EXECUTOR = "executor"
+GROUP_DIRECTORS = "directors"
+GROUP_HEAD_OF_DEPARTMENT = "head_of_department"
 
 
 def _is_htmx(request) -> bool:
@@ -66,25 +68,34 @@ def _can_write(user) -> bool:
 
 def _filter_queryset_for_user(qs, user):
     """
-    Ограничиваем видимость:
+    Видимость (что пользователь ВООБЩЕ может видеть):
     - chancellery: всё
-    - deputy_assistant: всё (или можно сузить позже)
-    - executor: только назначенные ему или его департаменту
+    - directors: всё (read-only)
+    - deputy_assistant: только обращения, где deputy_assistant = он
+    - head_of_department: обращения своего департамента (assigned_department = dept)
+    - executor: только assigned_employee = он
     """
-    if _in_group(user, GROUP_CHANCELLERY):
+    if _in_group(user, GROUP_CHANCELLERY) or _in_group(user, GROUP_DIRECTORS):
         return qs
 
-    if _in_group(user, GROUP_DEPUTY_ASSISTANT):
-        emp = getattr(user, "agency_employee", None)
-        if not emp:
-            return qs.none()
-        return qs.filter(deputy_assistant=emp)
-
-    # остальные: только read-only список “своего департамента” (или вообще ничего)
     emp = getattr(user, "agency_employee", None)
     if not emp:
         return qs.none()
-    return qs.filter(assigned_department=emp.department)
+
+    if _in_group(user, GROUP_DEPUTY_ASSISTANT):
+        return qs.filter(deputy_assistant=emp)
+
+    if _in_group(user, GROUP_HEAD_OF_DEPARTMENT):
+        # начальник видит всё по своему департаменту
+        return qs.filter(assigned_department=emp.department)
+
+    if _in_group(user, GROUP_EXECUTOR):
+        # исполнитель видит только свои
+        return qs.filter(assigned_employee=emp)
+
+    # прочие роли (если зайдут) ничего не видят
+    return qs.none()
+
 
 
 @require_GET
@@ -214,6 +225,68 @@ def requests_list(request):
 
     qs = _filter_queryset_for_user(qs, request.user)
 
+    bucket = (request.GET.get("bucket") or "").strip()
+
+    if bucket == "new":
+        bucket = "inbox"
+
+    if not bucket:
+        return redirect(f"{request.path}?bucket=inbox")
+
+    if bucket == "all":
+        pass
+
+    if bucket == "inbox":
+        if _in_group(request.user, GROUP_CHANCELLERY) or _in_group(request.user, GROUP_DIRECTORS):
+            qs = qs.filter(status=Request.Status.NEW)
+
+        elif _in_group(request.user, GROUP_DEPUTY_ASSISTANT):
+            qs = qs.filter(status=Request.Status.SENT_FOR_RESOLUTION)
+
+        elif _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT):
+            qs = qs.filter(status=Request.Status.ASSIGNED)
+
+        elif _in_group(request.user, GROUP_EXECUTOR):
+            qs = qs.filter(status=Request.Status.ASSIGNED)
+
+        else:
+            qs = qs.none()
+
+    elif bucket == "active":
+        # "в работе" (для каждой роли своё)
+        if _in_group(request.user, GROUP_CHANCELLERY) or _in_group(request.user, GROUP_DIRECTORS):
+            qs = qs.filter(status__in=[
+                Request.Status.REGISTERED,
+                Request.Status.SENT_FOR_RESOLUTION,
+                Request.Status.ASSIGNED,
+                Request.Status.IN_PROGRESS,
+            ])
+
+        elif _in_group(request.user, GROUP_DEPUTY_ASSISTANT):
+            qs = qs.filter(status__in=[
+                Request.Status.ASSIGNED,
+                Request.Status.IN_PROGRESS,
+            ])
+
+        elif _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT):
+            qs = qs.filter(status=Request.Status.IN_PROGRESS)
+
+        elif _in_group(request.user, GROUP_EXECUTOR):
+            qs = qs.filter(status=Request.Status.IN_PROGRESS)
+
+        else:
+            qs = qs.none()
+
+    elif bucket == "done":
+        qs = qs.filter(status=Request.Status.DONE)
+
+    elif bucket == "all":
+        pass
+
+    else:
+        # неизвестный bucket → inbox
+        return redirect(f"{request.path}?bucket=inbox")
+
     f = PanelRequestFilterForm(request.GET or None)
     if f.is_valid():
         q = (f.cleaned_data.get("q") or "").strip()
@@ -269,6 +342,9 @@ def requests_list(request):
         "is_chancellery": _in_group(request.user, GROUP_CHANCELLERY),
         "is_deputy_assistant": _in_group(request.user, GROUP_DEPUTY_ASSISTANT),
         "is_executor": _in_group(request.user, GROUP_EXECUTOR),
+        "is_directors": _in_group(request.user, GROUP_DIRECTORS),
+        "is_head_of_department": _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT),
+        "bucket": bucket,
     }
     return render(request, "panel/requests/list.html", context)
 

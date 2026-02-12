@@ -20,14 +20,6 @@
                 class="w-full rounded-lg border border-gray-300 p-2 text-sm"
         >
 
-        <input
-                type="text"
-                name="status"
-                value="{{ filter_form.status.value|default:'' }}"
-                placeholder="{% trans 'Статус' %}"
-                class="w-full rounded-lg border border-gray-300 p-2 text-sm"
-        >
-
         <label class="flex items-center gap-2 text-sm text-gray-700">
             <input type="checkbox" name="overdue" {% if filter_form.overdue.value %}checked{% endif %}>
             {% trans "Просроченные" %}

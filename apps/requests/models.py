@@ -245,6 +245,12 @@ class RequestStep(models.Model):
     def __str__(self):
         return f"Шаг #{self.pk} по обращению #{self.request_id}"
 
+    @property
+    def author_display(self):
+        if hasattr(self.author, "agency_employee"):
+            return self.author.agency_employee.display_name
+        return self.author.get_username()
+
 
 class RequestHistory(models.Model):
     """

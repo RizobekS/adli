@@ -53,7 +53,7 @@
         <a href="{% url 'panel:dashboard' %}" class="nav-link w-full justify-start">{% trans "Дашборд" %}</a>
         <a href="{% url 'companies:companies_page' %}" class="nav-link w-full justify-start">{% trans "Компании" %}</a>
         <a href="{% url 'telephony:directory_page' %}" class="nav-link w-full justify-start">{% trans "Телефония" %}</a>
-        <a href="{% url 'panel:requests_list' %}" class="nav-link w-full justify-start">{% trans "Обращения" %}</a>
+        <a href="{% url 'panel:requests_list' %}?bucket=inbox" class="nav-link w-full justify-start">{% trans "Обращения" %}</a>
     </div>
     <div class="space-y-1 text-sm">
         <form method="post" action="{% url 'users:logout' %}">
