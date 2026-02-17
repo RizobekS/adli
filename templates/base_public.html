@@ -146,8 +146,8 @@
 {% include "partials/messages.html" %}
 
 <div class="flex-1">
-    <main class="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
-        <div class="rounded-3xl border border-white/60 bg-white/55 backdrop-blur-xl shadow-sm p-3 sm:p-6">
+    <main class="{% block public_container_class %}max-w-6xl{% endblock %} mx-auto px-3 sm:px-4 py-4 sm:py-6">
+        <div class="rounded-3xl border border-white/60 bg-white/5 backdrop-blur-xl shadow-sm p-3 sm:p-6">
             {% block content %}{% endblock %}
         </div>
     </main>
