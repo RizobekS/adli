@@ -34,7 +34,7 @@
             </div>
             {% if n.description %}
               <div class="mt-2 text-sm text-gray-600 line-clamp-3">
-                {{ n.description }}
+                {{ n.description|safe }}
               </div>
             {% endif %}
           </div>

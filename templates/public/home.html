@@ -39,7 +39,7 @@
                 </div>
                 {% if n.description %}
                   <div class="mt-2 text-sm text-gray-600 line-clamp-3">
-                    {{ n.description }}
+                    {{ n.description|safe }}
                   </div>
                 {% endif %}
                 {% if n.announcement %}
@@ -83,7 +83,7 @@
               </div>
             {% elif about.description %}
               <div class="mt-3 text-gray-700 leading-relaxed whitespace-pre-line">
-                {{ about.description }}
+                {{ about.description|safe }}
               </div>
             {% else %}
               <p class="mt-3 text-gray-500">{% trans "Описание пока не заполнено." %}</p>

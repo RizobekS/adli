@@ -44,6 +44,10 @@ INSTALLED_APPS = [
     'apps.agency',
     'apps.telephony',
     'apps.users',
+
+    #packages
+    "ckeditor",
+    "ckeditor_uploader",
 ]
 
 MIDDLEWARE = [
@@ -157,6 +161,30 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CKEditor
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+        'image2_disableResizer': True,
+
+        'removePlugins': 'stylesheetparser',
+        'allowedContent': True,
+
+        'extraPlugins': ','.join((
+            'uploadimage',
+            'autolink',
+            'autogrow',
+            'widget',
+            'lineutils',
+            'clipboard',
+        )),
+    },
+}
 
 JAZZMIN_SETTINGS = {
     "site_title": "ADLI Admin",

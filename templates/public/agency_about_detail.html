@@ -29,7 +29,7 @@
 
   {% if about.description %}
     <div class="text-gray-800 leading-relaxed whitespace-pre-line">
-      {{ about.description }}
+      {{ about.description|safe }}
     </div>
   {% elif about.short_description %}
     <div class="text-gray-800 leading-relaxed whitespace-pre-line">

@@ -11,6 +11,7 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path("i18n/", include("django.conf.urls.i18n")),
                   path("set_language/<str:lang>/", ActivateLanguageView.as_view(), name="set_language_from_url"),
+                  path('ckeditor/', include('ckeditor_uploader.urls')),
 
                   path("", include("apps.agency.urls")),
     

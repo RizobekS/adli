@@ -30,7 +30,7 @@
 
   {% if obj.description %}
     <div class="prose max-w-none text-gray-800 leading-relaxed whitespace-pre-line">
-      {{ obj.description }}
+      {{ obj.description|safe }}
     </div>
   {% else %}
     <p class="text-gray-500">{% trans "Текст новости не заполнен." %}</p>

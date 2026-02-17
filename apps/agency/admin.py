@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from modeltranslation.admin import TranslationAdmin
 
+from .forms import AgencyAboutAdminForm, NewsAdminForm
 from .models import Department, Employee, PositionAgency, AgencyAbout, News, LeadershipProfile
 
 
@@ -58,6 +59,8 @@ class AgencyAboutAdmin(TranslationAdmin, admin.ModelAdmin):
         (_("Служебное"), {"fields": ("created_at", "updated_at")}),
     )
 
+    form = AgencyAboutAdminForm
+
 
 @admin.register(LeadershipProfile)
 class LeadershipProfileAdmin(TranslationAdmin, admin.ModelAdmin):
@@ -81,7 +84,6 @@ class LeadershipProfileAdmin(TranslationAdmin, admin.ModelAdmin):
     )
 
 
-
 @admin.register(News)
 class NewsAdmin(TranslationAdmin, admin.ModelAdmin):
     list_display = ("title", "is_published", "announcement", "published_at", "views_count")
@@ -97,4 +99,6 @@ class NewsAdmin(TranslationAdmin, admin.ModelAdmin):
         (_("Статистика"), {"fields": ("views_count",)}),
         (_("Служебное"), {"fields": ("created_at", "updated_at")}),
     )
+
+    form = NewsAdminForm
 
