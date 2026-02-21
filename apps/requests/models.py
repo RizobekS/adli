@@ -7,7 +7,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.companies.models import Company, EmployeeCompany, Direction
-from apps.agency.models import Department, Employee as AgencyEmployee
+from apps.agency.models import Department, Employee as AgencyEmployee, ProblemDirection
 
 
 def request_attach_upload_to(instance, filename):
@@ -63,6 +63,15 @@ class Request(models.Model):
         Direction,
         verbose_name=_("Направления"),
         related_name="requests",
+        blank=True,
+    )
+
+    problem_direction = models.ForeignKey(
+        ProblemDirection,
+        verbose_name=_("Проблемное направление"),
+        on_delete=models.PROTECT,
+        related_name="requests",
+        null=True,
         blank=True,
     )
 

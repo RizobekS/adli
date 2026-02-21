@@ -1,5 +1,6 @@
 {% extends "base_panel.html" %}
 {% load i18n %}
+{% load static %}
 
 {% block content %}
 <div class="p-6 space-y-6">
@@ -22,83 +23,97 @@
             <span id="request-status-pill" class="rounded-full bg-gray-100 px-4 py-1 text-sm font-medium">
               {{ obj.get_status_display }}
             </span>
-            <!-- Actions: Chancellery -->
-            {% if is_chancellery %}
-            {% if can_write %}
-            <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown"
-                    class="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black">
+
+            {% if is_head_of_department and can_write and obj.status != obj.Status.DONE %}
+              <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown"
+                      class="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black">
                 {% trans "Действия" %}
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
-            </button>
+              </button>
 
-            <div id="actionsDropdown"
-                 class="z-10 hidden w-96 rounded-xl border border-gray-200 bg-white shadow">
-                <div class="p-2 space-y-2">
+              <div id="actionsDropdown" class="z-10 hidden w-96 rounded-xl border border-gray-200 bg-white shadow">
+                <div class="p-3 space-y-3">
 
-                    <form method="post"
-                          action="{% url 'panel:request_action_send_for_resolution' obj.pk %}"
-                          hx-post="{% url 'panel:request_action_send_for_resolution' obj.pk %}"
-                          hx-target="#detail-fragments"
-                          hx-swap="outerHTML"
-                          class="space-y-3 p-3">
-                        {% csrf_token %}
+                  <div class="text-xs font-semibold text-gray-700">
+                    {% trans "Назначить исполнителя" %}
+                  </div>
 
-                        <div class="text-xs font-semibold text-gray-700">
-                            {% trans "Кому отправить" %}
+                  <form method="post"
+                        action="{% url 'panel:request_action_assign_executor' obj.pk %}"
+                        hx-post="{% url 'panel:request_action_assign_executor' obj.pk %}"
+                        hx-target="#detail-fragments"
+                        hx-swap="outerHTML"
+                        data-assign-executor-form="1"
+                        class="space-y-3">
+                    {% csrf_token %}
+
+                    <div>
+                      <label class="mb-1 block text-sm font-medium text-gray-700">{{ assign_form.target_employee.label }}</label>
+                      <div class="hidden">
+                        {{ assign_form.target_employee }}
+                      </div>
+
+                      {# 2) поиск + список сотрудников #}
+                      <div class="rounded-xl border border-gray-200 bg-white overflow-hidden">
+                        <div class="p-2 border-b border-gray-100">
+                          <input id="assignEmpSearch"
+                                 type="text"
+                                 class="form-control"
+                                 placeholder="{% trans 'Поиск сотрудника…' %}">
                         </div>
 
-                        <!-- hidden input (его отправляем в POST) -->
-                        <input type="hidden" name="deputy_assistant" id="depAsstInput" value="">
+                        <ul id="assignEmpList" class="max-h-56 overflow-auto py-1 text-sm">
+                          {# рендерим queryset формы, он уже отфильтрован по департаменту в view #}
+                          {% for emp in assign_form.target_employee.field.queryset %}
+                            <li class="assign-emp-item"
+                                data-name="{{ emp.user.get_full_name|default:emp.user.username|lower }}">
+                              <button type="button"
+                                      class="w-full px-3 py-2 text-left hover:bg-gray-50 flex items-center justify-between gap-3"
+                                      data-assign-emp-id="{{ emp.id }}">
+                                <div class="min-w-0">
+                                  <div class="text-sm text-gray-800 truncate">
+                                    {{ emp.user.get_full_name|default:emp.user.username }}
+                                  </div>
+                                  <div class="text-xs text-gray-500 truncate">
+                                    {{ emp.department.name }}
+                                  </div>
+                                </div>
+                                <span class="assign-emp-check hidden text-emerald-600 text-sm font-semibold">✓</span>
+                              </button>
+                            </li>
+                          {% empty %}
+                            <li class="px-3 py-2 text-gray-500">{% trans "Нет сотрудников" %}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
 
-                        <!-- Search -->
-                        <div>
-                            <input id="depAsstSearch" type="text"
-                                   class="block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm"
-                                   placeholder="{% trans 'Поиск сотрудника…' %}">
-                        </div>
+                      {% if assign_form.target_employee.errors %}
+                        <p class="text-sm text-red-600">{{ assign_form.target_employee.errors }}</p>
+                      {% endif %}
+                    </div>
 
-                        <!-- List -->
-                        <div class="max-h-72 overflow-auto rounded-lg border border-gray-200 bg-white">
-                            <ul id="depAsstList" class="py-1 text-sm">
-                                {% for e in deputy_assistants %}
-                                <li class="dep-asst-item"
-                                    data-name="{{ e.display_name|lower }}">
-                                    <button type="button"
-                                            class="w-full px-3 py-2 text-left hover:bg-gray-50 flex items-start justify-between gap-3"
-                                            data-dep-asst-id="{{ e.id }}"
-                                            data-dep-asst-label="{{ e.display_name }}{% if e.department %} ({{ e.department.name }}){% endif %}">
-                                        <span class="min-w-0">
-                                            <span class="block font-medium text-gray-800 truncate">
-                                              {{ e.display_name }}
-                                            </span>
-                                            {% if e.department %}
-                                            <span class="block text-xs text-gray-500 truncate">
-                                                {{ e.department.name }}
-                                            </span>
-                                            {% endif %}
-                                        </span>
+                    <div>
+                      <label class="mb-1 block text-sm font-medium text-gray-700">{{ assign_form.due_date.label }}</label>
+                      {{ assign_form.due_date }}
+                      {% if assign_form.due_date.errors %}
+                        <p class="text-sm text-red-600">{{ assign_form.due_date.errors }}</p>
+                      {% endif %}
+                    </div>
 
-                                        <!-- маленькая “галка” для выбранного -->
-                                        <span class="dep-asst-check hidden text-blue-600 text-sm">✓</span>
-                                    </button>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                    <button type="submit" class="btn-primary w-full cursor-pointer">
+                      {% trans "Назначить" %}
+                    </button>
+                  </form>
 
-                        <button id="sendForResolutionBtn"
-                                class="btn-primary w-full rounded-lg px-3 py-2 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
-                                disabled>
-                            {% trans "Отправить на резолюцию" %}
-                        </button>
-                    </form>
-
+                  <p class="text-xs text-gray-500">
+                    {% trans "Исполнители показываются только из вашего департамента." %}
+                  </p>
                 </div>
-            </div>
+              </div>
             {% endif %}
-            {% endif %}
+
         </div>
     </div>
 
@@ -122,10 +137,8 @@
             </form>
             {% endif %}
 
-            {% if not is_chancellery and not is_executor and not is_deputy_assistant %}
-            <div class="px-3 py-2 text-sm text-gray-500">
-                {% trans "Нет доступных действий" %}
-            </div>
+            {% if not is_head_of_department and not is_executor and not is_directors %}
+              <div class="px-3 py-2 text-sm text-gray-500">{% trans "Нет доступных действий" %}</div>
             {% endif %}
         </div>
     </div>

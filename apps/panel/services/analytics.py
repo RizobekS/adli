@@ -255,6 +255,25 @@ def requests_by_direction(*, user=None, limit: int = 12) -> Dict[str, Any]:
     return _echarts_bar(items)
 
 
+def requests_by_problem_direction(*, user=None, limit: int = 12) -> Dict[str, Any]:
+    qs = _base_requests_qs(user=user)
+
+    name_field = _mt_field("name")  # modeltranslation
+    rows = (
+        qs.values(f"problem_direction__{name_field}")
+        .annotate(cnt=Count("id"))
+        .order_by("-cnt")
+    )
+
+    items = []
+    for r in rows[: int(limit)]:
+        name = r.get(f"problem_direction__{name_field}") or _("— Не указано")
+        items.append((name, r["cnt"]))
+
+    return _echarts_bar(items)
+
+
+
 def requests_by_region(*, user=None, limit: int = 10) -> Dict[str, Any]:
     """
     Horizontal bar: топ регионов по количеству обращений.
@@ -463,6 +482,7 @@ def build_dashboard_payload(*, user=None) -> Dict[str, Any]:
         # Requests charts
         "requests_by_status": requests_by_status(user=user),
         "requests_by_direction": requests_by_direction(user=user),
+        "requests_by_problem_direction": requests_by_problem_direction(user=user),
         "requests_by_region": requests_by_region(user=user),
         "requests_timeline_created": requests_timeline_created(user=user, days=30),
         "requests_timeline_done": requests_timeline_done(user=user, days=30),

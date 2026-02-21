@@ -254,6 +254,123 @@ def create_resolution(
 
 
 @transaction.atomic
+def create_public_request_routed(
+    *,
+    company,
+    employee,
+    description: str,
+    problem_direction,
+    directions=None,
+    attachments=None,
+) -> Request:
+    """
+    Новый поток:
+    - создаём Request
+    - сразу назначаем департамент (по problem_direction)
+    - сразу статус ASSIGNED (но assigned_employee пока пустой)
+    - public_id
+    - история: CREATED + REGISTERED + RESOLVED + ASSIGNED (авто)
+    """
+    dept = problem_direction.department if problem_direction else None
+
+    req = Request.objects.create(
+        company=company,
+        employee=employee,
+        description=description,
+        problem_direction=problem_direction,
+        assigned_department=dept,
+        status=Request.Status.ASSIGNED if dept else Request.Status.NEW,
+    )
+
+    ensure_public_id(request=req)
+
+    if directions is not None:
+        req.directions.set(directions)
+
+    _add_history(
+        request=req,
+        actor=None,
+        action=RequestHistory.Action.CREATED,
+        comment=_("Обращение создано через публичную форму"),
+        from_status="",
+        to_status=req.status,
+    )
+
+    # Авто “зарегистрировано”
+    _add_history(
+        request=req,
+        actor=None,
+        action=RequestHistory.Action.REGISTERED,
+        comment=_("Зарегистрировано"),
+        from_status=Request.Status.NEW,
+        to_status=req.status,
+    )
+
+    # Авто “резолюция поставлена” (как факт процесса)
+    _add_history(
+        request=req,
+        actor=None,
+        action=RequestHistory.Action.RESOLVED,
+        comment=_("Резолюция поставлена"),
+        from_status="",
+        to_status="",
+    )
+
+    # Авто “назначено” (департамент известен, исполнитель пока нет)
+    if dept:
+        _add_history(
+            request=req,
+            actor=None,
+            action=RequestHistory.Action.ASSIGNED,
+            comment=_("Назначено: департамент=%(dep)s") % {"dep": dept.name},
+            from_status="",
+            to_status="",
+        )
+
+    return req
+
+
+@transaction.atomic
+def assign_executor(*,request: Request, actor, target_employee: AgencyEmployee, due_date=None, comment: str = "",) -> ServiceResult:
+    """
+    Начальник департамента назначает исполнителя.
+    """
+    # базовые защиты
+    if request.status == Request.Status.DONE:
+        return ServiceResult(request=request)
+
+    # назначаем
+    request.assigned_employee = target_employee
+    # на всякий случай синхронизируем департамент
+    if target_employee.department_id and not request.assigned_department_id:
+        request.assigned_department = target_employee.department
+
+    update_fields = ["assigned_employee", "assigned_department", "updated_at"]
+    if due_date:
+        request.due_date = due_date
+        update_fields.append("due_date")
+
+    request.save(update_fields=update_fields)
+
+    _add_history(
+        request=request,
+        actor=actor,
+        action=RequestHistory.Action.ASSIGNED,
+        comment=comment or _("Назначен исполнитель: %(emp)s") % {"emp": str(target_employee)},
+    )
+
+
+    if due_date:
+        _add_history(
+            request = request,
+            actor = actor,
+            action = RequestHistory.Action.OTHER,
+            comment = _("Установлен срок исполнения: %(d)s") % {"d": str(due_date)},
+        )
+    return ServiceResult(request=request)
+
+
+@transaction.atomic
 def add_step(*, request: Request, author, text: str, comment: str = "") -> ServiceResult:
     if request.status == Request.Status.DONE:
         # тихо и без истерики: просто не даём добавлять

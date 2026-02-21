@@ -133,6 +133,31 @@ class Employee(models.Model):
         return self.display_label
 
 
+class ProblemDirection(models.Model):
+    name = models.CharField(_("Проблемное направление"), max_length=255, unique=True)
+    department = models.ForeignKey(
+        "agency.Department",
+        verbose_name=_("Департамент"),
+        on_delete=models.PROTECT,
+        related_name="problem_directions",
+    )
+    is_active = models.BooleanField(_("Активен"), default=True)
+    sort_order = models.PositiveIntegerField(_("Порядок"), default=100, db_index=True)
+    created_at = models.DateTimeField(_("Дата создания"), auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("Проблемное направление")
+        verbose_name_plural = _("Проблемные направления")
+        ordering = ("sort_order", "name")
+        indexes = [
+            models.Index(fields=["is_active"]),
+            models.Index(fields=["department"]),
+        ]
+
+    def __str__(self):
+        return self.name
+
+
 class AgencyAbout(models.Model):
     """
     Контент 'О агентстве' (обычно 1 запись).

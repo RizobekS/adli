@@ -18,9 +18,9 @@ from apps.requests.services import (
     send_for_resolution,
     create_resolution,
     add_step,
-    mark_done,
+    mark_done, assign_executor,
 )
-from .forms import ResolutionForm, StepForm, PanelRequestFilterForm
+from .forms import ResolutionForm, StepForm, PanelRequestFilterForm, AssignExecutorForm
 from .services.request_buckets import visible_requests_qs, apply_bucket
 from ..agency.models import Employee
 
@@ -37,7 +37,7 @@ from .services.analytics import (
     companies_by_category,
     companies_by_region,
     companies_by_direction,
-    data_quality_summary,
+    data_quality_summary, requests_by_problem_direction,
 )
 
 # --- Roles (auth.Group names) ---
@@ -59,12 +59,7 @@ def _in_group(user, name: str) -> bool:
 
 
 def _can_write(user) -> bool:
-    # кто может обрабатывать (любой из 3 групп)
-    return (
-        _in_group(user, GROUP_CHANCELLERY)
-        or _in_group(user, GROUP_DEPUTY_ASSISTANT)
-        or _in_group(user, GROUP_EXECUTOR)
-    )
+    return _in_group(user, GROUP_HEAD_OF_DEPARTMENT) or _in_group(user, GROUP_EXECUTOR)
 
 
 def _filter_queryset_for_user(qs, user):
@@ -140,6 +135,14 @@ def api_dashboard_requests_status(request):
 def api_dashboard_requests_directions(request):
     limit = int(request.GET.get("limit") or 12)
     return JsonResponse(requests_by_direction(user=request.user, limit=limit), safe=True)
+
+
+@require_GET
+@agency_required
+@cache_page(30)
+def api_dashboard_requests_problem_directions(request):
+    limit = int(request.GET.get("limit") or 12)
+    return JsonResponse(requests_by_problem_direction(user=request.user, limit=limit), safe=True)
 
 
 @require_GET
@@ -318,19 +321,22 @@ def request_detail(request, pk: int):
         .order_by("user__username")
     )
 
+    emp = getattr(request.user, "agency_employee", None)
+    assign_form = AssignExecutorForm(department=(emp.department if emp else None))
+
     resolution_form = ResolutionForm()
     context = {
         "obj": obj,
         "today": date.today(),
-        "resolution_form": ResolutionForm(),
         "step_form": StepForm(),
         "can_write": _can_write(request.user),
         "is_chancellery": _in_group(request.user, GROUP_CHANCELLERY),
         "is_deputy_assistant": _in_group(request.user, GROUP_DEPUTY_ASSISTANT),
+        "is_head_of_department": _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT),
         "is_executor": _in_group(request.user, GROUP_EXECUTOR),
         "departments": resolution_form.fields["target_department"].queryset,
         "employees": resolution_form.fields["target_employee"].queryset,
-        "deputy_assistants": deputy_assistants,
+        "assign_form": assign_form,
     }
     return render(request, "panel/requests/detail.html", context)
 
@@ -403,99 +409,6 @@ def _render_fragments(request, obj_id: int):
     return render(request, "panel/requests/_fragments.html", context)
 
 
-
-@require_POST
-@agency_required
-def request_action_register(request, pk: int):
-    obj = get_object_or_404(Request, pk=pk)
-    _must_be(obj, request.user, GROUP_CHANCELLERY)
-
-    if obj.status != Request.Status.NEW:
-        messages.warning(request, _("Можно зарегистрировать только новое обращение."))
-        if _is_htmx(request):
-            return _render_detail_oob(request, obj.pk)
-        return redirect("panel:request_detail", pk=obj.pk)
-
-    register_request(request=obj, actor=request.user, comment=_("Действие из панели"))
-    messages.success(request, _("Обращение зарегистрировано."))
-    if _is_htmx(request):
-        return _render_detail_oob(request, obj.pk)
-    return redirect("panel:request_detail", pk=obj.pk)
-
-
-@require_POST
-@agency_required
-def request_action_send_for_resolution(request, pk: int):
-    obj = get_object_or_404(Request, pk=pk)
-    _must_be(obj, request.user, GROUP_CHANCELLERY)
-
-    # 1) если уже отправлено на резолюцию (или дальше) — не даём повторять
-    if obj.status in {Request.Status.SENT_FOR_RESOLUTION, Request.Status.ASSIGNED, Request.Status.IN_PROGRESS, Request.Status.DONE}:
-        messages.warning(request, _("Обращение уже отправлено на резолюцию."))
-        if _is_htmx(request):
-            return _render_detail_oob(request, obj.pk)
-        return redirect("panel:request_detail", pk=obj.pk)
-
-    # 2) deputy обязателен
-    deputy_id = (request.POST.get("deputy_assistant") or "").strip()
-    if not deputy_id:
-        messages.error(request, _("Выберите помощника руководителя."))
-        if _is_htmx(request):
-            return _render_detail_oob(request, obj.pk)
-        return redirect("panel:request_detail", pk=obj.pk)
-
-    deputy_emp = get_object_or_404(
-        Employee.objects.select_related("user", "department"),
-        pk=int(deputy_id),
-        user__groups__name=GROUP_DEPUTY_ASSISTANT,
-    )
-
-    # 3) если NEW — регистрируем автоматически (раз ты это хочешь)
-    if obj.status == Request.Status.NEW:
-        register_request(request=obj, actor=request.user, comment=_("Действие из панели"))
-
-    # 4) отправляем
-    send_for_resolution(
-        request=obj,
-        actor=request.user,
-        deputy_assistant=deputy_emp,
-        comment=_("Действие из панели"),
-    )
-
-    messages.success(request, _("Отправлено на резолюцию."))
-    if _is_htmx(request):
-        return _render_detail_oob(request, obj.pk)
-    return redirect("panel:request_detail", pk=obj.pk)
-
-
-@require_POST
-@agency_required
-def request_action_create_resolution(request, pk: int):
-    obj = get_object_or_404(Request, pk=pk)
-    _must_be(obj, request.user, GROUP_DEPUTY_ASSISTANT)
-
-    form = ResolutionForm(request.POST)
-    if not form.is_valid():
-        messages.error(request, _("Проверьте форму резолюции: есть ошибки."))
-        if _is_htmx(request):
-            return _render_detail_oob(request, obj.pk)
-        return redirect("panel:request_detail", pk=obj.pk)
-
-    create_resolution(
-        request=obj,
-        author=request.user,
-        text=form.cleaned_data["text"],
-        target_department=form.cleaned_data.get("target_department"),
-        target_employee=form.cleaned_data.get("target_employee"),
-        due_date=form.cleaned_data.get("due_date"),
-        comment=_("Резолюция добавлена из панели"),
-    )
-    messages.success(request, _("Резолюция добавлена, назначение обновлено."))
-    if _is_htmx(request):
-        return _render_detail_oob(request, obj.pk)
-    return redirect("panel:request_detail", pk=obj.pk)
-
-
 @require_POST
 @agency_required
 def request_action_add_step(request, pk: int):
@@ -546,3 +459,39 @@ def request_action_mark_done(request, pk: int):
     if _is_htmx(request):
         return _render_detail_oob(request, obj.pk)
     return redirect("panel:request_detail", pk=obj.pk)
+
+
+@require_POST
+@agency_required
+def request_action_assign_executor(request, pk: int):
+    obj = get_object_or_404(Request, pk=pk)
+    _must_be(obj, request.user, GROUP_HEAD_OF_DEPARTMENT)
+
+    emp = getattr(request.user, "agency_employee", None)
+    if not emp or not emp.department_id:
+        raise Http404()
+
+    # объект должен быть из его департамента
+    if obj.assigned_department_id != emp.department_id:
+        raise Http404()
+
+    form = AssignExecutorForm(request.POST, department=emp.department)
+    if not form.is_valid():
+        messages.error(request, _("Проверьте форму назначения исполнителя."))
+        if _is_htmx(request):
+            return _render_detail_oob(request, obj.pk)
+        return redirect("panel:request_detail", pk=obj.pk)
+
+    assign_executor(
+        request=obj,
+        actor=request.user,
+        target_employee=form.cleaned_data["target_employee"],
+        due_date=form.cleaned_data["due_date"],
+        comment=_("Назначено начальником департамента"),
+    )
+
+    messages.success(request, _("Исполнитель назначен."))
+    if _is_htmx(request):
+        return _render_detail_oob(request, obj.pk)
+    return redirect("panel:request_detail", pk=obj.pk)
+

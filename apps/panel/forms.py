@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.agency.models import Department, Employee as AgencyEmployee
 
-
 BASE_INPUT = "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm focus:border-blue-500 focus:ring-blue-500"
 BASE_TEXTAREA = BASE_INPUT + " min-h-[120px]"
 
@@ -34,7 +33,7 @@ class ResolutionForm(forms.Form):
         self.fields["text"].widget.attrs.update({"class": BASE_TEXTAREA})
         self.fields["target_department"].widget.attrs.update({"class": BASE_INPUT + " appearance-none cursor-pointer"})
         self.fields["target_employee"].widget.attrs.update({"class": BASE_INPUT + " appearance-none cursor-pointer"})
-        self.fields["due_date"].widget.attrs.update({"class": BASE_INPUT + " cursor-pointer",})
+        self.fields["due_date"].widget.attrs.update({"class": BASE_INPUT + " cursor-pointer", })
 
 
 class StepForm(forms.Form):
@@ -49,3 +48,29 @@ class PanelRequestFilterForm(forms.Form):
     q = forms.CharField(label=_("Поиск"), required=False)
     status = forms.CharField(label=_("Статус"), required=False)
     overdue = forms.BooleanField(label=_("Просрочено"), required=False)
+
+
+class AssignExecutorForm(forms.Form):
+    target_employee = forms.ModelChoiceField(
+        label=_("Исполнитель"),
+        queryset=AgencyEmployee.objects.filter(is_active=True).select_related("user", "department"),
+        required=True,
+        empty_label=_("Выберите исполнителя"),
+    )
+    due_date = forms.DateField(
+        label=_("Срок исполнения"),
+        required=True,
+        widget=forms.DateInput(attrs={"type": "date"}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        department = kwargs.pop("department", None)
+        super().__init__(*args, **kwargs)
+
+        if department is not None:
+            self.fields["target_employee"].queryset = (
+                self.fields["target_employee"].queryset.filter(department=department)
+            )
+
+        self.fields["target_employee"].widget.attrs.update({"class": BASE_INPUT + " appearance-none cursor-pointer"})
+        self.fields["due_date"].widget.attrs.update({"class": BASE_INPUT + " cursor-pointer"})

@@ -74,6 +74,7 @@ class RequestAdmin(admin.ModelAdmin):
         "id",
         "company",
         "employee",
+        "problem_direction",
         "public_id",
         "status",
         "assigned_department",
@@ -82,7 +83,7 @@ class RequestAdmin(admin.ModelAdmin):
         "created_at",
     )
     list_select_related = ("company", "employee", "assigned_department", "assigned_employee")
-    list_filter = ("status", "directions", "assigned_department", "assigned_employee", "due_date", "created_at", "directions")
+    list_filter = ("status", "directions", "assigned_department", "assigned_employee", "due_date", "created_at", "directions", "problem_direction")
     search_fields = (
         "description",
         "public_id",
@@ -95,6 +96,7 @@ class RequestAdmin(admin.ModelAdmin):
         "assigned_employee__user__last_name",
         "assigned_department__name",
         "directions__title",
+        "problem_direction_name",
     )
     ordering = ("-created_at",)
     date_hierarchy = "created_at"
@@ -105,7 +107,7 @@ class RequestAdmin(admin.ModelAdmin):
     inlines = (RequestFileInline, RequestResolutionInline, RequestStepInline, RequestHistoryInline)
 
     fieldsets = (
-        (_("Основное"), {"fields": ("company", "employee", "status", "directions", "description")}),
+        (_("Основное"), {"fields": ("company", "employee", "status", "directions", "problem_direction", "description")}),
         (_("Назначение и контроль"), {"fields": ("assigned_department", "assigned_employee", "due_date", "resolved_at")}),
         (_("Служебное"), {"fields": ("created_at", "updated_at")}),
     )

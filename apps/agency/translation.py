@@ -1,9 +1,15 @@
 from modeltranslation.translator import register, TranslationOptions
-from .models import Department, PositionAgency, AgencyAbout, News, LeadershipProfile
+from .models import Department, PositionAgency, AgencyAbout, News, LeadershipProfile, ProblemDirection
 
 
 @register(Department)
 class DepartmentTR(TranslationOptions):
+    fields = ("name",)
+    fallback_values = '-- no translation --'
+
+
+@register(ProblemDirection)
+class ProblemDirectionTR(TranslationOptions):
     fields = ("name",)
     fallback_values = '-- no translation --'
 

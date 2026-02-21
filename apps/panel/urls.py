@@ -4,9 +4,6 @@ from .views import (
     dashboard,
     requests_list,
     request_detail,
-    request_action_register,
-    request_action_send_for_resolution,
-    request_action_create_resolution,
     request_action_add_step,
     request_action_mark_done,
 
@@ -24,6 +21,8 @@ from .views import (
     api_dashboard_companies_region,
     api_dashboard_companies_direction,
     api_dashboard_data_quality,
+    request_action_assign_executor,
+    api_dashboard_requests_problem_directions,
 )
 
 app_name = "panel"
@@ -36,6 +35,8 @@ urlpatterns = [
     path("api/dashboard/requests/status/", api_dashboard_requests_status, name="api_dashboard_requests_status"),
     path("api/dashboard/requests/directions/", api_dashboard_requests_directions,
          name="api_dashboard_requests_directions"),
+    path("api/dashboard/requests/problem-directions//", api_dashboard_requests_problem_directions,
+         name="api_dashboard_requests_problem_directions"),
     path("api/dashboard/requests/regions/", api_dashboard_requests_regions, name="api_dashboard_requests_regions"),
     path("api/dashboard/requests/timeline-created/", api_dashboard_requests_timeline_created,
          name="api_dashboard_requests_timeline_created"),
@@ -63,9 +64,7 @@ urlpatterns = [
     path("requests/<int:pk>/", request_detail, name="request_detail"),
 
     # Actions
-    path("requests/<int:pk>/actions/register/", request_action_register, name="request_action_register"),
-    path("requests/<int:pk>/actions/send-for-resolution/", request_action_send_for_resolution, name="request_action_send_for_resolution"),
-    path("requests/<int:pk>/actions/resolution/", request_action_create_resolution, name="request_action_create_resolution"),
+    path("requests/<int:pk>/actions/assign-executor/", request_action_assign_executor, name="request_action_assign_executor"),
     path("requests/<int:pk>/actions/step/", request_action_add_step, name="request_action_add_step"),
     path("requests/<int:pk>/actions/done/", request_action_mark_done, name="request_action_mark_done"),
 ]

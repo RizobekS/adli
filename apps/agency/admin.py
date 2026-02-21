@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from modeltranslation.admin import TranslationAdmin
 
 from .forms import AgencyAboutAdminForm, NewsAdminForm
-from .models import Department, Employee, PositionAgency, AgencyAbout, News, LeadershipProfile
+from .models import Department, Employee, PositionAgency, AgencyAbout, News, LeadershipProfile, ProblemDirection
 
 
 @admin.register(Department)
@@ -42,6 +42,16 @@ class EmployeeAdmin(admin.ModelAdmin):
         (_("Пользователь"), {"fields": ("user", "first_name", "last_name", "middle_name", "pinpp", "is_active", "department", "position", "phone", "email", "mobile_phone", "photo" )}),
         (_("Служебное"), {"fields": ("created_at",)}),
     )
+    readonly_fields = ("created_at",)
+
+
+@admin.register(ProblemDirection)
+class ProblemDirectionAdmin(TranslationAdmin, admin.ModelAdmin):
+    list_display = ("name", "department", "is_active", "sort_order", "created_at")
+    list_filter = ("is_active", "department", "created_at")
+    search_fields = ("name", "department__name")
+    ordering = ("sort_order", "name")
+    autocomplete_fields = ("department",)
     readonly_fields = ("created_at",)
 
 

@@ -22,6 +22,15 @@
         </div>
       {% endif %}
 
+      {% if obj.problem_direction %}
+      <h3 class="text-gray-500 mb-1">{% trans "Проблемное направление" %}</h3>
+      <div class="flex flex-wrap gap-2">
+        <span class="rounded-full bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-800">
+          {{ obj.problem_direction }}
+        </span>
+      </div>
+    {% endif %}
+
       <h3 class="text-gray-500 mb-1">{% trans "Описание" %}</h3>
       <p class="text-sm text-gray-700 whitespace-pre-line">{{ obj.description }}</p>
       {% if obj.files.exists %}
@@ -78,7 +87,7 @@
       {% endif %}
 
     </div>
-    {% if obj.assigned_department and obj.assigned_employee and obj.due_date %}
+    {% if obj.assigned_department or obj.assigned_employee or obj.due_date %}
     <div class="bg-white rounded-lg shadow p-4 space-y-2">
       <div class="flex items-center justify-between">
         <h3 class="font-semibold text-gray-700">{% trans "Назначение" %}</h3>
@@ -104,129 +113,6 @@
 
 
   </div>
-
-  <!-- Resolution -->
-  {% if is_deputy_assistant %}
-    <div class="bg-white rounded-lg shadow p-4 space-y-4">
-      <h3 class="font-semibold text-gray-700">{% trans "Резолюция" %}</h3>
-
-      <form method="post"
-            action="{% url 'panel:request_action_create_resolution' obj.pk %}"
-            hx-post="{% url 'panel:request_action_create_resolution' obj.pk %}"
-            hx-target="#detail-fragments"
-            hx-swap="outerHTML"
-            class="space-y-4">
-        {% csrf_token %}
-
-        <div class="grid grid-cols-1 gap-4">
-          <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">{{ resolution_form.text.label }}</label>
-            {{ resolution_form.text }}
-          </div>
-
-          <!-- Реальные select'ы (скрыты), но ИМЕННО ОНИ уходят в POST -->
-          <div class="hidden">
-            {{ resolution_form.target_department }}
-            {{ resolution_form.target_employee }}
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-            <!-- Department dropdown -->
-            <div class="relative">
-              <label class="mb-1 block text-sm font-medium text-gray-700">{{ resolution_form.target_department.label }}</label>
-
-              <button id="depBtn" data-dropdown-toggle="depMenu" type="button"
-                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm
-                             flex items-center justify-between cursor-pointer">
-                <span id="depLabel">{% trans "Не выбран" %}</span>
-                <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </button>
-
-              <div id="depMenu" class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
-                <ul class="max-h-64 overflow-auto py-1 text-sm">
-                  <li>
-                    <button type="button"
-                            class="w-full px-3 py-2 text-left hover:bg-gray-50 cursor-pointer"
-                            data-set="dep" data-id="" data-label="{% trans 'Не выбран' %}">
-                      {% trans "Не выбран" %}
-                    </button>
-                  </li>
-                  {% for d in departments %}
-                    <li>
-                      <button type="button"
-                              class="w-full px-3 py-2 text-left hover:bg-gray-50 cursor-pointer"
-                              data-set="dep" data-id="{{ d.id }}" data-label="{{ d.name }}">
-                        {{ d.name }}
-                      </button>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-
-            <!-- Employee dropdown -->
-            <div class="relative">
-              <label class="mb-1 block text-sm font-medium text-gray-700">{{ resolution_form.target_employee.label }}</label>
-
-              <button id="empBtn" data-dropdown-toggle="empMenu" type="button"
-                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm
-                             flex items-center justify-between cursor-pointer">
-                <span id="empLabel">{% trans "Не выбран" %}</span>
-                <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </button>
-
-              <div id="empMenu" class="z-20 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg">
-                <div class="p-2 border-b">
-                  <input id="empSearch" type="text"
-                         class="block w-full rounded-lg border border-gray-300 bg-white p-2 text-sm"
-                         placeholder="{% trans 'Поиск сотрудника…' %}">
-                </div>
-
-                <ul id="empList" class="max-h-64 overflow-auto py-1 text-sm">
-                  <li>
-                    <button type="button"
-                            class="w-full px-3 py-2 text-left hover:bg-gray-50 cursor-pointer"
-                            data-set="emp" data-id="" data-label="{% trans 'Не выбран' %}" data-dep="">
-                      {% trans "Не выбран" %}
-                    </button>
-                  </li>
-
-                  {% for e in employees %}
-                  <li class="emp-item" data-name="{{ e.display_name|lower }}" data-dep="{{ e.department_id }}">
-                    <button type="button"
-                            class="w-full px-3 py-2 text-left hover:bg-gray-50 cursor-pointer"
-                            data-set="emp" data-id="{{ e.id }}" data-label="{{ e.display_name }}"
-                            data-dep="{{ e.department_id }}">
-                      {{ e.display_name }}
-                    </button>
-                  </li>
-                  {% endfor %}
-
-                </ul>
-              </div>
-            </div>
-
-            <div>
-              <label class="mb-1 block text-sm font-medium text-gray-700">{{ resolution_form.due_date.label }}</label>
-              {{ resolution_form.due_date }}
-            </div>
-
-          </div>
-        </div>
-
-        {% if obj.assigned_department and obj.assigned_employee and obj.due_date %}
-        <button type="submit" class="btn-primary disabled:opacity-60 disabled:cursor-not-allowed" disabled>{% trans "Сохранить резолюцию" %}</button>
-        {% else %}
-        <button type="submit" class="btn-primary cursor-pointer">{% trans "Сохранить резолюцию" %}</button>
-        {% endif %}
-      </form>
-    </div>
-  {% endif %}
 
   <!-- Steps -->
   {% if obj.steps.exists %}

@@ -10,7 +10,7 @@ from django.views.decorators.http import require_GET
 from apps.companies.models import Company, EmployeeCompany, Position, Direction, Region, District, Category
 from .models import Request, RequestFile, RequestHistory
 from .forms import PublicRequestForm, TrackRequestsForm
-from .services import create_public_request
+from .services import create_public_request, create_public_request_routed
 from ..users.decorators import public_company_only
 
 
@@ -123,11 +123,12 @@ def public_request_create(request):
 
 
             # 4) request
-            req = create_public_request(
+            req = create_public_request_routed(
                 company=company,
                 employee=employee,
                 description=form.cleaned_data["description"],
                 directions=form.cleaned_data["directions"],
+                problem_direction=form.cleaned_data["problem_direction"],
             )
 
             request.session["adli_public_id"] = req.public_id

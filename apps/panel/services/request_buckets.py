@@ -54,37 +54,33 @@ def apply_bucket(qs, user, bucket: str):
         return qs.filter(status=Request.Status.DONE)
 
     if bucket == "inbox":
-        if _in_group(user, GROUP_CHANCELLERY) or _in_group(user, GROUP_DIRECTORS):
-            return qs.filter(status=Request.Status.NEW)
-
-        if _in_group(user, GROUP_DEPUTY_ASSISTANT):
-            return qs.filter(status=Request.Status.SENT_FOR_RESOLUTION)
+        if _in_group(user, GROUP_DIRECTORS):
+            # directors видят всё, но "inbox" пусть будет новые назначенные без исполнителя (логично)
+            return qs.filter(status=Request.Status.ASSIGNED, assigned_employee__isnull=True)
 
         if _in_group(user, GROUP_HEAD_OF_DEPARTMENT):
-            return qs.filter(status=Request.Status.ASSIGNED)
+            return qs.filter(status=Request.Status.ASSIGNED, assigned_employee__isnull=True)
 
         if _in_group(user, GROUP_EXECUTOR):
-            return qs.filter(status=Request.Status.ASSIGNED)
+            emp = getattr(user, "agency_employee", None)
+            if not emp:
+                return qs.none()
+            return qs.filter(status=Request.Status.ASSIGNED, assigned_employee=emp)
 
         return qs.none()
 
     if bucket == "active":
-        if _in_group(user, GROUP_CHANCELLERY) or _in_group(user, GROUP_DIRECTORS):
-            return qs.filter(status__in=[
-                Request.Status.REGISTERED,
-                Request.Status.SENT_FOR_RESOLUTION,
-                Request.Status.ASSIGNED,
-                Request.Status.IN_PROGRESS,
-            ])
-
-        if _in_group(user, GROUP_DEPUTY_ASSISTANT):
+        if _in_group(user, GROUP_DIRECTORS):
             return qs.filter(status__in=[
                 Request.Status.ASSIGNED,
                 Request.Status.IN_PROGRESS,
             ])
 
         if _in_group(user, GROUP_HEAD_OF_DEPARTMENT):
-            return qs.filter(status=Request.Status.IN_PROGRESS)
+            return qs.filter(status__in=[
+                Request.Status.ASSIGNED,
+                Request.Status.IN_PROGRESS
+            ])
 
         if _in_group(user, GROUP_EXECUTOR):
             return qs.filter(status=Request.Status.IN_PROGRESS)

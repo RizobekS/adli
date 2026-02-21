@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from apps.agency.models import ProblemDirection
 from apps.companies.models import Category, Direction, Region, District
 
 BASE_INPUT = "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm focus:border-blue-500 focus:ring-blue-500"
@@ -29,6 +30,12 @@ class MultipleFileField(forms.FileField):
         return [super().clean(data, initial)]
 
 class PublicRequestForm(forms.Form):
+    problem_direction = forms.ModelChoiceField(
+        label=_("Проблемное направление"),
+        queryset=ProblemDirection.objects.filter(is_active=True).select_related("department").order_by("sort_order", "name"),
+        empty_label=_("Выберите направление"),
+        required=True,
+    )
     # company
     category = forms.ModelChoiceField(
         label=_("Категория"),
@@ -77,6 +84,7 @@ class PublicRequestForm(forms.Form):
 
         self.fields["directions"].queryset = directions_qs
         self.fields["district"].queryset = district_qs
+        self.fields["problem_direction"].widget.attrs.update({"class": BASE_INPUT})
 
         # классы
         for name in [

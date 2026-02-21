@@ -218,6 +218,71 @@
                       <!-- selected chips -->
                       <div id="reqDirectionsChips" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
+                    <!-- ProblemDirection dropdown (новый, в едином стиле) -->
+                    <div class="relative">
+                        <label class="block mb-2 text-sm font-medium">
+                            {{ form.problem_direction.label }}
+                        </label>
+
+                        <!-- скрытый select для сабмита формы -->
+                        <div class="hidden">
+                            {{ form.problem_direction }}
+                        </div>
+
+                        <button id="reqProblemBtn"
+                                data-dropdown-toggle="reqProblemMenu"
+                                type="button"
+                                class="form-control flex items-center justify-between px-4">
+                            <span id="reqProblemLabel">
+                                {% if form.problem_direction.value %}
+                                    {# если уже выбрано (например, при ошибке формы) #}
+                                    {% for opt in form.problem_direction.field.queryset %}
+                                        {% if opt.pk|stringformat:"s" == form.problem_direction.value|stringformat:"s" %}
+                                            {{ opt.name }}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% trans "Выберите направление" %}
+                                {% endif %}
+                            </span>
+                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div id="reqProblemMenu"
+                             class="absolute left-0 right-0 top-full mt-2 z-30 hidden w-full rounded-xl border border-gray-200 bg-white shadow-lg max-h-[70vh] overflow-auto">
+                            <div class="p-2 border-b">
+                                <input id="reqProblemSearch" type="text" class="form-control"
+                                       placeholder="{% trans 'Поиск…' %}">
+                            </div>
+                            <ul id="reqProblemList" class="max-h-72 overflow-auto py-1 text-sm">
+                                <li>
+                                    <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                            data-set="req-problem" data-id=""
+                                            data-label="{% trans 'Выберите направление' %}">
+                                        {% trans "Не выбрано" %}
+                                    </button>
+                                </li>
+                                {% for pd in form.problem_direction.field.queryset %}
+                                    <li class="req-problem-item"
+                                        data-name="{{ pd.name|lower }}">
+                                        <button type="button" class="w-full px-3 py-2 text-left hover:bg-gray-50"
+                                                data-set="req-problem"
+                                                data-id="{{ pd.id }}"
+                                                data-label="{{ pd.name }}">
+                                            <div class="text-sm text-gray-800">{{ pd.name }}</div>
+                                        </button>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        {% if form.problem_direction.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.problem_direction.errors }}</p>
+                        {% endif %}
+                    </div>
                 </div>
 
                 <div class="mt-4">

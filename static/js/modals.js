@@ -67,7 +67,6 @@
                         opacity-0 translate-y-3 scale-[0.98] transition duration-200 ease-out">
               <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200">
                 <div>
-                  <div class="text-sm text-gray-500">${escapeHtml("Биография")}</div>
                   <div id="bioTitle" class="text-lg font-semibold">-</div>
                 </div>
                 <button type="button" class="text-gray-600 hover:text-gray-900" id="bioCloseX">✕</button>
