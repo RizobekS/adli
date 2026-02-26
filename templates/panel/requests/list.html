@@ -88,8 +88,8 @@
                 </td>
                 <td class="px-2 py-2">
                     {% if obj.assigned_employee %}
-                    {{ obj.assigned_employee }}
-                    {% elif obj.assigned_department %}
+                    {{ obj.assigned_employee.display_name }}
+                    {% elif obj.assigned_department and is_directors %}
                     {{ obj.assigned_department }}
                     {% else %}
                     —

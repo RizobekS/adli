@@ -6,6 +6,9 @@ from .views import (
     request_detail,
     request_action_add_step,
     request_action_mark_done,
+    request_action_assign_executor,
+    request_action_set_waiting,
+    request_action_set_in_progress,
 
     # API dashboard
     api_dashboard_all,
@@ -21,7 +24,6 @@ from .views import (
     api_dashboard_companies_region,
     api_dashboard_companies_direction,
     api_dashboard_data_quality,
-    request_action_assign_executor,
     api_dashboard_requests_problem_directions,
 )
 
@@ -65,6 +67,8 @@ urlpatterns = [
 
     # Actions
     path("requests/<int:pk>/actions/assign-executor/", request_action_assign_executor, name="request_action_assign_executor"),
+    path("requests/<int:pk>/actions/set-waiting/", request_action_set_waiting, name="request_action_set_waiting"),
+    path("requests/<int:pk>/actions/set-in-progress/", request_action_set_in_progress, name="request_action_set_in_progress"),
     path("requests/<int:pk>/actions/step/", request_action_add_step, name="request_action_add_step"),
     path("requests/<int:pk>/actions/done/", request_action_mark_done, name="request_action_mark_done"),
 ]

@@ -174,7 +174,7 @@ class CompanyDirectionStat(models.Model):
     )
     direction = models.ForeignKey(
         "companies.Direction",
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         related_name="company_stats",
         verbose_name=_("Направление"),
     )

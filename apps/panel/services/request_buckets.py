@@ -74,16 +74,18 @@ def apply_bucket(qs, user, bucket: str):
             return qs.filter(status__in=[
                 Request.Status.ASSIGNED,
                 Request.Status.IN_PROGRESS,
+                Request.Status.WAITING,
             ])
 
         if _in_group(user, GROUP_HEAD_OF_DEPARTMENT):
             return qs.filter(status__in=[
                 Request.Status.ASSIGNED,
-                Request.Status.IN_PROGRESS
+                Request.Status.IN_PROGRESS,
+                Request.Status.WAITING,
             ])
 
         if _in_group(user, GROUP_EXECUTOR):
-            return qs.filter(status=Request.Status.IN_PROGRESS)
+            return qs.filter(status__in=[Request.Status.IN_PROGRESS, Request.Status.WAITING])
 
         return qs.none()
 

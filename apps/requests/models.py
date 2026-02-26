@@ -33,6 +33,7 @@ class Request(models.Model):
         SENT_FOR_RESOLUTION = "sent_for_resolution", _("На резолюции")
         ASSIGNED = "assigned", _("Назначено исполнителю")
         IN_PROGRESS = "in_progress", _("В работе")
+        WAITING = "waiting", _("Ожидает ответа")
         DONE = "done", _("Обработано")
         CANCELLED = "cancelled", _("Отменено")
 

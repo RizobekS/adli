@@ -1,10 +1,12 @@
 # apps/agency/admin.py
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
+from import_export.admin import ImportExportModelAdmin
 from modeltranslation.admin import TranslationAdmin
 
 from .forms import AgencyAboutAdminForm, NewsAdminForm
 from .models import Department, Employee, PositionAgency, AgencyAbout, News, LeadershipProfile, ProblemDirection
+from .resources import ProblemDirectionResource
 
 
 @admin.register(Department)
@@ -46,13 +48,16 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProblemDirection)
-class ProblemDirectionAdmin(TranslationAdmin, admin.ModelAdmin):
+class ProblemDirectionAdmin(TranslationAdmin, ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = ProblemDirectionResource
+
     list_display = ("name", "department", "is_active", "sort_order", "created_at")
     list_filter = ("is_active", "department", "created_at")
     search_fields = ("name", "department__name")
     ordering = ("sort_order", "name")
     autocomplete_fields = ("department",)
     readonly_fields = ("created_at",)
+    list_editable = ("sort_order",)
 
 
 @admin.register(AgencyAbout)

@@ -19,6 +19,7 @@ from apps.requests.services import (
     create_resolution,
     add_step,
     mark_done, assign_executor,
+    set_waiting, set_in_progress,
 )
 from .forms import ResolutionForm, StepForm, PanelRequestFilterForm, AssignExecutorForm
 from .services.request_buckets import visible_requests_qs, apply_bucket
@@ -495,3 +496,59 @@ def request_action_assign_executor(request, pk: int):
         return _render_detail_oob(request, obj.pk)
     return redirect("panel:request_detail", pk=obj.pk)
 
+
+@require_POST
+@agency_required
+def request_action_set_waiting(request, pk: int):
+    obj = get_object_or_404(Request, pk=pk)
+
+    # доступ: executor (свои) или head_of_department (свой департамент)
+    emp = getattr(request.user, "agency_employee", None)
+    if not emp:
+        raise Http404()
+
+    is_executor = _in_group(request.user, GROUP_EXECUTOR)
+    is_head = _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT)
+
+    if is_executor:
+        if obj.assigned_employee_id != emp.id:
+            raise Http404()
+    elif is_head:
+        if obj.assigned_department_id != emp.department_id:
+            raise Http404()
+    else:
+        raise Http404()
+
+    set_waiting(request=obj, actor=request.user, comment=_("Ожидаем ответ/информацию"))
+    messages.success(request, _("Статус: ожидает ответа."))
+    if _is_htmx(request):
+        return _render_detail_oob(request, obj.pk)
+    return redirect("panel:request_detail", pk=obj.pk)
+
+
+@require_POST
+@agency_required
+def request_action_set_in_progress(request, pk: int):
+    obj = get_object_or_404(Request, pk=pk)
+
+    emp = getattr(request.user, "agency_employee", None)
+    if not emp:
+        raise Http404()
+
+    is_executor = _in_group(request.user, GROUP_EXECUTOR)
+    is_head = _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT)
+
+    if is_executor:
+        if obj.assigned_employee_id != emp.id:
+            raise Http404()
+    elif is_head:
+        if obj.assigned_department_id != emp.department_id:
+            raise Http404()
+    else:
+        raise Http404()
+
+    set_in_progress(request=obj, actor=request.user, comment=_("Работа продолжена"))
+    messages.success(request, _("Статус: в работе."))
+    if _is_htmx(request):
+        return _render_detail_oob(request, obj.pk)
+    return redirect("panel:request_detail", pk=obj.pk)

@@ -58,6 +58,41 @@ def _set_status(*, request: Request, actor, new_status: str, comment: str = "") 
         to_status=new_status,
     )
 
+
+@transaction.atomic
+def set_waiting(*, request: Request, actor, comment: str = "") -> ServiceResult:
+    """
+    Исполнитель/начальник перевёл обращение в режим "ожидаем ответа".
+    """
+    if request.status == Request.Status.DONE:
+        return ServiceResult(request=request)
+
+    _set_status(
+        request=request,
+        actor=actor,
+        new_status=Request.Status.WAITING,
+        comment=comment or _("Ожидаем ответ/информацию"),
+    )
+    return ServiceResult(request=request)
+
+
+@transaction.atomic
+def set_in_progress(*, request: Request, actor, comment: str = "") -> ServiceResult:
+    """
+    Возвращаем обращение из WAITING обратно в IN_PROGRESS.
+    """
+    if request.status == Request.Status.DONE:
+        return ServiceResult(request=request)
+
+    _set_status(
+        request=request,
+        actor=actor,
+        new_status=Request.Status.IN_PROGRESS,
+        comment=comment or _("Работа возобновлена"),
+    )
+    return ServiceResult(request=request)
+
+
 def _format_public_id(year: int, seq: int) -> str:
     return f"{year}-{seq:06d}"
 
@@ -235,9 +270,9 @@ def create_resolution(
                 request=request,
                 actor=author,
                 action=RequestHistory.Action.ASSIGNED,
-                comment=_("Назначено: департамент=%(dep)s, сотрудник=%(emp)s") % {
+                comment=_("Назначено: %(dep)s, %(emp)s") % {
                     "dep": target_department.name if target_department else "-",
-                    "emp": str(target_employee) if target_employee else "-",
+                    "emp": str(target_employee.display_name) if target_employee else "-",
                 },
                 from_status="",
                 to_status="",
@@ -322,7 +357,7 @@ def create_public_request_routed(
             request=req,
             actor=None,
             action=RequestHistory.Action.ASSIGNED,
-            comment=_("Назначено: департамент=%(dep)s") % {"dep": dept.name},
+            comment=_("Назначено: %(dep)s") % {"dep": dept.name},
             from_status="",
             to_status="",
         )
@@ -385,7 +420,7 @@ def add_step(*, request: Request, author, text: str, comment: str = "") -> Servi
     )
 
     # Если шаг добавили, логично перевести в IN_PROGRESS (если ещё не)
-    if request.status in {Request.Status.ASSIGNED, Request.Status.SENT_FOR_RESOLUTION, Request.Status.REGISTERED}:
+    if request.status in {Request.Status.ASSIGNED, Request.Status.WAITING}:
         _set_status(request=request, actor=author, new_status=Request.Status.IN_PROGRESS, comment=_("Начата работа"))
 
     return ServiceResult(request=request)

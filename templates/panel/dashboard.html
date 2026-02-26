@@ -26,7 +26,7 @@
   </div>
 
   <!-- KPI cards -->
-  <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
     <!-- Requests -->
     <div class="dash-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
       <div class="text-sm text-gray-500">{% trans "Всего обращений" %}</div>
@@ -34,6 +34,31 @@
       <div class="mt-2 text-xs text-gray-500">
         {% trans "Новые" %}: <span class="font-medium" id="kpiRequestsNew">{{ kpi.requests.new }}</span> ·
         {% trans "В работе" %}: <span class="font-medium" id="kpiRequestsInProgress">{{ kpi.requests.in_progress }}</span>
+      </div>
+    </div>
+
+    <div class="dash-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="text-sm text-gray-500">{% trans "Закрыто в срок" %}</div>
+      <div class="mt-1 text-2xl font-semibold">
+        <span id="kpiDoneInTimePct">
+          {% if kpi.requests.done_in_time_pct is not None %}{{ kpi.requests.done_in_time_pct }}%{% else %}—{% endif %}
+        </span>
+      </div>
+      <div class="mt-2 text-xs text-gray-500">
+        {% trans "Закрытые обращения с указанным сроком." %}
+      </div>
+    </div>
+
+    <div class="dash-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="text-sm text-gray-500">{% trans "Реакция департамента" %}</div>
+      <div class="mt-1 text-2xl font-semibold">
+        <span id="kpiAvgDeptReactionHours">
+          {% if kpi.requests.avg_department_reaction_hours is not None %}{{ kpi.requests.avg_department_reaction_hours }}{% else %}—{% endif %}
+        </span>
+        <span class="text-sm text-gray-500">{% trans "ч" %}</span>
+      </div>
+      <div class="mt-2 text-xs text-gray-500">
+        {% trans "Среднее время до назначения исполнителя." %}
       </div>
     </div>
 
@@ -51,7 +76,9 @@
       <div class="mt-1 text-2xl font-semibold" id="kpiCompaniesTotal">{{ kpi.companies.total }}</div>
       <div class="mt-2 text-xs text-gray-500">
         {% trans "С регионом" %}: <span class="font-medium" id="kpiCompaniesWithRegion">{{ kpi.companies.with_region }}</span> ·
-        {% trans "Без региона" %}: <span class="font-medium" id="kpiCompaniesWithoutRegion">{{ kpi.companies.without_region }}</span>
+        {% trans "Без региона" %}: <span class="font-medium" id="kpiCompaniesWithoutRegion">{{ kpi.companies.without_region }}</span><br>
+        {% trans "С районом" %}: <span class="font-medium" id="kpiCompaniesWithDistrict">{{ kpi.companies.with_district }}</span> ·
+        {% trans "Без района" %}: <span class="font-medium" id="kpiCompaniesWithoutDistrict">{{ kpi.companies.without_district }}</span>
       </div>
     </div>
 
@@ -69,22 +96,6 @@
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
     <div class="dash-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
       <div class="mb-2 flex items-center justify-between">
-        <h2 class="text-sm font-semibold text-gray-900">{% trans "Обращения по статусам" %}</h2>
-      </div>
-      <div class="h-80" id="chartRequestsStatus"></div>
-      <div class="mt-2 hidden text-sm text-red-600" data-chart-error="chartRequestsStatus"></div>
-    </div>
-
-    <div class="dash-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-      <div class="mb-2 flex items-center justify-between">
-        <h2 class="text-sm font-semibold text-gray-900">{% trans "Обращения по направлениям" %}</h2>
-      </div>
-      <div class="h-80" id="chartRequestsDirections"></div>
-      <div class="mt-2 hidden text-sm text-red-600" data-chart-error="chartRequestsDirections"></div>
-    </div>
-
-    <div class="dash-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-      <div class="mb-2 flex items-center justify-between">
         <h2 class="text-sm font-semibold text-gray-900">{% trans "Обращения по проблемным направлениям" %}</h2>
       </div>
       <div class="h-80" id="chartRequestsProblemDirections"></div>
@@ -97,6 +108,22 @@
       </div>
       <div class="h-80" id="chartRequestsRegions"></div>
       <div class="mt-2 hidden text-sm text-red-600" data-chart-error="chartRequestsRegions"></div>
+    </div>
+
+    <div class="dash-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="mb-2 flex items-center justify-between">
+        <h2 class="text-sm font-semibold text-gray-900">{% trans "Обращения по статусам" %}</h2>
+      </div>
+      <div class="h-80" id="chartRequestsStatus"></div>
+      <div class="mt-2 hidden text-sm text-red-600" data-chart-error="chartRequestsStatus"></div>
+    </div>
+
+    <div class="dash-card rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="mb-2 flex items-center justify-between">
+        <h2 class="text-sm font-semibold text-gray-900">{% trans "Обращения по направлениям" %}</h2>
+      </div>
+      <div class="h-80" id="chartRequestsDirections"></div>
+      <div class="mt-2 hidden text-sm text-red-600" data-chart-error="chartRequestsDirections"></div>
     </div>
   </div>
 

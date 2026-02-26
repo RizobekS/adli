@@ -1,50 +1,50 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-18 21:19+0500\n"
+"POT-Creation-Date: 2026-02-26 17:10+0500\n"
 "Language-Team: Uzbek\n"
 "Language: uz\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
-#: .\apps\agency\admin.py:42 .\apps\agency\models.py:54
+#: .\apps\agency\admin.py:44 .\apps\agency\models.py:54
 msgid "Пользователь"
 msgstr "Foydalanuvchi"
 
-#: .\apps\agency\admin.py:43 .\apps\agency\admin.py:59
-#: .\apps\agency\admin.py:83 .\apps\agency\admin.py:100
-#: .\apps\requests\admin.py:110
+#: .\apps\agency\admin.py:45 .\apps\agency\admin.py:74
+#: .\apps\agency\admin.py:98 .\apps\agency\admin.py:115
+#: .\apps\requests\admin.py:112
 msgid "Служебное"
 msgstr "Tizim tomonidan"
 
-#: .\apps\agency\admin.py:57
+#: .\apps\agency\admin.py:72
 msgid "Контент"
 msgstr "Kontent"
 
-#: .\apps\agency\admin.py:58 .\apps\agency\admin.py:82
-#: .\apps\agency\admin.py:99
+#: .\apps\agency\admin.py:73 .\apps\agency\admin.py:97
+#: .\apps\agency\admin.py:114
 msgid "Статистика"
 msgstr "Statistika"
 
-#: .\apps\agency\admin.py:78 .\apps\agency\models.py:178
-#: .\apps\panel\forms.py:21 .\apps\requests\models.py:193
+#: .\apps\agency\admin.py:93 .\apps\agency\models.py:203
+#: .\apps\panel\forms.py:20 .\apps\requests\models.py:203
 #: .\apps\telephony\models.py:9 .\templates\telephony\_directory_table.html:7
 msgid "Сотрудник"
 msgstr "Xodim"
 
-#: .\apps\agency\admin.py:79 .\apps\agency\admin.py:98
+#: .\apps\agency\admin.py:94 .\apps\agency\admin.py:113
 msgid "Публикация"
 msgstr "Nashr"
 
-#: .\apps\agency\admin.py:80
+#: .\apps\agency\admin.py:95
 msgid "Контакты"
 msgstr "Aloqa"
 
-#: .\apps\agency\admin.py:81 .\apps\agency\models.py:196
+#: .\apps\agency\admin.py:96 .\apps\agency\models.py:221
 #: .\templates\public\leadership_list.html:52
 msgid "Биография"
 msgstr "Biografiya"
 
-#: .\apps\agency\admin.py:97 .\apps\agency\models.py:235
+#: .\apps\agency\admin.py:112 .\apps\agency\models.py:260
 msgid "Новость"
 msgstr "Yangilik"
 
@@ -65,20 +65,22 @@ msgid "Опционально: короткий код департамента,
 msgstr "Ixtiyoriy: bo'limning qisqa kodi, masalan, LEG, IT, HR"
 
 #: .\apps\agency\models.py:17 .\apps\agency\models.py:89
-#: .\templates\telephony\_directory_table.html:71
+#: .\apps\agency\models.py:144 .\templates\telephony\_directory_table.html:71
 msgid "Активен"
 msgstr "Faol"
 
 #: .\apps\agency\models.py:18 .\apps\agency\models.py:36
-#: .\apps\agency\models.py:91 .\apps\companies\models.py:43
-#: .\apps\companies\models.py:67 .\apps\companies\models.py:82
-#: .\apps\companies\models.py:148 .\apps\companies\models.py:203
-#: .\apps\companies\models.py:236 .\apps\requests\models.py:119
+#: .\apps\agency\models.py:91 .\apps\agency\models.py:146
+#: .\apps\companies\models.py:43 .\apps\companies\models.py:67
+#: .\apps\companies\models.py:82 .\apps\companies\models.py:148
+#: .\apps\companies\models.py:203 .\apps\companies\models.py:236
+#: .\apps\requests\models.py:129
 msgid "Дата создания"
 msgstr "Yaratilgan sana"
 
 #: .\apps\agency\models.py:21 .\apps\agency\models.py:61
-#: .\apps\panel\forms.py:15 .\apps\requests\models.py:185
+#: .\apps\agency\models.py:140 .\apps\panel\forms.py:14
+#: .\apps\requests\models.py:195
 msgid "Департамент"
 msgstr "Departament"
 
@@ -103,17 +105,17 @@ msgid "Должность (в агентстве)"
 msgstr "Lavozimi (agentlikda)"
 
 #: .\apps\agency\models.py:77 .\apps\companies\models.py:230
-#: .\apps\requests\forms.py:56
+#: .\apps\requests\forms.py:63
 msgid "Имя"
 msgstr "Ism"
 
 #: .\apps\agency\models.py:78 .\apps\companies\models.py:231
-#: .\apps\requests\forms.py:57
+#: .\apps\requests\forms.py:64
 msgid "Фамилия"
 msgstr "Familiya"
 
 #: .\apps\agency\models.py:79 .\apps\companies\models.py:232
-#: .\apps\requests\forms.py:58
+#: .\apps\requests\forms.py:65
 msgid "Отчество"
 msgstr "Sharif"
 
@@ -126,8 +128,8 @@ msgstr "PINFL"
 msgid "Телефон"
 msgstr "Telefon"
 
-#: .\apps\agency\models.py:85 .\apps\agency\models.py:144
-#: .\apps\agency\models.py:223
+#: .\apps\agency\models.py:85 .\apps\agency\models.py:169
+#: .\apps\agency\models.py:248
 msgid "Фото"
 msgstr "Foto"
 
@@ -147,88 +149,99 @@ msgstr "Agentlik xodimi"
 msgid "Сотрудники агентства"
 msgstr "Agentlik xodimlari"
 
-#: .\apps\agency\models.py:140 .\apps\agency\models.py:220
+#: .\apps\agency\models.py:137 .\apps\agency\models.py:149
+#: .\apps\requests\forms.py:34 .\apps\requests\models.py:72
+#: .\templates\panel\requests\_fragments.html:26
+#: .\templates\panel\requests\list.html:43
+msgid "Проблемное направление"
+msgstr "Muammoli yo'nalish"
+
+#: .\apps\agency\models.py:145 .\apps\agency\models.py:209
+msgid "Порядок"
+msgstr "Tartib"
+
+#: .\apps\agency\models.py:150
+msgid "Проблемные направления"
+msgstr "Muammoli yo'nalishlar"
+
+#: .\apps\agency\models.py:165 .\apps\agency\models.py:245
 msgid "Заголовок"
 msgstr "Sarlavha"
 
-#: .\apps\agency\models.py:141
+#: .\apps\agency\models.py:166
 msgid "Краткое описание"
 msgstr "Qisqacha tavsif"
 
-#: .\apps\agency\models.py:142 .\apps\agency\models.py:221
-#: .\apps\companies\models.py:66 .\templates\panel\requests\_fragments.html:25
+#: .\apps\agency\models.py:167 .\apps\agency\models.py:246
+#: .\apps\companies\models.py:66 .\templates\panel\requests\_fragments.html:34
 msgid "Описание"
 msgstr "Tavsif"
 
-#: .\apps\agency\models.py:146 .\apps\agency\models.py:198
-#: .\apps\agency\models.py:225 .\templates\public\agency_about_detail.html:16
+#: .\apps\agency\models.py:171 .\apps\agency\models.py:223
+#: .\apps\agency\models.py:250 .\templates\public\agency_about_detail.html:16
 #: .\templates\public\announcements_list.html:30
 #: .\templates\public\home.html:35 .\templates\public\news_detail.html:18
 #: .\templates\public\news_list.html:30
 msgid "Просмотры"
 msgstr "Ko'rilgan"
 
-#: .\apps\agency\models.py:148 .\apps\agency\models.py:183
-#: .\apps\agency\models.py:228
+#: .\apps\agency\models.py:173 .\apps\agency\models.py:208
+#: .\apps\agency\models.py:253
 msgid "Опубликовано"
 msgstr "Nashr qilingan"
 
-#: .\apps\agency\models.py:149 .\apps\agency\models.py:200
-#: .\apps\agency\models.py:231 .\apps\requests\models.py:260
-#: .\templates\panel\dashboard.html:147
+#: .\apps\agency\models.py:174 .\apps\agency\models.py:225
+#: .\apps\agency\models.py:256 .\apps\requests\models.py:270
+#: .\templates\panel\dashboard.html:184
 msgid "Создано"
 msgstr "Yaratildi"
 
-#: .\apps\agency\models.py:150 .\apps\agency\models.py:201
-#: .\apps\agency\models.py:232
+#: .\apps\agency\models.py:175 .\apps\agency\models.py:226
+#: .\apps\agency\models.py:257
 msgid "Обновлено"
 msgstr "Yangilangan sana"
 
-#: .\apps\agency\models.py:153 .\apps\agency\models.py:154
+#: .\apps\agency\models.py:178 .\apps\agency\models.py:179
 #: .\templates\public\agency_about_detail.html:12
 #: .\templates\public\home.html:102
 msgid "О агентстве"
 msgstr "Agentlik haqida"
 
-#: .\apps\agency\models.py:184
-msgid "Порядок"
-msgstr "Tartib"
-
-#: .\apps\agency\models.py:186
+#: .\apps\agency\models.py:211
 msgid "Почта (публичная)"
 msgstr "Pochta (ommaviy)"
 
-#: .\apps\agency\models.py:187
+#: .\apps\agency\models.py:212
 msgid "Ссылка на сайт"
 msgstr "Veb-saytga havola"
 
-#: .\apps\agency\models.py:190 .\templates\public\leadership_list.html:80
+#: .\apps\agency\models.py:215 .\templates\public\leadership_list.html:80
 msgid "Время приема"
 msgstr "Qabul vaqti"
 
-#: .\apps\agency\models.py:193
+#: .\apps\agency\models.py:218
 msgid "Например: Понедельник 10:00–13:00"
 msgstr "Masalan: Dushanba 10:00–13:00"
 
-#: .\apps\agency\models.py:204
+#: .\apps\agency\models.py:229
 msgid "Профиль руководства"
 msgstr "Rahbariyat profili"
 
-#: .\apps\agency\models.py:205 .\templates\base_public.html:69
+#: .\apps\agency\models.py:230 .\templates\base_public.html:69
 #: .\templates\base_public.html:126 .\templates\public\leadership_list.html:4
 #: .\templates\public\leadership_list.html:10
 msgid "Руководство"
 msgstr "Rahbariyat"
 
-#: .\apps\agency\models.py:227 .\templates\public\home.html:47
+#: .\apps\agency\models.py:252 .\templates\public\home.html:47
 msgid "Объявление"
 msgstr "E'lon"
 
-#: .\apps\agency\models.py:229
+#: .\apps\agency\models.py:254
 msgid "Дата публикации"
 msgstr "Nashr qilingan sana"
 
-#: .\apps\agency\models.py:236 .\templates\base_public.html:88
+#: .\apps\agency\models.py:261 .\templates\base_public.html:88
 #: .\templates\base_public.html:127 .\templates\public\news_detail.html:12
 #: .\templates\public\news_list.html:4 .\templates\public\news_list.html:10
 msgid "Новости"
@@ -240,24 +253,24 @@ msgstr "Tashkilotlar"
 
 #: .\apps\companies\models.py:7
 msgid "Код региона"
-msgstr "Region kodi"
+msgstr "Viloyat kodi"
 
 #: .\apps\companies\models.py:8
 msgid "Название региона"
-msgstr "Region nomi"
+msgstr "Viloyat nomi"
 
 #: .\apps\companies\models.py:11 .\apps\companies\models.py:22
-#: .\apps\companies\models.py:98 .\apps\requests\forms.py:42
+#: .\apps\companies\models.py:98 .\apps\requests\forms.py:49
 #: .\templates\companies\companies_page.html:114
 #: .\templates\companies\companies_page.html:126
 #: .\templates\companies\partials\companies_table.html:9
 #: .\templates\public\request_form.html:60
 msgid "Регион"
-msgstr "Region"
+msgstr "Viloyat"
 
 #: .\apps\companies\models.py:12
 msgid "Регионы"
-msgstr "Regionlar"
+msgstr "Viloyatlar"
 
 #: .\apps\companies\models.py:26
 msgid "Код района/города"
@@ -268,7 +281,7 @@ msgid "Название района/города"
 msgstr "Tuman/shaxar nomi"
 
 #: .\apps\companies\models.py:30 .\apps\companies\models.py:106
-#: .\apps\requests\forms.py:49 .\templates\public\request_form.html:94
+#: .\apps\requests\forms.py:56 .\templates\public\request_form.html:94
 msgid "Район/город"
 msgstr "Tuman/shaxar"
 
@@ -281,7 +294,7 @@ msgid "Название категории"
 msgstr "Kategoriya nomi"
 
 #: .\apps\companies\models.py:46 .\apps\companies\models.py:60
-#: .\apps\companies\models.py:114 .\apps\requests\forms.py:34
+#: .\apps\companies\models.py:114 .\apps\requests\forms.py:41
 #: .\templates\companies\companies_page.html:38
 #: .\templates\companies\companies_page.html:49
 #: .\templates\companies\partials\companies_table.html:8
@@ -303,10 +316,10 @@ msgid "Направление"
 msgstr "Yo'nalish"
 
 #: .\apps\companies\models.py:71 .\apps\companies\models.py:128
-#: .\apps\requests\forms.py:64 .\apps\requests\models.py:64
+#: .\apps\requests\forms.py:71 .\apps\requests\models.py:65
 #: .\templates\companies\companies_page.html:69
 #: .\templates\companies\partials\companies_table.html:11
-#: .\templates\panel\requests\list.html:43
+#: .\templates\panel\requests\list.html:44
 #: .\templates\public\request_form.html:176
 msgid "Направления"
 msgstr "Yo'nalishlar"
@@ -328,18 +341,18 @@ msgstr "O'lchov birliglari"
 msgid "Категории (множественные)"
 msgstr "Kategoriyalar (bir nechta)"
 
-#: .\apps\companies\models.py:132 .\apps\requests\forms.py:38
+#: .\apps\companies\models.py:132 .\apps\requests\forms.py:45
 msgid "Название компании"
-msgstr "Kompaniya nomi"
+msgstr "Korxona nomi"
 
-#: .\apps\companies\models.py:134 .\apps\requests\forms.py:39
+#: .\apps\companies\models.py:134 .\apps\requests\forms.py:46
 #: .\templates\companies\partials\companies_table.html:7
 msgid "ИНН"
 msgstr "STIR"
 
 #: .\apps\companies\models.py:137
 msgid "Идентификационный номер налогоплательщика компании"
-msgstr "Kompaniyaning soliq to'lovchi identifikatsiya raqami"
+msgstr "Korxonaning soliq to'lovchi identifikatsiya raqami"
 
 #: .\apps\companies\models.py:141
 msgid "Описание (о компании/доп. сведения)"
@@ -357,20 +370,20 @@ msgstr "Ishchi o'rni soni"
 
 #: .\apps\companies\models.py:151 .\apps\companies\models.py:173
 #: .\apps\companies\models.py:217 .\apps\companies\models.py:265
-#: .\apps\requests\models.py:41
+#: .\apps\requests\models.py:42
 #: .\templates\companies\partials\companies_table.html:6
 #: .\templates\panel\requests\list.html:42
 #: .\templates\public\request_form.html:39
 msgid "Компания"
-msgstr "Kompaniya"
+msgstr "Korxona"
 
 #: .\apps\companies\models.py:152 .\templates\base_panel.html:61
 #: .\templates\companies\companies_page.html:5
 #: .\templates\partials\sidebar.html:40
 msgid "Компании"
-msgstr "Kompaniyalar"
+msgstr "Korxonalar"
 
-#: .\apps\companies\models.py:166 .\apps\requests\forms.py:116
+#: .\apps\companies\models.py:166 .\apps\requests\forms.py:124
 msgid "Выбранный район/город не относится к выбранному региону."
 msgstr "Tanlangan tuman/shaxar belgilangan regionga tegishli emas"
 
@@ -403,15 +416,15 @@ msgstr "Lavozim"
 msgid "Должности"
 msgstr "Lavozimlar"
 
-#: .\apps\companies\models.py:233 .\apps\requests\forms.py:59
+#: .\apps\companies\models.py:233 .\apps\requests\forms.py:66
 msgid "Телефон номер"
 msgstr "Telefon raqam"
 
-#: .\apps\companies\models.py:234 .\apps\requests\forms.py:60
+#: .\apps\companies\models.py:234 .\apps\requests\forms.py:67
 msgid "Электронная почта"
 msgstr "Elektron pochta"
 
-#: .\apps\companies\models.py:239 .\apps\requests\models.py:47
+#: .\apps\companies\models.py:239 .\apps\requests\models.py:48
 msgid "Сотрудник компании"
 msgstr "Kompaniya xodimi"
 
@@ -431,11 +444,11 @@ msgstr "Qo'l telefoni"
 msgid "Офис"
 msgstr "Shirkat"
 
-#: .\apps\companies\models.py:259 .\apps\requests\models.py:269
+#: .\apps\companies\models.py:259 .\apps\requests\models.py:279
 msgid "Другое"
 msgstr "Boshqa"
 
-#: .\apps\companies\models.py:268 .\apps\requests\models.py:146
+#: .\apps\companies\models.py:268 .\apps\requests\models.py:156
 msgid "Тип"
 msgstr "Turi"
 
@@ -451,197 +464,194 @@ msgstr "Kompaniya telefoni"
 msgid "Телефоны компании"
 msgstr "Kompaniya telefoni"
 
-#: .\apps\panel\forms.py:13
+#: .\apps\panel\forms.py:12
 msgid "Текст для резолюции"
 msgstr "Qaror (rezolyutsiya) matni"
 
-#: .\apps\panel\forms.py:18 .\apps\panel\forms.py:24
+#: .\apps\panel\forms.py:17 .\apps\panel\forms.py:23
 #: .\templates\base_panel.html:12
-#: .\templates\panel\requests\_fragments.html:142
-#: .\templates\panel\requests\_fragments.html:153
-#: .\templates\panel\requests\_fragments.html:154
-#: .\templates\panel\requests\_fragments.html:177
-#: .\templates\panel\requests\_fragments.html:194
-#: .\templates\panel\requests\_fragments.html:195
 msgid "Не выбран"
 msgstr "Tanlanmagan"
 
-#: .\apps\panel\forms.py:27 .\apps\requests\models.py:111
-#: .\apps\requests\models.py:200
+#: .\apps\panel\forms.py:26 .\apps\panel\forms.py:61
+#: .\apps\requests\models.py:121 .\apps\requests\models.py:210
 msgid "Срок исполнения"
 msgstr "Bajarish muddati"
 
-#: .\apps\panel\forms.py:41
+#: .\apps\panel\forms.py:40
 msgid "Шаг работы"
 msgstr "Ish qadami"
 
-#: .\apps\panel\forms.py:49 .\templates\telephony\directory.html:48
+#: .\apps\panel\forms.py:48 .\templates\telephony\directory.html:48
 msgid "Поиск"
 msgstr "Qidirish"
 
-#: .\apps\panel\forms.py:50 .\apps\requests\models.py:72
-#: .\templates\panel\requests\list.html:44
+#: .\apps\panel\forms.py:49 .\apps\requests\models.py:82
+#: .\templates\panel\requests\list.html:45
 #: .\templates\telephony\_directory_table.html:12
 msgid "Статус"
 msgstr "Holat"
 
-#: .\apps\panel\forms.py:51 .\templates\panel\requests\_fragments.html:88
+#: .\apps\panel\forms.py:50 .\templates\panel\requests\_fragments.html:97
 msgid "Просрочено"
 msgstr "Muddatidan o'tgan"
 
-#: .\apps\panel\services\analytics.py:254
+#: .\apps\panel\forms.py:55 .\templates\panel\requests\list.html:46
+msgid "Исполнитель"
+msgstr "Ijrochi"
+
+#: .\apps\panel\forms.py:58
+msgid "Выберите исполнителя"
+msgstr "Ijrochi tanlang"
+
+#: .\apps\panel\services\analytics.py:286
 msgid "— Noma’lum"
 msgstr "— Noma’lum"
 
-#: .\apps\panel\services\analytics.py:275
-#: .\apps\panel\services\analytics.py:406
-msgid "— Без региона"
-msgstr "— Region biriktirilmagan"
+#: .\apps\panel\services\analytics.py:302
+msgid "— Не указано"
+msgstr "— Tayinlanmagan"
 
-#: .\apps\panel\services\analytics.py:337
+#: .\apps\panel\services\analytics.py:326
+#: .\apps\panel\services\analytics.py:457
+msgid "— Без региона"
+msgstr "— Viloyat biriktirilmagan"
+
+#: .\apps\panel\services\analytics.py:388
 msgid "— Не выявлено"
 msgstr "— Aniqlanmadi"
 
-#: .\apps\panel\services\analytics.py:385
+#: .\apps\panel\services\analytics.py:436
 msgid "— Без категории"
 msgstr "— Kategoriya biriktirilmagan"
 
-#: .\apps\panel\services\analytics.py:426
+#: .\apps\panel\services\analytics.py:477
 msgid "Неизвестно"
 msgstr "Aniqlanmagan"
 
-#: .\apps\panel\views.py:264 .\apps\requests\models.py:268
+#: .\apps\panel\views.py:268 .\apps\requests\models.py:278
 msgid "Завершено"
 msgstr "Tugallandi"
 
-#: .\apps\panel\views.py:267
+#: .\apps\panel\views.py:271
 #, python-format
 msgid "Просрочено на %(d)s дн."
 msgstr "%(d)s kunga muddatidan o'tgan"
 
-#: .\apps\panel\views.py:270 .\templates\panel\requests\_fragments.html:90
+#: .\apps\panel\views.py:274 .\templates\panel\requests\_fragments.html:99
 msgid "Срок сегодня"
 msgstr "Muddati bugun"
 
-#: .\apps\panel\views.py:273 .\apps\panel\views.py:276
+#: .\apps\panel\views.py:277 .\apps\panel\views.py:280
 #, python-format
 msgid "Осталось %(d)s дн."
 msgstr "%(d)s kun qoldi"
 
-#: .\apps\panel\views.py:279 .\templates\panel\requests\_fragments.html:95
+#: .\apps\panel\views.py:283 .\templates\panel\requests\_fragments.html:104
 msgid "Без срока"
 msgstr "Maddatsiz"
 
-#: .\apps\panel\views.py:414
-msgid "Можно зарегистрировать только новое обращение."
-msgstr "Faqat yangi murojaatni ro'yhatga olish mumkin"
-
-#: .\apps\panel\views.py:419 .\apps\panel\views.py:455
-#: .\apps\panel\views.py:462
-msgid "Действие из панели"
-msgstr "Boshqaruv panelidan harakat"
-
 #: .\apps\panel\views.py:420
-msgid "Обращение зарегистрировано."
-msgstr "Murojaat ro'yhatga olindi"
-
-#: .\apps\panel\views.py:434
-msgid "Обращение уже отправлено на резолюцию."
-msgstr "Murojaat 1aror (Rezolyutsiya) uchun yuborilgan"
-
-#: .\apps\panel\views.py:442
-msgid "Выберите помощника руководителя."
-msgstr "Tegishli rahbar yordamchisini tanlang"
-
-#: .\apps\panel\views.py:465
-msgid "Отправлено на резолюцию."
-msgstr "Qaror (Rezolyutsiya) uchun yuborildi"
-
-#: .\apps\panel\views.py:479
-msgid "Проверьте форму резолюции: есть ошибки."
-msgstr "Iltimos, qaror shaklni tekshiring: xatolik mavjud."
-
-#: .\apps\panel\views.py:491
-msgid "Резолюция добавлена из панели"
-msgstr "Boshqaruv panelidan rezolyutsiya qo'shildi"
-
-#: .\apps\panel\views.py:493
-msgid "Резолюция добавлена, назначение обновлено."
-msgstr "Rezolyutsiya qo'shildi, tayinlov yangilandi"
-
-#: .\apps\panel\views.py:506
 msgid "Нельзя добавлять шаги: обращение уже завершено."
 msgstr "Qadam qo'shish mumkin emas, murojaat yopilgan"
 
-#: .\apps\panel\views.py:513
+#: .\apps\panel\views.py:427
 msgid "Проверьте форму шага: есть ошибки."
 msgstr "Iltimos, qadam shaklni tekshiring: xatolik mavjud."
 
-#: .\apps\panel\views.py:522
+#: .\apps\panel\views.py:436
 msgid "Шаг добавлен из панели"
 msgstr "Qadam boshqaruv panelidan qo'shildi."
 
-#: .\apps\panel\views.py:525
+#: .\apps\panel\views.py:439
 msgid "Шаг добавлен."
 msgstr "Qadam qo'shildi."
 
-#: .\apps\panel\views.py:539
+#: .\apps\panel\views.py:453
 msgid "Уже завершено."
 msgstr "Tugallangan"
 
-#: .\apps\panel\views.py:544
+#: .\apps\panel\views.py:458
 msgid "Завершено из панели"
 msgstr "Boshqaruv panelidan tugallandi"
 
-#: .\apps\panel\views.py:545
+#: .\apps\panel\views.py:459
 msgid "Обращение завершено."
 msgstr "Murojaat ishlab chiqildi"
 
-#: .\apps\requests\admin.py:108
+#: .\apps\panel\views.py:481
+msgid "Проверьте форму назначения исполнителя."
+msgstr "Iltimos, ijrochi tayinlash shaklni tekshiring: xatolik mavjud."
+
+#: .\apps\panel\views.py:491
+msgid "Назначено начальником департамента"
+msgstr "Departament direktori tomonidan tayinlangan"
+
+#: .\apps\panel\views.py:494
+msgid "Исполнитель назначен."
+msgstr "Ijrochi tayinlangan"
+
+#: .\apps\panel\views.py:522 .\apps\requests\services.py:74
+msgid "Ожидаем ответ/информацию"
+msgstr "Javob/ma'lumot kutilmoqda"
+
+#: .\apps\panel\views.py:523
+msgid "Статус: ожидает ответа."
+msgstr "Holat: Javob kutilmoqda"
+
+#: .\apps\panel\views.py:550
+msgid "Работа продолжена"
+msgstr "Ish davom etmoqda"
+
+#: .\apps\panel\views.py:551
+msgid "Статус: в работе."
+msgstr "Holat: Jarayonda"
+
+#: .\apps\requests\admin.py:110
 msgid "Основное"
 msgstr "Asosiy"
 
-#: .\apps\requests\admin.py:109
+#: .\apps\requests\admin.py:111
 msgid "Назначение и контроль"
 msgstr "Tayinlash va nazorat"
 
-#: .\apps\requests\admin.py:123
+#: .\apps\requests\admin.py:125
 msgid "Зарегистрировать (канцелярия)"
 msgstr "Ro'yhatga olish (devonxona)"
 
-#: .\apps\requests\admin.py:127 .\apps\requests\admin.py:135
-#: .\apps\requests\admin.py:143
+#: .\apps\requests\admin.py:129 .\apps\requests\admin.py:137
+#: .\apps\requests\admin.py:145
 msgid "Действие из админки"
 msgstr "Administrator panelidan harakat"
 
-#: .\apps\requests\admin.py:129
+#: .\apps\requests\admin.py:131
 #, python-format
 msgid "Зарегистрировано: %(cnt)s"
 msgstr "Ro'yxatdan o'tgan: %(cnt)s"
 
-#: .\apps\requests\admin.py:131 .\templates\panel\requests\detail.html:94
+#: .\apps\requests\admin.py:133
 msgid "Отправить на резолюцию"
 msgstr "Qaror uchun (Rezolyutsiya) yuborish"
 
-#: .\apps\requests\admin.py:137
+#: .\apps\requests\admin.py:139
 #, python-format
 msgid "Отправлено на резолюцию: %(cnt)s"
 msgstr "Qaror uchun (Rezolyutsiya) yuborildi: %(cnt)s"
 
-#: .\apps\requests\admin.py:139
+#: .\apps\requests\admin.py:141
 msgid "Пометить как обработано"
 msgstr "Ishlab chiqilgan deb belgilash"
 
-#: .\apps\requests\admin.py:145
+#: .\apps\requests\admin.py:147
 #, python-format
 msgid "Обработано: %(cnt)s"
 msgstr "Ishlab chiqildi: %(cnt)s"
 
-#: .\apps\requests\admin.py:168
+#: .\apps\requests\admin.py:170
 msgid "Резолюция добавлена из админки"
 msgstr "Administrator panelidan rezolyutsiya qo'shildi"
 
-#: .\apps\requests\admin.py:180
+#: .\apps\requests\admin.py:182
 msgid "Шаг добавлен из админки"
 msgstr "Qadam administrator panelidan qo'shildi."
 
@@ -649,50 +659,55 @@ msgstr "Qadam administrator panelidan qo'shildi."
 msgid "Murojaatlar"
 msgstr "Murojaatlar"
 
-#: .\apps\requests\forms.py:15
+#: .\apps\requests\forms.py:16
 #, python-format
 msgid "Файл слишком большой (макс. %(mb)s MB)."
 msgstr "Fayl juda katta (maksimal %(mb)s MB)."
 
-#: .\apps\requests\forms.py:36 .\templates\public\request_form.html:145
+#: .\apps\requests\forms.py:36 .\templates\public\request_form.html:264
+msgid "Выберите направление"
+msgstr "Yo'nalishni tanlang"
+
+#: .\apps\requests\forms.py:43 .\templates\public\request_form.html:145
 #: .\templates\public\request_form.html:158
 msgid "Выберите категорию"
 msgstr "Kategoriya tanlang"
 
-#: .\apps\requests\forms.py:45 .\templates\public\request_form.html:64
+#: .\apps\requests\forms.py:52 .\templates\public\request_form.html:64
 #: .\templates\public\request_form.html:76
 msgid "Выберите регион"
-msgstr "Region tanlang"
+msgstr "Viloyat tanlang"
 
-#: .\apps\requests\forms.py:52 .\templates\public\request_form.html:99
+#: .\apps\requests\forms.py:59 .\templates\public\request_form.html:99
 msgid "Выберите район/город"
 msgstr "Tuman/shaxar tanlang"
 
-#: .\apps\requests\forms.py:69 .\apps\requests\models.py:69
+#: .\apps\requests\forms.py:76 .\apps\requests\models.py:79
 msgid "Текст обращения"
 msgstr "Murojaat matni"
 
-#: .\apps\requests\forms.py:71
+#: .\apps\requests\forms.py:78
 msgid "Приложения"
 msgstr "Ilovalar"
 
-#: .\apps\requests\forms.py:108
+#: .\apps\requests\forms.py:116
 msgid "Разрешены только: PDF, Word, Excel."
 msgstr "Ruxsat berilgan formatlar: PDF, Word, Excel."
 
-#: .\apps\requests\forms.py:118 .\templates\public\request_form.html:107
+#: .\apps\requests\forms.py:126 .\templates\public\request_form.html:107
 msgid "Сначала выберите регион."
 msgstr "Oldin regionni tanlang"
 
-#: .\apps\requests\forms.py:124
+#: .\apps\requests\forms.py:132
 msgid "ИНН компании"
 msgstr "Kompaniya STIR"
 
-#: .\apps\requests\forms.py:128 .\templates\public\track_requests.html:105
+#: .\apps\requests\forms.py:136 .\templates\public\request_success.html:24
+#: .\templates\public\track_requests.html:105
 msgid "Номер обращения"
 msgstr "Murojaat raqami"
 
-#: .\apps\requests\forms.py:130 .\apps\requests\models.py:86
+#: .\apps\requests\forms.py:138 .\apps\requests\models.py:96
 msgid "Формат: YYYY-000001"
 msgstr "Format: YYYY-000001"
 
@@ -729,222 +744,238 @@ msgid "В работе"
 msgstr "Jarayonda"
 
 #: .\apps\requests\models.py:36
+msgid "Ожидает ответа"
+msgstr "Javob kutilmoqda"
+
+#: .\apps\requests\models.py:37
 msgid "Обработано"
 msgstr "Ishlab chiqilgan"
 
-#: .\apps\requests\models.py:37
+#: .\apps\requests\models.py:38
 msgid "Отменено"
 msgstr "Bekor qilingan"
 
-#: .\apps\requests\models.py:80
+#: .\apps\requests\models.py:90
 msgid "Публичный номер"
 msgstr "Unikal raqami"
 
-#: .\apps\requests\models.py:89
+#: .\apps\requests\models.py:99
 msgid "Год (публичный)"
 msgstr "Yil"
 
-#: .\apps\requests\models.py:90
+#: .\apps\requests\models.py:100
 msgid "Порядковый номер (публичный)"
 msgstr "Tartib raqami"
 
-#: .\apps\requests\models.py:95
+#: .\apps\requests\models.py:105
 msgid "Назначенный департамент"
 msgstr "Tayinlangan departament"
 
-#: .\apps\requests\models.py:103
+#: .\apps\requests\models.py:113
 msgid "Назначенный сотрудник"
 msgstr "Tainlangan xodim"
 
-#: .\apps\requests\models.py:114
+#: .\apps\requests\models.py:124
 msgid "Срок по резолюции/контролю"
 msgstr "Qaror/nazorat bo'yicha muddat"
 
-#: .\apps\requests\models.py:117
+#: .\apps\requests\models.py:127
 msgid "Дата завершения"
 msgstr "Yakunlangan sana"
 
-#: .\apps\requests\models.py:120
+#: .\apps\requests\models.py:130
 msgid "Дата обновления"
 msgstr "Yangilangan sana"
 
-#: .\apps\requests\models.py:123 .\apps\requests\models.py:142
-#: .\apps\requests\models.py:169 .\apps\requests\models.py:224
-#: .\apps\requests\models.py:273 .\templates\base_public.html:99
-#: .\templates\base_public.html:130 .\templates\panel\requests\detail.html:15
+#: .\apps\requests\models.py:133 .\apps\requests\models.py:152
+#: .\apps\requests\models.py:179 .\apps\requests\models.py:234
+#: .\apps\requests\models.py:283 .\templates\base_public.html:99
+#: .\templates\base_public.html:130 .\templates\panel\requests\detail.html:16
 msgid "Обращение"
 msgstr "Murojaat"
 
-#: .\apps\requests\models.py:124 .\templates\base_panel.html:75
+#: .\apps\requests\models.py:134 .\templates\base_panel.html:75
 #: .\templates\panel\requests\list.html:9 .\templates\partials\sidebar.html:70
 msgid "Обращения"
 msgstr "Murojaatlar"
 
-#: .\apps\requests\models.py:138
+#: .\apps\requests\models.py:148
 msgid "Приложение"
 msgstr "Ilovalar"
 
-#: .\apps\requests\models.py:149
+#: .\apps\requests\models.py:159
 msgid "Файл"
 msgstr "Fayl"
 
-#: .\apps\requests\models.py:154
+#: .\apps\requests\models.py:164
 msgid "Дата загрузки"
 msgstr "Yuklash sanasi"
 
-#: .\apps\requests\models.py:157
+#: .\apps\requests\models.py:167
 msgid "Файл обращения"
 msgstr "Murojaat fayli"
 
-#: .\apps\requests\models.py:158
+#: .\apps\requests\models.py:168
 msgid "Файлы обращения"
 msgstr "Murojaat fayllari"
 
-#: .\apps\requests\models.py:176
+#: .\apps\requests\models.py:186
 msgid "Автор резолюции"
 msgstr "Qaror (rezolyutsiya) muallifi"
 
-#: .\apps\requests\models.py:181 .\apps\requests\models.py:205
-#: .\templates\panel\requests\_fragments.html:111
+#: .\apps\requests\models.py:191 .\apps\requests\models.py:215
 msgid "Резолюция"
 msgstr "Qaror (Rezolyutsiya)"
 
-#: .\apps\requests\models.py:202
+#: .\apps\requests\models.py:212
 msgid "Дата резолюции"
 msgstr "Qaror (rezolyutsiya) sanasi"
 
-#: .\apps\requests\models.py:206
+#: .\apps\requests\models.py:216
 msgid "Резолюции"
 msgstr "Rezolyutsiyalar"
 
-#: .\apps\requests\models.py:230
+#: .\apps\requests\models.py:240
 msgid "Автор шага"
 msgstr "Qadam muallifi"
 
-#: .\apps\requests\models.py:234
+#: .\apps\requests\models.py:244
 msgid "Описание шага"
 msgstr "Qadam tavsifi"
 
-#: .\apps\requests\models.py:235
+#: .\apps\requests\models.py:245
 msgid "Дата шага"
 msgstr "Qadam aratilgan sana"
 
-#: .\apps\requests\models.py:238
+#: .\apps\requests\models.py:248
 msgid "Шаг по обращению"
 msgstr "Murojaat bo'yicha qadam"
 
-#: .\apps\requests\models.py:239
+#: .\apps\requests\models.py:249
 msgid "Шаги по обращению"
 msgstr "Murojaat bo'yicha qadamlar"
 
-#: .\apps\requests\models.py:261
+#: .\apps\requests\models.py:271 .\apps\requests\services.py:339
 msgid "Зарегистрировано"
 msgstr "Ro'yhatdan o'tkazildi"
 
-#: .\apps\requests\models.py:262
+#: .\apps\requests\models.py:272
 msgid "Отправлено на резолюцию"
 msgstr "Qaror (Rezolyutsiya) uchun yuborildi"
 
-#: .\apps\requests\models.py:263
+#: .\apps\requests\models.py:273 .\apps\requests\services.py:349
 msgid "Резолюция поставлена"
 msgstr "Qaror (Rezolyutsiya) qo'yildi"
 
-#: .\apps\requests\models.py:264
+#: .\apps\requests\models.py:274
 msgid "Назначено"
 msgstr "Tayinlandi"
 
-#: .\apps\requests\models.py:265
+#: .\apps\requests\models.py:275
 msgid "Статус изменён"
 msgstr "Holati o'zgartirildi"
 
-#: .\apps\requests\models.py:266
+#: .\apps\requests\models.py:276
 msgid "Добавлен шаг"
 msgstr "Qadam qo'shildi"
 
-#: .\apps\requests\models.py:267
+#: .\apps\requests\models.py:277
 msgid "Добавлен файл"
 msgstr "Fayl qo'shildi"
 
-#: .\apps\requests\models.py:279
+#: .\apps\requests\models.py:289
 msgid "Кто сделал"
 msgstr "Kim tomonidan bajarildi"
 
-#: .\apps\requests\models.py:286
+#: .\apps\requests\models.py:296
 msgid "Действие"
 msgstr "Amal"
 
-#: .\apps\requests\models.py:288
+#: .\apps\requests\models.py:298
 msgid "Статус до"
 msgstr "Oldingi holat"
 
-#: .\apps\requests\models.py:289
+#: .\apps\requests\models.py:299
 msgid "Статус после"
 msgstr "Keyingi holat"
 
-#: .\apps\requests\models.py:291
+#: .\apps\requests\models.py:301
 msgid "Комментарий"
 msgstr "Izoh"
 
-#: .\apps\requests\models.py:293
+#: .\apps\requests\models.py:303
 msgid "Дата действия"
 msgstr "Qilingan amal sanasi"
 
-#: .\apps\requests\models.py:296 .\templates\public\track_requests.html:146
+#: .\apps\requests\models.py:306 .\templates\public\track_requests.html:146
 msgid "История обращения"
 msgstr "Murojaat tarixi"
 
-#: .\apps\requests\models.py:297
+#: .\apps\requests\models.py:307
 msgid "История обращений"
 msgstr "Murojaatlar tarixi"
 
-#: .\apps\requests\services.py:122
+#: .\apps\requests\services.py:91
+msgid "Работа возобновлена"
+msgstr "Ish davom etmoqda"
+
+#: .\apps\requests\services.py:157 .\apps\requests\services.py:329
 msgid "Обращение создано через публичную форму"
 msgstr "So'rov ommaviy shakl orqali yaratildi."
 
-#: .\apps\requests\services.py:228
+#: .\apps\requests\services.py:263
 msgid "Резолюция добавлена"
 msgstr "Rezolyutsiya qo'shildi"
 
-#: .\apps\requests\services.py:238
+#: .\apps\requests\services.py:273
 #, python-format
-msgid "Назначено: департамент=%(dep)s, сотрудник=%(emp)s"
-msgstr "Tayinlangan: departament=%(dep)s, xodim=%(emp)s"
+msgid "Назначено: %(dep)s, %(emp)s"
+msgstr "Tayinlangan: %(dep)s, %(emp)s"
 
-#: .\apps\requests\services.py:250
+#: .\apps\requests\services.py:285
 msgid "Резолюция добавлена (без изменения назначения в обращении)"
 msgstr "Rezolyutsiya qo'shildi (murojaat tayinlovini o'zgartirmagan xolda)"
 
-#: .\apps\requests\services.py:267
-msgid "Добавлен шаг работы"
-msgstr "Ish qadami qo'shildi"
-
-#: .\apps\requests\services.py:272
-msgid "Начата работа"
-msgstr "Ish boshlandi"
-
-#: .\apps\requests\services.py:288
-msgid "Обращение обработано"
-msgstr "Murojaat ishlab chiqildi"
-
-#: .\apps\requests\views.py:143
-msgid "Обращение отправлено. Спасибо!"
-msgstr "Murojaatingiz yuborildi. Rahmat!"
-
-#: .\apps\requests\views.py:146
-msgid "Проверьте форму: есть ошибки."
-msgstr "Iltimos, shaklni tekshiring: xatolar mavjud."
-
-#: .\apps\requests\views.py:265
+#: .\apps\requests\services.py:360
+#: .\apps\requests\views.py:266
 #, python-format
 msgid "Назначено: %(dep)s"
 msgstr "Tayinlandi: %(dep)s"
 
-#: .\apps\requests\views.py:267
+#: .\apps\requests\services.py:394
+msgid "Назначен исполнитель: %(emp)s"
+msgstr "Ijrochi tayinlangan: %(emp)s"
+
+#: .\apps\requests\services.py:403
+msgid "Установлен срок исполнения: %(d)s"
+msgstr "Bajarish muddati belgilandi: %(d)s"
+
+#: .\apps\requests\services.py:419
+msgid "Добавлен шаг работы"
+msgstr "Ish qadami qo'shildi"
+
+#: .\apps\requests\services.py:424
+msgid "Начата работа"
+msgstr "Ish boshlandi"
+
+#: .\apps\requests\services.py:440
+msgid "Обращение обработано"
+msgstr "Murojaat ishlab chiqildi"
+
+#: .\apps\requests\views.py:144
+msgid "Обращение отправлено. Спасибо!"
+msgstr "Murojaatingiz yuborildi. Rahmat!"
+
+#: .\apps\requests\views.py:147
+msgid "Проверьте форму: есть ошибки."
+msgstr "Iltimos, shaklni tekshiring: xatolar mavjud."
+
+#: .\apps\requests\views.py:268
 #, python-format
 msgid "Сотрудник: %(emp)s"
 msgstr "Xodim: %(emp)s"
 
-#: .\apps\requests\views.py:272
+#: .\apps\requests\views.py:273
 #, python-format
 msgid "Статус изменён: %(a)s → %(b)s"
 msgstr "Holati o'zgartirildi: %(a)s → %(b)s"
@@ -1019,23 +1050,23 @@ msgid "Телефония"
 msgstr "Telefoniya"
 
 #: .\templates\base_panel.html:87 .\templates\panel\dashboard.html:35
-#: .\templates\partials\sidebar.html:85
+#: .\templates\partials\sidebar.html:84
 msgid "Новые"
 msgstr "Yangi"
 
-#: .\templates\base_panel.html:91 .\templates\partials\sidebar.html:92
+#: .\templates\base_panel.html:91 .\templates\partials\sidebar.html:90
 msgid "В исполнении"
 msgstr "Bajarish jarayonida"
 
-#: .\templates\base_panel.html:95 .\templates\partials\sidebar.html:99
+#: .\templates\base_panel.html:95 .\templates\partials\sidebar.html:96
 msgid "Завершенные"
 msgstr "Tugallangan"
 
-#: .\templates\base_panel.html:100 .\templates\partials\sidebar.html:106
+#: .\templates\base_panel.html:100 .\templates\partials\sidebar.html:102
 msgid "Все обращения"
 msgstr "Barcha murojaatlar"
 
-#: .\templates\base_panel.html:109 .\templates\partials\sidebar.html:124
+#: .\templates\base_panel.html:109 .\templates\partials\sidebar.html:120
 msgid "Выйти"
 msgstr "Chiqish"
 
@@ -1130,7 +1161,7 @@ msgid "Страница"
 msgstr "Varaq"
 
 #: .\templates\companies\partials\companies_table.html:89
-#: .\templates\panel\requests\detail.html:12
+#: .\templates\panel\requests\detail.html:13
 msgid "Назад"
 msgstr "Ortga"
 
@@ -1150,99 +1181,127 @@ msgstr "Yangilash"
 msgid "Всего обращений"
 msgstr "Jami murojaatlar"
 
-#: .\templates\panel\dashboard.html:41 .\templates\panel\requests\list.html:25
+#: .\templates\panel\dashboard.html:41
+msgid "Закрыто в срок"
+msgstr "Belgilangan vaqtda yopilgan"
+
+#: .\templates\panel\dashboard.html:48
+msgid "Закрытые обращения с указанным сроком."
+msgstr "Belgilangan muddatda yopilgan murojjatlar."
+
+#: .\templates\panel\dashboard.html:53
+msgid "Реакция департамента"
+msgstr "Departamentning munosabati"
+
+#: .\templates\panel\dashboard.html:58
+msgid "ч"
+msgstr "s"
+
+#: .\templates\panel\dashboard.html:61
+msgid "Среднее время до назначения исполнителя."
+msgstr "Ijrochini tayinlashning o'rtacha vaqti."
+
+#: .\templates\panel\dashboard.html:66 .\templates\panel\requests\list.html:25
 msgid "Просроченные"
 msgstr "Muddati o'tgan"
 
-#: .\templates\panel\dashboard.html:44
+#: .\templates\panel\dashboard.html:69
 msgid "Завершено сегодня"
 msgstr "Bugun tugallangan"
 
-#: .\templates\panel\dashboard.html:50
+#: .\templates\panel\dashboard.html:75
 msgid "Всего компаний"
 msgstr "Umumiy kompaniyalar"
 
-#: .\templates\panel\dashboard.html:53
+#: .\templates\panel\dashboard.html:78
 msgid "С регионом"
-msgstr "Region biriktirilgan"
+msgstr "Viloyat biriktirilgan"
 
-#: .\templates\panel\dashboard.html:54 .\templates\panel\dashboard.html:151
+#: .\templates\panel\dashboard.html:79 .\templates\panel\dashboard.html:188
 msgid "Без региона"
-msgstr "Region biriktirilmagan"
-
-#: .\templates\panel\dashboard.html:59 .\templates\panel\dashboard.html:150
-msgid "Качество данных"
-msgstr "Ma'lumotlar sifati"
-
-#: .\templates\panel\dashboard.html:62 .\templates\panel\dashboard.html:153
-msgid "Без категории"
-msgstr "Kategoriya biriktirilmaganlar"
-
-#: .\templates\panel\dashboard.html:62
-msgid "без направлений"
-msgstr "Yo'nalishlar biriktirilmaganlar"
-
-#: .\templates\panel\dashboard.html:72
-msgid "Обращения по статусам"
-msgstr "Status bo'yicha murojaatlar"
+msgstr "Viloyat biriktirilmagan"
 
 #: .\templates\panel\dashboard.html:80
-msgid "Обращения по направлениям"
-msgstr "Yo'nalish bo'yicha murojaatlar"
+msgid "С районом"
+msgstr "Tuman/shaxar biriktirilgan"
 
-#: .\templates\panel\dashboard.html:88
-msgid "Обращения по регионам"
-msgstr "Region bo'ylab murojaatlar"
-
-#: .\templates\panel\dashboard.html:96
-msgid "Динамика обращений"
-msgstr "Murojaatlar dinamikasi"
-
-#: .\templates\panel\dashboard.html:107
-msgid "Просрочки по департаментам"
-msgstr "Departament bo'yicha muddati o'tgan murojaatlar"
-
-#: .\templates\panel\dashboard.html:115
-msgid "Компании по категориям"
-msgstr "Kategoriya bo'ylab kompaniya"
-
-#: .\templates\panel\dashboard.html:125
-msgid "Компании по регионам"
-msgstr "Region bo'ylab kompaniya"
-
-#: .\templates\panel\dashboard.html:133
-msgid "Качество данных компаний"
-msgstr "Kompaniya ma'lumotlarining sifati"
-
-#: .\templates\panel\dashboard.html:148
-msgid "Закрыто"
-msgstr "Yopilgan"
-
-#: .\templates\panel\dashboard.html:152
+#: .\templates\panel\dashboard.html:81 .\templates\panel\dashboard.html:189
 msgid "Без района"
 msgstr "Tuman/shaxar biriktirilmagan"
 
-#: .\templates\panel\dashboard.html:154
+#: .\templates\panel\dashboard.html:86 .\templates\panel\dashboard.html:187
+msgid "Качество данных"
+msgstr "Ma'lumotlar sifati"
+
+#: .\templates\panel\dashboard.html:89 .\templates\panel\dashboard.html:190
+msgid "Без категории"
+msgstr "Kategoriya biriktirilmaganlar"
+
+#: .\templates\panel\dashboard.html:89
+msgid "без направлений"
+msgstr "Yo'nalishlar biriktirilmaganlar"
+
+#: .\templates\panel\dashboard.html:99
+msgid "Обращения по проблемным направлениям"
+msgstr "Muammoli yo'nalishlar bo'yicha murojaatlar"
+
+#: .\templates\panel\dashboard.html:107
+msgid "Обращения по регионам"
+msgstr "Viloyat bo'ylab murojaatlar"
+
+#: .\templates\panel\dashboard.html:115
+msgid "Обращения по статусам"
+msgstr "Status bo'yicha murojaatlar"
+
+#: .\templates\panel\dashboard.html:123
+msgid "Обращения по направлениям"
+msgstr "Yo'nalish bo'yicha murojaatlar"
+
+#: .\templates\panel\dashboard.html:133
+msgid "Динамика обращений"
+msgstr "Murojaatlar dinamikasi"
+
+#: .\templates\panel\dashboard.html:144
+msgid "Просрочки по департаментам"
+msgstr "Departament bo'yicha muddati o'tgan murojaatlar"
+
+#: .\templates\panel\dashboard.html:152
+msgid "Компании по категориям"
+msgstr "Kategoriya bo'ylab kompaniya"
+
+#: .\templates\panel\dashboard.html:162
+msgid "Компании по регионам"
+msgstr "Viloyat bo'ylab kompaniya"
+
+#: .\templates\panel\dashboard.html:170
+msgid "Качество данных компаний"
+msgstr "Kompaniya ma'lumotlarining sifati"
+
+#: .\templates\panel\dashboard.html:185
+msgid "Закрыто"
+msgstr "Yopilgan"
+
+#: .\templates\panel\dashboard.html:191
 msgid "Без направлений"
 msgstr "Yo'nalish biriktirilmaganlar"
 
-#: .\templates\panel\dashboard.html:156
+#: .\templates\panel\dashboard.html:193
 msgid "Просроченных заявок нет"
 msgstr "Muddati o'tgan murojaat yo'q"
 
-#: .\templates\panel\dashboard.html:157
+#: .\templates\panel\dashboard.html:194
 msgid "Нет данных"
 msgstr "Ma'lumotlar topilmadi"
 
 #: .\templates\panel\requests\_detail_oob.html:9
-#: .\templates\panel\requests\detail.html:135
+#: .\templates\panel\requests\detail.html:209
 #: .\templates\public\track_requests.html:122
 msgid "История"
 msgstr "Tarix"
 
 #: .\templates\panel\requests\_detail_oob.html:15
-#: .\templates\panel\requests\_fragments.html:241
-#: .\templates\panel\requests\detail.html:141
+#: .\templates\panel\requests\_fragments.html:127
+#: .\templates\panel\requests\detail.html:215
 msgid "Система"
 msgstr "Tizim"
 
@@ -1250,76 +1309,88 @@ msgstr "Tizim"
 msgid "Направления обращения"
 msgstr "Murojaat yo'nalishi"
 
-#: .\templates\panel\requests\_fragments.html:28
+#: .\templates\panel\requests\_fragments.html:37
 msgid "Файлы от компании"
 msgstr "Kompaniya biriktirgan fayllar"
 
-#: .\templates\panel\requests\_fragments.html:66
-#: .\templates\panel\requests\list.html:111
+#: .\templates\panel\requests\_fragments.html:75
+#: .\templates\panel\requests\list.html:121
 msgid "Открыть"
 msgstr "Ochish"
 
-#: .\templates\panel\requests\_fragments.html:70
+#: .\templates\panel\requests\_fragments.html:79
 msgid "Скачать"
 msgstr "Yuklab olish"
 
-#: .\templates\panel\requests\_fragments.html:84
+#: .\templates\panel\requests\_fragments.html:93
 msgid "Назначение"
 msgstr "Tayinlash"
 
-#: .\templates\panel\requests\_fragments.html:92
+#: .\templates\panel\requests\_fragments.html:101
 msgid "В срок"
 msgstr "Muddatida"
 
-#: .\templates\panel\requests\_fragments.html:99
+#: .\templates\panel\requests\_fragments.html:108
 msgid "Департамент:"
 msgstr "Departament:"
 
-#: .\templates\panel\requests\_fragments.html:100
+#: .\templates\panel\requests\_fragments.html:109
 msgid "Исполнитель:"
 msgstr "Ijrochi:"
 
-#: .\templates\panel\requests\_fragments.html:101
+#: .\templates\panel\requests\_fragments.html:110
 #: .\templates\public\track_requests.html:111
 msgid "Срок:"
 msgstr "Muddat:"
 
-#: .\templates\panel\requests\_fragments.html:187
-#: .\templates\panel\requests\detail.html:59
-msgid "Поиск сотрудника…"
-msgstr "Xodim qidirish…"
-
-#: .\templates\panel\requests\_fragments.html:223
-#: .\templates\panel\requests\_fragments.html:225
-msgid "Сохранить резолюцию"
-msgstr "Qaror (Rezolyutsiya) saqlash"
-
-#: .\templates\panel\requests\_fragments.html:234
+#: .\templates\panel\requests\_fragments.html:120
 msgid "Добавленные шаги"
 msgstr "Qo'shilgan qadamlar"
 
-#: .\templates\panel\requests\_fragments.html:254
-#: .\templates\panel\requests\_fragments.html:264
+#: .\templates\panel\requests\_fragments.html:140
+#: .\templates\panel\requests\_fragments.html:150
 msgid "Добавить шаг"
 msgstr "Qadam qo'shish"
 
-#: .\templates\panel\requests\_fragments.html:269
+#: .\templates\panel\requests\_fragments.html:155
 msgid "Обращение завершено. Добавление шагов недоступно."
 msgstr "Murojaat bajarildi. Qadamlarni qo‘shib bo‘lmaydi."
 
-#: .\templates\panel\requests\detail.html:30
+#: .\templates\panel\requests\detail.html:38
 msgid "Действия"
 msgstr "Amal"
 
-#: .\templates\panel\requests\detail.html:49
-msgid "Кому отправить"
-msgstr "Kimga yuborish"
+#: .\templates\panel\requests\detail.html:48
+msgid "Назначить исполнителя"
+msgstr "Ijrochi tayinlash"
 
-#: .\templates\panel\requests\detail.html:120
+#: .\templates\panel\requests\detail.html:72
+msgid "Поиск сотрудника…"
+msgstr "Xodim qidirish…"
+
+#: .\templates\panel\requests\detail.html:95
+msgid "Нет сотрудников"
+msgstr "Xodim topilmadi"
+
+#: .\templates\panel\requests\detail.html:114
+msgid "Назначить"
+msgstr "Tayinlash"
+
+#: .\templates\panel\requests\detail.html:132
+#: .\templates\panel\requests\detail.html:171
+msgid "Ожидаем ответа"
+msgstr "Javob kutilmoqda"
+
+#: .\templates\panel\requests\detail.html:145
+#: .\templates\panel\requests\detail.html:183
+msgid "Продолжить работу"
+msgstr "Ishni davom etish"
+
+#: .\templates\panel\requests\detail.html:196
 msgid "Завершить обращение"
 msgstr "Murojaat yopish"
 
-#: .\templates\panel\requests\detail.html:127
+#: .\templates\panel\requests\detail.html:202
 msgid "Нет доступных действий"
 msgstr "Hech qanday amal mavjud emas"
 
@@ -1327,15 +1398,11 @@ msgstr "Hech qanday amal mavjud emas"
 msgid "Поиск по ID, компании, ИНН"
 msgstr "ID, kompaniya, STIR bo'yicha qidirish"
 
-#: .\templates\panel\requests\list.html:45
-msgid "Исполнитель"
-msgstr "Ijrochi"
-
-#: .\templates\panel\requests\list.html:46
+#: .\templates\panel\requests\list.html:47
 msgid "Срок"
 msgstr "Muddat"
 
-#: .\templates\panel\requests\list.html:118
+#: .\templates\panel\requests\list.html:128
 #: .\templates\public\track_requests.html:74
 msgid "Обращения не найдены"
 msgstr "Murojaatlar topilmadi"
@@ -1429,7 +1496,9 @@ msgstr "Murojaat qoldirish"
 
 #: .\templates\public\home.html:146
 msgid "Заполните форму и получите номер обращения для отслеживания."
-msgstr "Murojaat shaklini to'ldiring va holatini kuzatish uchun murojaat raqamini oling."
+msgstr ""
+"Murojaat shaklini to'ldiring va holatini kuzatish uchun murojaat raqamini "
+"oling."
 
 #: .\templates\public\home.html:151
 msgid "Перейти"
@@ -1466,10 +1535,12 @@ msgstr "ADLI • Muroojatlar shakli"
 
 #: .\templates\public\request_form.html:77
 #: .\templates\public\request_form.html:159
+#: .\templates\public\request_form.html:265
 msgid "Не выбрано"
 msgstr "Tanlanmagan"
 
 #: .\templates\public\request_form.html:187
+#: .\templates\public\request_form.html:245
 msgid "Выберите направления"
 msgstr "Yo'nalishlarni tanlang"
 
@@ -1481,25 +1552,53 @@ msgstr "Oldin kategoriyani tanlang"
 msgid "Готово"
 msgstr "Muvaffaqiyatli"
 
-#: .\templates\public\request_form.html:224
+#: .\templates\public\request_form.html:258
+msgid "Поиск…"
+msgstr "Qidirish"
+
+#: .\templates\public\request_form.html:289
 msgid "Описание обращения"
 msgstr "Murojaat matni"
 
-#: .\templates\public\request_form.html:233
+#: .\templates\public\request_form.html:298
 msgid "Приложения обращения"
 msgstr "Murojaat ilovasi"
 
-#: .\templates\public\request_form.html:257
+#: .\templates\public\request_form.html:322
 msgid "PDF, Word, Excel. Можно добавить несколько файлов."
 msgstr "PDF, Word, Excel. Bir nechta fayllarni qo'shish mumkin."
 
-#: .\templates\public\request_form.html:258
+#: .\templates\public\request_form.html:323
 msgid "Максимальный допустимый размер файлов 10MB."
 msgstr "Maksimal ruxsat berilgan fayl o'lchovi 10MB"
 
-#: .\templates\public\request_form.html:267
+#: .\templates\public\request_form.html:332
 msgid "Отправить"
 msgstr "Yuborish"
+
+#: .\templates\public\request_success.html:17
+msgid "Обращение отправлено"
+msgstr "Murojaat yuborildi"
+
+#: .\templates\public\request_success.html:19
+msgid "Спасибо. Ваше обращение принято и будет рассмотрено."
+msgstr "Rahmat. Sizning so'rovingiz qabul qilindi va ko'rib chiqiladi."
+
+#: .\templates\public\request_success.html:30
+msgid "Скопировать"
+msgstr "Nusxalash"
+
+#: .\templates\public\request_success.html:34
+msgid "Сохраните номер. Он пригодится при обращении в службу поддержки."
+msgstr "Ushbu raqamni saqlang. Qo'llab-quvvatlash xizmatiga murojaat qilganingizda kerak bo'ladi."
+
+#: .\templates\public\request_success.html:42
+msgid "Отправить ещё обращение"
+msgstr "Yana murojaat yuborish"
+
+#: .\templates\public\request_success.html:47
+msgid "Проверить статус"
+msgstr "Holatni tekshirish"
 
 #: .\templates\public\track_requests.html:14
 msgid "Проверка статуса обращения"
@@ -1507,8 +1606,7 @@ msgstr "Murojaat holatini tekshirish"
 
 #: .\templates\public\track_requests.html:17
 msgid "Введите ИНН компании и номер обращения."
-msgstr ""
-"Kompaniya STIR va ariza raqamingizni kiriting."
+msgstr "Kompaniya STIR va ariza raqamingizni kiriting."
 
 #: .\templates\public\track_requests.html:54
 msgid "Данные используются только для поиска обращений в системе."
@@ -1604,8 +1702,38 @@ msgstr "Parol"
 msgid "Войти"
 msgstr "Kirish"
 
-#~ msgid "Выберите должность"
-#~ msgstr "Lavozimni tanlang"
+#~ msgid "Можно зарегистрировать только новое обращение."
+#~ msgstr "Faqat yangi murojaatni ro'yhatga olish mumkin"
+
+#~ msgid "Действие из панели"
+#~ msgstr "Boshqaruv panelidan harakat"
+
+#~ msgid "Обращение зарегистрировано."
+#~ msgstr "Murojaat ro'yhatga olindi"
+
+#~ msgid "Обращение уже отправлено на резолюцию."
+#~ msgstr "Murojaat 1aror (Rezolyutsiya) uchun yuborilgan"
+
+#~ msgid "Выберите помощника руководителя."
+#~ msgstr "Tegishli rahbar yordamchisini tanlang"
+
+#~ msgid "Отправлено на резолюцию."
+#~ msgstr "Qaror (Rezolyutsiya) uchun yuborildi"
+
+#~ msgid "Проверьте форму резолюции: есть ошибки."
+#~ msgstr "Iltimos, qaror shaklni tekshiring: xatolik mavjud."
+
+#~ msgid "Резолюция добавлена из панели"
+#~ msgstr "Boshqaruv panelidan rezolyutsiya qo'shildi"
+
+#~ msgid "Резолюция добавлена, назначение обновлено."
+#~ msgstr "Rezolyutsiya qo'shildi, tayinlov yangilandi"
+
+#~ msgid "Сохранить резолюцию"
+#~ msgstr "Qaror (Rezolyutsiya) saqlash"
+
+#~ msgid "Кому отправить"
+#~ msgstr "Kimga yuborish"
 
 #~ msgid "Дашборд компаний"
 #~ msgstr "Kompaniya dashboard"
@@ -1615,9 +1743,6 @@ msgstr "Kirish"
 
 #~ msgid "С указанным регионом"
 #~ msgstr "Region biriktirilganlar"
-
-#~ msgid "Зарегистрировать"
-#~ msgstr "Ro'yhatdan o'tkazish"
 
 #~ msgid "Выберите..."
 #~ msgstr "Tanlang..."
@@ -1655,24 +1780,3 @@ msgstr "Kirish"
 
 #~ msgid "Паспортная серия"
 #~ msgstr "Pasport seriyasi"
-
-#~ msgid "Например: AA1234567 или серия+номер по вашему формату"
-#~ msgstr "Masalan: AA1234567 yoki formatingizga muvofiq seriya + raqam"
-
-#~ msgid "Основной файл (PDF)"
-#~ msgstr "Asosiy fayl (PDF)"
-
-#~ msgid "Основной файл должен быть PDF."
-#~ msgstr "Asosiy fayl PDF formatida bo'lishi kerak."
-
-#~ msgid "Только PDF"
-#~ msgstr "Faqat PDF"
-
-#~ msgid "Arizachilar"
-#~ msgstr "Arizachilar"
-
-#~ msgid "Основной файл обращения (PDF)"
-#~ msgstr "Murojaat asosiy fayli (PDF)"
-
-#~ msgid "Только PDF. Рекомендуется до 10MB."
-#~ msgstr "Faqat PDF formatida. Tavsiya etilgan hajmi: 10 MB gacha."

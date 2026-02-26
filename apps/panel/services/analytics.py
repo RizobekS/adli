@@ -1,30 +1,24 @@
 # apps/panel/services/analytics.py
 from __future__ import annotations
 
-from dataclasses import dataclass
 from datetime import date, datetime, timedelta
-from typing import Any, Dict, Iterable, List, Optional, Tuple
-from django.utils.translation import get_language_from_request, get_language, gettext as _
+from typing import Any, Dict, Iterable, List, Tuple
+from django.utils.translation import get_language, gettext as _
 
-from django.contrib.auth.models import Group
 from django.db.models import (
     Avg,
-    Case,
     Count,
     DurationField,
     ExpressionWrapper,
     F,
-    IntegerField,
-    Q,
-    Sum,
-    Value,
-    When,
+    OuterRef,
+    Subquery,
 )
-from django.db.models.functions import Coalesce, TruncDate
+from django.db.models.functions import TruncDate
 from django.utils import timezone
 
-from apps.companies.models import Company, Category, Direction, Region
-from apps.requests.models import Request
+from apps.companies.models import Company
+from apps.requests.models import Request, RequestHistory
 
 
 # --- Роли (как у тебя в panel/views.py) ---
@@ -180,12 +174,46 @@ def get_kpi(*, user=None) -> Dict[str, Any]:
     new_requests = by_status.get(Request.Status.NEW, 0)
     in_progress = by_status.get(Request.Status.IN_PROGRESS, 0)
     assigned = by_status.get(Request.Status.ASSIGNED, 0)
-    registered = by_status.get(Request.Status.REGISTERED, 0)
+    waiting = by_status.get(getattr(Request.Status, "WAITING", "waiting"), 0)
+
+    # --- KPI: % закрытых в срок ---
+    done_qs = req_qs.filter(
+        status = Request.Status.DONE,
+        resolved_at__isnull = False,
+        due_date__isnull = False,
+    )
+    done_total = done_qs.count()
+    done_in_time = done_qs.filter(resolved_at__date__lte=F("due_date")).count()
+    done_in_time_pct = None
+
+    if done_total:
+        done_in_time_pct = round((done_in_time / done_total) * 100.0, 1)
+
+    # --- KPI: среднее время реакции департамента (часов) ---
+    # Реакция = created_at -> первое событие ASSIGNED с actor != NULL
+    first_assign_at = Subquery(
+        RequestHistory.objects.filter(
+            request_id = OuterRef("pk"),
+            action = RequestHistory.Action.ASSIGNED,
+            actor__isnull = False,
+        )
+        .order_by("created_at")
+        .values("created_at")[:1]
+    )
+    reacted_qs = req_qs.annotate(first_assign_at=first_assign_at).filter(first_assign_at__isnull=False)
+    reaction_expr = ExpressionWrapper(F("first_assign_at") - F("created_at"), output_field=DurationField())
+    agg = reacted_qs.aggregate(avg_reaction=Avg(reaction_expr), reacted_cnt=Count("id"))
+
+    avg_reaction_hours = None
+    if agg["avg_reaction"] is not None:
+        avg_reaction_hours = round(agg["avg_reaction"].total_seconds() / 3600.0, 2)
 
     # --- Companies KPI ---
     total_companies = comp_qs.count()
     with_region = comp_qs.filter(region__isnull=False).count()
     without_region = total_companies - with_region
+    with_district = comp_qs.filter(district__isnull=False).count()
+    without_district = total_companies - with_district
 
     without_category = comp_qs.filter(category__isnull=True).count()
     without_directions = comp_qs.filter(directions__isnull=True).distinct().count()
@@ -195,16 +223,20 @@ def get_kpi(*, user=None) -> Dict[str, Any]:
         "requests": {
             "total": total_requests,
             "new": int(new_requests),
-            "registered": int(registered),
             "assigned": int(assigned),
             "in_progress": int(in_progress),
+            "waiting": int(waiting),
             "overdue": int(overdue_count),
             "done_today": int(done_today),
+            "done_in_time_pct": done_in_time_pct,
+            "avg_department_reaction_hours": avg_reaction_hours,
         },
         "companies": {
             "total": int(total_companies),
             "with_region": int(with_region),
             "without_region": int(without_region),
+            "with_district": int(with_district),
+            "without_district": int(without_district),
             "without_category": int(without_category),
             "without_directions": int(without_directions),
         },
