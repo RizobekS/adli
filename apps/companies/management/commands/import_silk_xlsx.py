@@ -11,9 +11,9 @@ from apps.companies.models import (
 )
 
 
-SILK_CATEGORY_NAME = "Шелковая промышленность"
-DEFAULT_DIRECTOR_POSITION = "Директор"
-TOTAL_DIRECTION_TITLE = "JAMI sanoat mahsulotlari"
+SILK_CATEGORY_NAME = "Ipakchilik"
+DEFAULT_DIRECTOR_POSITION = "Direktor"
+DEFAULT_YEARS = (2025, 2026)
 
 
 def norm_inn(v) -> str | None:
@@ -140,7 +140,6 @@ class Command(BaseCommand):
 
         silk_cat, _ = Category.objects.get_or_create(name=SILK_CATEGORY_NAME)
         director_pos, _ = Position.objects.get_or_create(name=DEFAULT_DIRECTOR_POSITION)
-        total_dir = get_direction(silk_cat, TOTAL_DIRECTION_TITLE)
 
         current_region: Region | None = None
         current_company: Company | None = None
@@ -189,20 +188,11 @@ class Command(BaseCommand):
                 if not inn or not name:
                     continue
 
-                # employees
-                jobs = None
-                if f is not None:
-                    try:
-                        jobs = int(float(f))
-                    except Exception:
-                        jobs = None
-
                 company, created = Company.objects.update_or_create(
                     inn=inn,
                     defaults={
                         "name": name,
                         "region": current_region,
-                        "number_of_jobs": jobs,
                     }
                 )
                 current_company = company
@@ -240,35 +230,22 @@ class Command(BaseCommand):
                 if phone:
                     CompanyPhone.objects.get_or_create(company=company, phone=phone)
 
-                # общий объём компании (строка компании): сохраняем как TOTAL_DIRECTION_TITLE
-                v2025 = to_decimal(j)
-                v2026 = to_decimal(l)
-
-                # qty там часто "x", так что quantity=None
-                for year, vol in ((2025, v2025), (2026, v2026)):
-                    if vol is None:
-                        continue
-                    stat, s_created = CompanyDirectionStat.objects.update_or_create(
-                        company=company,
-                        direction=total_dir,
-                        year=year,
-                        defaults={
-                            "unit": None,
-                            "quantity": None,
-                            "volume_bln_sum": vol,
-                        }
-                    )
-                    created_stats += int(s_created)
-                    updated_stats += int(not s_created)
-
                 continue
 
             # 3) Направления компании (подстроки после компании)
             if current_company and isinstance(c, str) and c.strip():
                 title = c.strip()
-                # игнорим строки типа "JAMI sanoat mahsulotlari" и похожие служебные если попадутся
+                # если встречается "итого" строка в файле — просто игнорим, мы её не импортируем
                 if title.lower().startswith("jami"):
                     continue
+
+                # jobs теперь может стоять в строке направления (обычно только у первого направления компании)
+                dir_jobs = None
+                if f is not None:
+                    try:
+                        dir_jobs = int(float(f))
+                    except Exception:
+                        dir_jobs = None
 
                 unit = get_unit(str(d or ""))
 
@@ -292,15 +269,23 @@ class Command(BaseCommand):
                 ):
                     if qty is None and vol is None:
                         continue
+
+
+                    defaults = {
+                        "unit": unit,
+                        "quantity": qty,
+                        "volume_bln_sum": vol,
+                    }
+                    # jobs записываем только если в строке направления реально есть значение
+
+                    if dir_jobs is not None:
+                        defaults["jobs"] = dir_jobs
+
                     stat, s_created = CompanyDirectionStat.objects.update_or_create(
                         company=current_company,
                         direction=direction,
                         year=year,
-                        defaults={
-                            "unit": unit,
-                            "quantity": qty,
-                            "volume_bln_sum": vol,
-                        }
+                        defaults=defaults
                     )
                     created_stats += int(s_created)
                     updated_stats += int(not s_created)

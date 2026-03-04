@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from modeltranslation.admin import TranslationAdmin
 from import_export.admin import ImportExportModelAdmin
-from .resources import CompanyResource
+from .resources import CompanyResource, CompanyDirectionStatResource
 
 from .models import Category, Direction, Company, Position, EmployeeCompany, Region, District, Unit, CompanyPhone, \
     CompanyDirectionStat
@@ -82,8 +82,30 @@ class CompanyPhoneInline(admin.TabularInline):
 class CompanyDirectionStatInline(admin.TabularInline):
     model = CompanyDirectionStat
     extra = 0
-    fields = ("direction", "year", "unit", "quantity", "volume_bln_sum")
+    fields = ("direction", "year", "unit", "quantity", "volume_bln_sum", "jobs")
     autocomplete_fields = ("direction", "unit")
+
+
+@admin.register(CompanyDirectionStat)
+class CompanyDirectionStatAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = CompanyDirectionStatResource
+
+    list_display = ("company", "direction", "year", "quantity", "unit", "jobs", "volume_bln_sum")
+    list_select_related = ("company", "direction", "unit", "direction__category", "company__region", "company__district")
+    search_fields = (
+        "company__name",
+        "company__inn",
+        "direction__title",
+        "direction__category__name",
+        "unit__name",
+        "unit__short_name",
+    )
+    list_filter = ("year", "direction__category", "unit", "company__region", "company__district")
+    ordering = ("-year", "company__name", "direction__title")
+
+    autocomplete_fields = ("company", "direction", "unit")
+
+    fields = ("company", "direction", "year", "quantity", "unit", "jobs", "volume_bln_sum")
 
 
 class CompanyAdminForm(forms.ModelForm):
@@ -128,7 +150,7 @@ class CompanyAdminForm(forms.ModelForm):
 class CompanyAdmin(TranslationAdmin, ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = CompanyResource
     form = CompanyAdminForm
-    list_display = ("name", "inn", "category", "region", "district", "number_of_jobs", "created_at")
+    list_display = ("name", "inn", "category", "region", "district", "created_at")
     list_select_related = ("category", "region", "district",)
     search_fields = ("name", "inn", "description", "category__name", "region__name", "district__name",)
     list_filter = ("region", "district", "category", "created_at")
@@ -146,7 +168,6 @@ class CompanyAdmin(TranslationAdmin, ImportExportModelAdmin, admin.ModelAdmin):
         "name",
         "inn",
         "description",
-        "number_of_jobs",
         "created_at",
     )
 

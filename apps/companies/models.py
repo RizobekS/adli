@@ -143,8 +143,6 @@ class Company(models.Model):
         help_text=_("Если нужно хранить доп. информацию о компании/отправителе"),
     )
 
-    number_of_jobs = models.IntegerField(_("Количество рабочих мест"), blank=True, null=True)
-
     created_at = models.DateTimeField(_("Дата создания"), auto_now_add=True)
 
     class Meta:
@@ -188,6 +186,7 @@ class CompanyDirectionStat(models.Model):
     )
     quantity = models.DecimalField(_("Количество"), max_digits=20, decimal_places=6, null=True, blank=True)
     volume_bln_sum = models.DecimalField(_("Объём (млрд сум)"), max_digits=20, decimal_places=6, null=True, blank=True)
+    jobs = models.IntegerField(_("Количество рабочих мест"), null=True, blank=True)
 
     class Meta:
         verbose_name = _("Показатель компании по направлению")
