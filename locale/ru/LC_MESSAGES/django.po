@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-26 17:10+0500\n"
+"POT-Creation-Date: 2026-03-05 17:38+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,8 +86,8 @@ msgstr "Активен"
 #: .\apps\agency\models.py:18 .\apps\agency\models.py:36
 #: .\apps\agency\models.py:91 .\apps\agency\models.py:146
 #: .\apps\companies\models.py:43 .\apps\companies\models.py:67
-#: .\apps\companies\models.py:82 .\apps\companies\models.py:148
-#: .\apps\companies\models.py:203 .\apps\companies\models.py:236
+#: .\apps\companies\models.py:82 .\apps\companies\models.py:146
+#: .\apps\companies\models.py:202 .\apps\companies\models.py:235
 #: .\apps\requests\models.py:129
 msgid "Дата создания"
 msgstr "Дата создания"
@@ -102,7 +102,7 @@ msgstr "Департамент"
 msgid "Департаменты"
 msgstr "Департаменты"
 
-#: .\apps\agency\models.py:34 .\apps\companies\models.py:201
+#: .\apps\agency\models.py:34 .\apps\companies\models.py:200
 msgid "Название должности"
 msgstr "Название должности"
 
@@ -118,17 +118,17 @@ msgstr "Должности для агенства"
 msgid "Должность (в агентстве)"
 msgstr "Должность (в агентстве)"
 
-#: .\apps\agency\models.py:77 .\apps\companies\models.py:230
+#: .\apps\agency\models.py:77 .\apps\companies\models.py:229
 #: .\apps\requests\forms.py:63
 msgid "Имя"
 msgstr "Имя"
 
-#: .\apps\agency\models.py:78 .\apps\companies\models.py:231
+#: .\apps\agency\models.py:78 .\apps\companies\models.py:230
 #: .\apps\requests\forms.py:64
 msgid "Фамилия"
 msgstr "Фамилия"
 
-#: .\apps\agency\models.py:79 .\apps\companies\models.py:232
+#: .\apps\agency\models.py:79 .\apps\companies\models.py:231
 #: .\apps\requests\forms.py:65
 msgid "Отчество"
 msgstr "Отчество"
@@ -137,7 +137,7 @@ msgstr "Отчество"
 msgid "ПИНФЛ"
 msgstr "ПИНФЛ"
 
-#: .\apps\agency\models.py:83 .\apps\companies\models.py:267
+#: .\apps\agency\models.py:83 .\apps\companies\models.py:266
 #: .\templates\companies\partials\companies_table.html:13
 msgid "Телефон"
 msgstr "Телефон"
@@ -206,7 +206,7 @@ msgstr "Опубликовано"
 
 #: .\apps\agency\models.py:174 .\apps\agency\models.py:225
 #: .\apps\agency\models.py:256 .\apps\requests\models.py:270
-#: .\templates\panel\dashboard.html:184
+#: .\templates\base_panel.html:222
 msgid "Создано"
 msgstr "Создано"
 
@@ -324,7 +324,7 @@ msgstr "Категории"
 msgid "Название"
 msgstr "Название"
 
-#: .\apps\companies\models.py:70 .\apps\companies\models.py:179
+#: .\apps\companies\models.py:70 .\apps\companies\models.py:177
 #: .\templates\partials\directions_choices.html:3
 msgid "Направление"
 msgstr "Направление"
@@ -339,7 +339,7 @@ msgid "Направления"
 msgstr "Направления"
 
 #: .\apps\companies\models.py:79 .\apps\companies\models.py:85
-#: .\apps\companies\models.py:187
+#: .\apps\companies\models.py:185
 msgid "Единица измерения"
 msgstr "Единица измерения"
 
@@ -376,12 +376,8 @@ msgstr "Описание (о компании/доп. сведения)"
 msgid "Если нужно хранить доп. информацию о компании/отправителе"
 msgstr "Если нужно хранить доп. информацию о компании/отправителе"
 
-#: .\apps\companies\models.py:146
-msgid "Количество рабочих мест"
-msgstr "Количество рабочих мест"
-
-#: .\apps\companies\models.py:151 .\apps\companies\models.py:173
-#: .\apps\companies\models.py:217 .\apps\companies\models.py:265
+#: .\apps\companies\models.py:149 .\apps\companies\models.py:171
+#: .\apps\companies\models.py:216 .\apps\companies\models.py:264
 #: .\apps\requests\models.py:42
 #: .\templates\companies\partials\companies_table.html:6
 #: .\templates\panel\requests\list.html:42
@@ -389,90 +385,94 @@ msgstr "Количество рабочих мест"
 msgid "Компания"
 msgstr "Компания"
 
-#: .\apps\companies\models.py:152 .\templates\base_panel.html:61
+#: .\apps\companies\models.py:150 .\templates\base_panel.html:91
 #: .\templates\companies\companies_page.html:5
-#: .\templates\partials\sidebar.html:40
+#: .\templates\partials\sidebar.html:71
 msgid "Компании"
 msgstr "Компании"
 
-#: .\apps\companies\models.py:166 .\apps\requests\forms.py:124
+#: .\apps\companies\models.py:164 .\apps\requests\forms.py:124
 msgid "Выбранный район/город не относится к выбранному региону."
 msgstr "Выбранный район/город не относится к выбранному региону."
 
-#: .\apps\companies\models.py:181 .\apps\requests\models.py:18
+#: .\apps\companies\models.py:179 .\apps\requests\models.py:18
 msgid "Год"
 msgstr "Год"
 
-#: .\apps\companies\models.py:189
+#: .\apps\companies\models.py:187
 msgid "Количество"
 msgstr "Количество"
 
-#: .\apps\companies\models.py:190
+#: .\apps\companies\models.py:188
 msgid "Объём (млрд сум)"
 msgstr "Объём (млрд сум)"
 
-#: .\apps\companies\models.py:193
+#: .\apps\companies\models.py:189
+msgid "Количество рабочих мест"
+msgstr "Количество рабочих мест"
+
+#: .\apps\companies\models.py:192
 msgid "Показатель компании по направлению"
 msgstr "Показатель компании по направлению"
 
-#: .\apps\companies\models.py:194
+#: .\apps\companies\models.py:193
 msgid "Показатели компаний по направлениям"
 msgstr "Показатели компаний по направлениям"
 
-#: .\apps\companies\models.py:206 .\apps\companies\models.py:223
+#: .\apps\companies\models.py:205 .\apps\companies\models.py:222
 #: .\templates\telephony\_directory_table.html:8
 msgid "Должность"
 msgstr "Должность"
 
-#: .\apps\companies\models.py:207
+#: .\apps\companies\models.py:206
 msgid "Должности"
 msgstr "Должности"
 
-#: .\apps\companies\models.py:233 .\apps\requests\forms.py:66
+#: .\apps\companies\models.py:232 .\apps\requests\forms.py:66
 msgid "Телефон номер"
 msgstr "Телефон номер"
 
-#: .\apps\companies\models.py:234 .\apps\requests\forms.py:67
+#: .\apps\companies\models.py:233 .\apps\requests\forms.py:67
 msgid "Электронная почта"
 msgstr "Электронная почта"
 
-#: .\apps\companies\models.py:239 .\apps\requests\models.py:48
+#: .\apps\companies\models.py:238 .\apps\requests\models.py:48
 msgid "Сотрудник компании"
 msgstr "Сотрудник компании"
 
-#: .\apps\companies\models.py:240
+#: .\apps\companies\models.py:239
 msgid "Сотрудники компании"
 msgstr "Сотрудники компании"
 
-#: .\apps\companies\models.py:256
+#: .\apps\companies\models.py:255
 msgid "Основной"
 msgstr "Основной"
 
-#: .\apps\companies\models.py:257
+#: .\apps\companies\models.py:256
 msgid "Мобильный"
 msgstr "Мобильный"
 
-#: .\apps\companies\models.py:258
+#: .\apps\companies\models.py:257
 msgid "Офис"
 msgstr "Офис"
 
-#: .\apps\companies\models.py:259 .\apps\requests\models.py:279
+#: .\apps\companies\models.py:258 .\apps\requests\models.py:279
 msgid "Другое"
 msgstr "Другое"
 
-#: .\apps\companies\models.py:268 .\apps\requests\models.py:156
+#: .\apps\companies\models.py:267 .\apps\requests\models.py:156
 msgid "Тип"
 msgstr "Тип"
 
-#: .\apps\companies\models.py:269
+#: .\apps\companies\models.py:268
 msgid "Основной номер"
 msgstr "Основной номер"
 
-#: .\apps\companies\models.py:272
+#: .\apps\companies\models.py:271
 msgid "Телефон компании"
 msgstr "Телефон компании"
 
-#: .\apps\companies\models.py:273
+#: .\apps\companies\models.py:272
 msgid "Телефоны компании"
 msgstr "Телефоны компании"
 
@@ -541,81 +541,81 @@ msgstr "— Без категории"
 msgid "Неизвестно"
 msgstr "Неизвестно"
 
-#: .\apps\panel\views.py:268 .\apps\requests\models.py:278
+#: .\apps\panel\views.py:295 .\apps\requests\models.py:278
 msgid "Завершено"
 msgstr "Завершено"
 
-#: .\apps\panel\views.py:271
+#: .\apps\panel\views.py:298
 #, python-format
 msgid "Просрочено на %(d)s дн."
 msgstr "Просрочено на %(d)s дн."
 
-#: .\apps\panel\views.py:274 .\templates\panel\requests\_fragments.html:99
+#: .\apps\panel\views.py:301 .\templates\panel\requests\_fragments.html:99
 msgid "Срок сегодня"
 msgstr "Срок сегодня"
 
-#: .\apps\panel\views.py:277 .\apps\panel\views.py:280
+#: .\apps\panel\views.py:304 .\apps\panel\views.py:307
 #, python-format
 msgid "Осталось %(d)s дн."
 msgstr "Осталось %(d)s дн."
 
-#: .\apps\panel\views.py:283 .\templates\panel\requests\_fragments.html:104
+#: .\apps\panel\views.py:310 .\templates\panel\requests\_fragments.html:104
 msgid "Без срока"
 msgstr "Без срока"
 
-#: .\apps\panel\views.py:420
+#: .\apps\panel\views.py:447
 msgid "Нельзя добавлять шаги: обращение уже завершено."
 msgstr "Нельзя добавлять шаги: обращение уже завершено."
 
-#: .\apps\panel\views.py:427
+#: .\apps\panel\views.py:454
 msgid "Проверьте форму шага: есть ошибки."
 msgstr "Проверьте форму шага: есть ошибки."
 
-#: .\apps\panel\views.py:436
+#: .\apps\panel\views.py:463
 msgid "Шаг добавлен из панели"
 msgstr "Шаг добавлен"
 
-#: .\apps\panel\views.py:439
+#: .\apps\panel\views.py:466
 msgid "Шаг добавлен."
 msgstr "Шаг добавлен."
 
-#: .\apps\panel\views.py:453
+#: .\apps\panel\views.py:480
 msgid "Уже завершено."
 msgstr "Уже завершено."
 
-#: .\apps\panel\views.py:458
+#: .\apps\panel\views.py:485
 msgid "Завершено из панели"
 msgstr "Завершено"
 
-#: .\apps\panel\views.py:459
+#: .\apps\panel\views.py:486
 msgid "Обращение завершено."
 msgstr "Обращение завершено"
 
-#: .\apps\panel\views.py:481
+#: .\apps\panel\views.py:508
 msgid "Проверьте форму назначения исполнителя."
 msgstr "Проверьте форму назначения исполнителя."
 
-#: .\apps\panel\views.py:491
+#: .\apps\panel\views.py:518
 msgid "Назначено начальником департамента"
 msgstr "Назначено начальником департамента"
 
-#: .\apps\panel\views.py:494
+#: .\apps\panel\views.py:521
 msgid "Исполнитель назначен."
 msgstr "Исполнитель назначен."
 
-#: .\apps\panel\views.py:522 .\apps\requests\services.py:74
+#: .\apps\panel\views.py:549 .\apps\requests\services.py:74
 msgid "Ожидаем ответ/информацию"
 msgstr "Ожидаем ответ/информацию"
 
-#: .\apps\panel\views.py:523
+#: .\apps\panel\views.py:550
 msgid "Статус: ожидает ответа."
 msgstr "Статус: ожидает ответа."
 
-#: .\apps\panel\views.py:550
+#: .\apps\panel\views.py:577
 msgid "Работа продолжена"
 msgstr "Работа продолжена"
 
-#: .\apps\panel\views.py:551
+#: .\apps\panel\views.py:578
 msgid "Статус: в работе."
 msgstr "Статус: в работе."
 
@@ -751,7 +751,7 @@ msgstr "На резолюции"
 msgid "Назначено исполнителю"
 msgstr "Назначено исполнителю"
 
-#: .\apps\requests\models.py:35 .\templates\panel\dashboard.html:36
+#: .\apps\requests\models.py:35 .\templates\panel\analytics_requests.html:30
 msgid "В работе"
 msgstr "В работе"
 
@@ -806,8 +806,9 @@ msgstr "Дата обновления"
 msgid "Обращение"
 msgstr "Обращение"
 
-#: .\apps\requests\models.py:134 .\templates\base_panel.html:75
-#: .\templates\panel\requests\list.html:9 .\templates\partials\sidebar.html:70
+#: .\apps\requests\models.py:134 .\templates\base_panel.html:61
+#: .\templates\base_panel.html:105 .\templates\panel\requests\list.html:9
+#: .\templates\partials\sidebar.html:101
 msgid "Обращения"
 msgstr "Обращения"
 
@@ -948,8 +949,7 @@ msgstr "Назначено: %(dep)s, %(emp)s"
 msgid "Резолюция добавлена (без изменения назначения в обращении)"
 msgstr "Резолюция добавлена (без изменения назначения в обращении)"
 
-#: .\apps\requests\services.py:360
-#: .\apps\requests\views.py:266
+#: .\apps\requests\services.py:360 .\apps\requests\views.py:266
 #, python-format
 msgid "Назначено: %(dep)s"
 msgstr "Назначено: %(dep)s"
@@ -1054,35 +1054,84 @@ msgstr "Oʻzbekcha"
 msgid "Русский"
 msgstr "Русский"
 
-#: .\templates\base_panel.html:56 .\templates\panel\dashboard.html:4
-#: .\templates\panel\dashboard.html:13 .\templates\partials\sidebar.html:27
-msgid "Дашборд"
-msgstr "Дашборд"
+#: .\templates\base_panel.html:74 .\templates\partials\sidebar.html:46
+msgid "Сводная аналитика"
+msgstr ""
 
-#: .\templates\base_panel.html:66 .\templates\partials\sidebar.html:51
+#: .\templates\base_panel.html:79 .\templates\panel\analytics_requests.html:6
+#: .\templates\partials\sidebar.html:51
+msgid "Аналитика обращений"
+msgstr "Аналитика обращений"
+
+#: .\templates\base_panel.html:84 .\templates\panel\analytics_companies.html:6
+#: .\templates\partials\sidebar.html:56
+msgid "Аналитика компаний"
+msgstr "Аналитика компаний"
+
+#: .\templates\base_panel.html:96 .\templates\partials\sidebar.html:82
 msgid "Телефония"
 msgstr "Телефония"
 
-#: .\templates\base_panel.html:87 .\templates\panel\dashboard.html:35
-#: .\templates\partials\sidebar.html:84
+#: .\templates\base_panel.html:117 .\templates\panel\analytics_requests.html:29
+#: .\templates\partials\sidebar.html:115
 msgid "Новые"
 msgstr "Новые"
 
-#: .\templates\base_panel.html:91 .\templates\partials\sidebar.html:90
+#: .\templates\base_panel.html:121 .\templates\partials\sidebar.html:121
 msgid "В исполнении"
 msgstr "В исполнении"
 
-#: .\templates\base_panel.html:95 .\templates\partials\sidebar.html:96
+#: .\templates\base_panel.html:125 .\templates\partials\sidebar.html:127
 msgid "Завершенные"
 msgstr "Завершенные"
 
-#: .\templates\base_panel.html:100 .\templates\partials\sidebar.html:102
+#: .\templates\base_panel.html:130 .\templates\partials\sidebar.html:133
 msgid "Все обращения"
 msgstr "Все обращения"
 
-#: .\templates\base_panel.html:109 .\templates\partials\sidebar.html:120
+#: .\templates\base_panel.html:139 .\templates\partials\sidebar.html:151
 msgid "Выйти"
 msgstr "Выйти"
+
+#: .\templates\base_panel.html:223
+msgid "Закрыто"
+msgstr "Закрыто"
+
+#: .\templates\base_panel.html:225
+#: .\templates\panel\analytics_companies.html:36
+#: .\templates\panel\dashboard.html:57
+msgid "Качество данных"
+msgstr "Качество данных"
+
+#: .\templates\base_panel.html:226
+#: .\templates\panel\analytics_companies.html:28
+#: .\templates\panel\dashboard.html:50
+msgid "Без региона"
+msgstr "Без региона"
+
+#: .\templates\base_panel.html:227
+#: .\templates\panel\analytics_companies.html:31
+#: .\templates\panel\dashboard.html:52
+msgid "Без района"
+msgstr "Без района"
+
+#: .\templates\base_panel.html:228
+#: .\templates\panel\analytics_companies.html:41
+#: .\templates\panel\dashboard.html:60
+msgid "Без категории"
+msgstr "Без категории"
+
+#: .\templates\base_panel.html:229
+msgid "Без направлений"
+msgstr "Без направлений"
+
+#: .\templates\base_panel.html:231
+msgid "Просроченных заявок нет"
+msgstr "Просроченных заявок нет"
+
+#: .\templates\base_panel.html:232
+msgid "Нет данных"
+msgstr "Нет данных"
 
 #: .\templates\base_public.html:54 .\templates\base_public.html:64
 #: .\templates\base_public.html:125
@@ -1183,139 +1232,131 @@ msgstr "Назад"
 msgid "Далее"
 msgstr "Далее"
 
-#: .\templates\panel\dashboard.html:15
-msgid "Сводная статистика по компаниям и обращениям."
-msgstr "Сводная статистика по компаниям и обращениям."
-
+#: .\templates\panel\analytics_companies.html:12
+#: .\templates\panel\analytics_requests.html:12
 #: .\templates\panel\dashboard.html:23 .\templates\telephony\directory.html:39
 msgid "Обновить"
 msgstr "Обновить"
 
-#: .\templates\panel\dashboard.html:32
-msgid "Всего обращений"
-msgstr "Всего обращений"
-
-#: .\templates\panel\dashboard.html:41
-msgid "Закрыто в срок"
-msgstr "Закрыто в срок"
-
-#: .\templates\panel\dashboard.html:48
-msgid "Закрытые обращения с указанным сроком."
-msgstr "Закрытые обращения с указанным сроком."
-
-#: .\templates\panel\dashboard.html:53
-msgid "Реакция департамента"
-msgstr "Реакция департамента"
-
-#: .\templates\panel\dashboard.html:58
-msgid "ч"
-msgstr "ч"
-
-#: .\templates\panel\dashboard.html:61
-msgid "Среднее время до назначения исполнителя."
-msgstr "Среднее время до назначения исполнителя."
-
-#: .\templates\panel\dashboard.html:66 .\templates\panel\requests\list.html:25
-msgid "Просроченные"
-msgstr "Просроченные"
-
-#: .\templates\panel\dashboard.html:69
-msgid "Завершено сегодня"
-msgstr "Завершено сегодня"
-
-#: .\templates\panel\dashboard.html:75
+#: .\templates\panel\analytics_companies.html:23
+#: .\templates\panel\dashboard.html:46
 msgid "Всего компаний"
 msgstr "Всего компаний"
 
-#: .\templates\panel\dashboard.html:78
+#: .\templates\panel\analytics_companies.html:26
+#: .\templates\panel\dashboard.html:49
 msgid "С регионом"
 msgstr "С регионом"
 
-#: .\templates\panel\dashboard.html:79 .\templates\panel\dashboard.html:188
-msgid "Без региона"
-msgstr "Без региона"
-
-#: .\templates\panel\dashboard.html:80
+#: .\templates\panel\analytics_companies.html:29
+#: .\templates\panel\dashboard.html:51
 msgid "С районом"
 msgstr "С районом"
 
-#: .\templates\panel\dashboard.html:81 .\templates\panel\dashboard.html:189
-msgid "Без района"
-msgstr "Без района"
-
-#: .\templates\panel\dashboard.html:86 .\templates\panel\dashboard.html:187
-msgid "Качество данных"
-msgstr "Качество данных"
-
-#: .\templates\panel\dashboard.html:89 .\templates\panel\dashboard.html:190
-msgid "Без категории"
-msgstr "Без категории"
-
-#: .\templates\panel\dashboard.html:89
+#: .\templates\panel\analytics_companies.html:41
+#: .\templates\panel\dashboard.html:61
 msgid "без направлений"
 msgstr "без направлений"
 
-#: .\templates\panel\dashboard.html:99
-msgid "Обращения по проблемным направлениям"
-msgstr "Обращения по проблемным направлениям"
-
-#: .\templates\panel\dashboard.html:107
-msgid "Обращения по регионам"
-msgstr "Обращения по регионам"
-
-#: .\templates\panel\dashboard.html:115
-msgid "Обращения по статусам"
-msgstr "Обращения по статусам"
-
-#: .\templates\panel\dashboard.html:123
-msgid "Обращения по направлениям"
-msgstr "Обращения по направлениям"
-
-#: .\templates\panel\dashboard.html:133
-msgid "Динамика обращений"
-msgstr "Динамика обращений"
-
-#: .\templates\panel\dashboard.html:144
-msgid "Просрочки по департаментам"
-msgstr "Просрочки по департаментам"
-
-#: .\templates\panel\dashboard.html:152
+#: .\templates\panel\analytics_companies.html:51
+#: .\templates\panel\dashboard.html:124
 msgid "Компании по категориям"
 msgstr "Компании по категориям"
 
-#: .\templates\panel\dashboard.html:162
+#: .\templates\panel\analytics_companies.html:59
+msgid "Компании по направлениям"
+msgstr "Компании по направлениям"
+
+#: .\templates\panel\analytics_companies.html:67
+#: .\templates\panel\dashboard.html:134
 msgid "Компании по регионам"
 msgstr "Компании по регионам"
 
-#: .\templates\panel\dashboard.html:170
+#: .\templates\panel\analytics_companies.html:75
+#: .\templates\panel\dashboard.html:142
 msgid "Качество данных компаний"
 msgstr "Качество данных компаний"
 
-#: .\templates\panel\dashboard.html:185
-msgid "Закрыто"
-msgstr "Закрыто"
+#: .\templates\panel\analytics_requests.html:26
+msgid "Всего обращений"
+msgstr "Всего обращений"
 
-#: .\templates\panel\dashboard.html:191
-msgid "Без направлений"
-msgstr "Без направлений"
+#: .\templates\panel\analytics_requests.html:36
+msgid "Закрыто в срок"
+msgstr "Закрыто в срок"
 
-#: .\templates\panel\dashboard.html:193
-msgid "Просроченных заявок нет"
-msgstr "Просроченных заявок нет"
+#: .\templates\panel\analytics_requests.html:43
+msgid "Закрытые обращения с указанным сроком."
+msgstr "Закрытые обращения с указанным сроком."
 
-#: .\templates\panel\dashboard.html:194
-msgid "Нет данных"
-msgstr "Нет данных"
+#: .\templates\panel\analytics_requests.html:48
+#: .\templates\panel\requests\list.html:25
+msgid "Просроченные"
+msgstr "Просроченные"
+
+#: .\templates\panel\analytics_requests.html:51
+msgid "Завершено сегодня"
+msgstr "Завершено сегодня"
+
+#: .\templates\panel\analytics_requests.html:60
+#: .\templates\panel\dashboard.html:71
+msgid "Обращения по проблемным направлениям"
+msgstr "Обращения по проблемным направлениям"
+
+#: .\templates\panel\analytics_requests.html:68
+#: .\templates\panel\dashboard.html:79
+msgid "Обращения по регионам"
+msgstr "Обращения по регионам"
+
+#: .\templates\panel\analytics_requests.html:76
+#: .\templates\panel\dashboard.html:87
+msgid "Обращения по статусам"
+msgstr "Обращения по статусам"
+
+#: .\templates\panel\analytics_requests.html:84
+#: .\templates\panel\dashboard.html:105
+msgid "Динамика обращений"
+msgstr "Динамика обращений"
+
+#: .\templates\panel\analytics_requests.html:92
+#: .\templates\panel\dashboard.html:95
+msgid "Обращения по направлениям"
+msgstr "Обращения по направлениям"
+
+#: .\templates\panel\analytics_requests.html:100
+#: .\templates\panel\dashboard.html:116
+msgid "Просрочки по департаментам"
+msgstr "Просрочки по департаментам"
+
+#: .\templates\panel\dashboard.html:4 .\templates\panel\dashboard.html:13
+msgid "Дашборд"
+msgstr "Дашборд"
+
+#: .\templates\panel\dashboard.html:15
+msgid "Сводная статистика по компаниям и обращениям."
+msgstr "Сводная статистика по компаниям и обращениям."
+
+#: .\templates\panel\dashboard.html:32
+msgid "Реакция департамента"
+msgstr "Реакция департамента"
+
+#: .\templates\panel\dashboard.html:37
+msgid "часов"
+msgstr "часов"
+
+#: .\templates\panel\dashboard.html:40
+msgid "Среднее время до назначения исполнителя."
+msgstr "Среднее время до назначения исполнителя."
 
 #: .\templates\panel\requests\_detail_oob.html:9
-#: .\templates\panel\requests\detail.html:209
+#: .\templates\panel\requests\detail.html:205
 #: .\templates\public\track_requests.html:122
 msgid "История"
 msgstr "История"
 
 #: .\templates\panel\requests\_detail_oob.html:15
 #: .\templates\panel\requests\_fragments.html:127
-#: .\templates\panel\requests\detail.html:215
+#: .\templates\panel\requests\detail.html:211
 msgid "Система"
 msgstr "Система"
 
@@ -1390,21 +1431,21 @@ msgstr "Нет сотрудников"
 msgid "Назначить"
 msgstr "Назначить"
 
-#: .\templates\panel\requests\detail.html:132
-#: .\templates\panel\requests\detail.html:171
+#: .\templates\panel\requests\detail.html:128
+#: .\templates\panel\requests\detail.html:167
 msgid "Ожидаем ответа"
 msgstr "Ожидаем ответа"
 
-#: .\templates\panel\requests\detail.html:145
-#: .\templates\panel\requests\detail.html:183
+#: .\templates\panel\requests\detail.html:141
+#: .\templates\panel\requests\detail.html:179
 msgid "Продолжить работу"
 msgstr "Продолжить работу"
 
-#: .\templates\panel\requests\detail.html:196
+#: .\templates\panel\requests\detail.html:192
 msgid "Завершить обращение"
 msgstr "Завершить обращение"
 
-#: .\templates\panel\requests\detail.html:202
+#: .\templates\panel\requests\detail.html:198
 msgid "Нет доступных действий"
 msgstr "Нет доступных действий"
 
@@ -1450,6 +1491,10 @@ msgstr "Сообщение"
 #: .\templates\public\track_requests.html:147
 msgid "Закрыть"
 msgstr "Закрыть"
+
+#: .\templates\partials\sidebar.html:34
+msgid "Аналитика"
+msgstr "Аналитика"
 
 #: .\templates\public\agency_about_detail.html:10
 #: .\templates\public\home.html:4 .\templates\public\news_detail.html:10
@@ -1713,81 +1758,3 @@ msgstr "Пароль"
 #: .\templates\users\login.html:43
 msgid "Войти"
 msgstr "Войти"
-
-#~ msgid "Можно зарегистрировать только новое обращение."
-#~ msgstr "Можно зарегистрировать только новое обращение."
-
-#~ msgid "Действие из панели"
-#~ msgstr "Действие из панели"
-
-#~ msgid "Обращение зарегистрировано."
-#~ msgstr "Обращение обработано"
-
-#~ msgid "Обращение уже отправлено на резолюцию."
-#~ msgstr "Обращение уже отправлено на резолюцию."
-
-#~ msgid "Выберите помощника руководителя."
-#~ msgstr "Выберите помощника руководителя."
-
-#~ msgid "Отправлено на резолюцию."
-#~ msgstr "Отправлено на резолюцию"
-
-#~ msgid "Проверьте форму резолюции: есть ошибки."
-#~ msgstr "Проверьте форму резолюции: есть ошибки."
-
-#~ msgid "Резолюция добавлена из панели"
-#~ msgstr "Резолюция добавлена из панели"
-
-#~ msgid "Резолюция добавлена, назначение обновлено."
-#~ msgstr "Резолюция добавлена, назначение обновлено."
-
-#~ msgid "Сохранить резолюцию"
-#~ msgstr "Сохранить резолюцию"
-
-#~ msgid "Кому отправить"
-#~ msgstr "Кому отправить"
-
-#~ msgid "Дашборд компаний"
-#~ msgstr "Дашборд компаний"
-
-#~ msgid "К списку компаний"
-#~ msgstr "К списку компаний"
-
-#~ msgid "С указанным регионом"
-#~ msgstr "С указанным регионом"
-
-#~ msgid "Выберите..."
-#~ msgstr "Выберите..."
-
-#~ msgid "Добавить файл"
-#~ msgstr "Добавить файл"
-
-#~ msgid "Нет районов"
-#~ msgstr "Нет районов"
-
-#~ msgid "Годовая мощность"
-#~ msgstr "Годовая мощность"
-
-#~ msgid "Панель"
-#~ msgstr "Панель"
-
-#~ msgid "Панель управления"
-#~ msgstr "Панель управления"
-
-#~ msgid "Структура"
-#~ msgstr "Структура"
-
-#~ msgid "Например: специалист, начальник отдела, помощник замдиректора"
-#~ msgstr "Например: специалист, начальник отдела, помощник замдиректора"
-
-#~ msgid "Связь"
-#~ msgstr "Связь"
-
-#~ msgid "ФИО"
-#~ msgstr "ФИО"
-
-#~ msgid "Документ"
-#~ msgstr "Документ"
-
-#~ msgid "Паспортная серия"
-#~ msgstr "Паспортная серия"

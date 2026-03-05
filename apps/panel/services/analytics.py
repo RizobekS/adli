@@ -527,3 +527,33 @@ def build_dashboard_payload(*, user=None) -> Dict[str, Any]:
         "companies_by_direction": companies_by_direction(),
         "data_quality": data_quality_summary(),
     }
+
+
+def build_requests_payload(*, user=None) -> Dict[str, Any]:
+    """Payload только для аналитики обращений."""
+    return {
+        "kpi": get_kpi(user=user),
+
+        # Requests charts
+        "requests_by_status": requests_by_status(user=user),
+        "requests_by_direction": requests_by_direction(user=user),
+        "requests_by_problem_direction": requests_by_problem_direction(user=user),
+        "requests_by_region": requests_by_region(user=user),
+        "requests_timeline_created": requests_timeline_created(user=user, days=30),
+        "requests_timeline_done": requests_timeline_done(user=user, days=30),
+        "sla_overdue_by_department": sla_overdue_by_department(user=user),
+        "sla_avg_resolution_days": sla_avg_resolution_days(user=user, days=180),
+    }
+
+
+def build_companies_payload(*, user=None) -> Dict[str, Any]:
+    """Payload только для аналитики компаний."""
+    return {
+        "kpi": get_kpi(user=user),
+
+        # Companies charts
+        "companies_by_category": companies_by_category(),
+        "companies_by_region": companies_by_region(),
+        "companies_by_direction": companies_by_direction(),
+        "data_quality": data_quality_summary(),
+    }

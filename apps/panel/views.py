@@ -27,6 +27,8 @@ from ..agency.models import Employee
 
 from .services.analytics import (
     build_dashboard_payload,
+    build_requests_payload,
+    build_companies_payload,
     get_kpi,
     requests_by_status,
     requests_by_direction,
@@ -93,6 +95,31 @@ def _filter_queryset_for_user(qs, user):
     # прочие роли (если зайдут) ничего не видят
     return qs.none()
 
+
+@require_GET
+@agency_required
+def analytics_requests(request):
+    return render(request, "panel/analytics_requests.html", {"kpi": get_kpi(user=request.user)})
+
+@require_GET
+@agency_required
+def analytics_companies(request):
+    return render(request, "panel/analytics_companies.html", {"kpi": get_kpi(user=request.user)})
+
+@require_GET
+@agency_required
+@cache_page(30)
+def api_analytics_requests_all(request):
+    data = build_requests_payload(user=request.user)
+    return JsonResponse(data, safe=True)
+
+@require_GET
+@agency_required
+@cache_page(60)
+def api_analytics_companies_all(request):
+    # компании обычно меняются реже, поэтому можно 60с
+    data = build_companies_payload(user=request.user)
+    return JsonResponse(data, safe=True)
 
 
 @require_GET

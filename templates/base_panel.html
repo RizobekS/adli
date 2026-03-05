@@ -50,11 +50,41 @@
     </div>
 
     <div class="space-y-1 text-sm border-b border-gray-200/70">
-        <a href="{% url 'panel:dashboard' %}"
-           class="nav-link w-full justify-start
-                  {% if active_ns == 'panel' and active_url == 'dashboard' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
-          {% trans "Дашборд" %}
-        </a>
+        <div class="px-1 py-2">
+            <button type="button"
+                    class="nav-link w-full justify-start flex items-center
+                    {% if active_ns == 'panel' and active_url in 'dashboard analytics_requests analytics_companies' %}bg-blue-50 text-blue-900{% endif %}"
+                    data-m-accordion-trigger
+                    data-m-accordion-target="m-analytics-sub"
+                    aria-controls="m-analytics-sub"
+                    aria-expanded="{% if active_ns == 'panel' and active_url in 'dashboard analytics_requests analytics_companies' %}true{% else %}false{% endif %}">
+            {% trans "Обращения" %}
+            <svg class="ml-auto h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <div id="m-analytics-sub"
+             class="overflow-hidden transition-[max-height,opacity] duration-200
+                    {% if active_ns == 'panel' and active_url in 'dashboard analytics_requests analytics_companies' %}max-h-96 opacity-100{% else %}max-h-0 opacity-0{% endif %}
+                    mt-1 ml-3 space-y-1">
+            <a href="{% url 'panel:dashboard' %}"
+               class="block rounded-lg px-3 py-2 text-sm hover:bg-blue-50
+               {% if active_ns == 'panel' and active_url == 'dashboard' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+              {% trans "Сводная аналитика" %}
+            </a>
+            <a href="{% url 'panel:analytics_requests' %}"
+               class="block rounded-lg px-3 py-2 text-sm hover:bg-blue-50
+               {% if active_ns == 'panel' and active_url == 'analytics_requests' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+              {% trans "Аналитика обращений" %}
+            </a>
+            <a href="{% url 'panel:analytics_companies' %}"
+               class="block rounded-lg px-3 py-2 text-sm hover:bg-blue-50
+               {% if active_ns == 'panel' and active_url == 'analytics_companies' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
+              {% trans "Аналитика компаний" %}
+            </a>
+          </div>
+        </div>
         <a href="{% url 'companies:companies_page' %}"
            class="nav-link w-full justify-start
                   {% if active_ns == 'companies' and active_url == 'companies_page' %}bg-blue-100 text-blue-900 font-semibold{% endif %}">
@@ -185,6 +215,22 @@
 <script src="https://unpkg.com/htmx.org@1.9.12"></script>
 <script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
 <script src="{% static 'js/app.js' %}"></script>
+{# ECharts подключаем один раз, безопасно для шаблонов панели #}
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<script>
+    window.DASH_I18N = {
+      created: "{% trans 'Создано' %}",
+      closed: "{% trans 'Закрыто' %}",
 
+      dq_title: "{% trans 'Качество данных' %}",
+      dq_no_region: "{% trans 'Без региона' %}",
+      dq_no_district: "{% trans 'Без района' %}",
+      dq_no_category: "{% trans 'Без категории' %}",
+      dq_no_directions: "{% trans 'Без направлений' %}",
+
+      no_overdue: "{% trans 'Просроченных заявок нет' %}",
+      no_data: "{% trans 'Нет данных' %}"
+    };
+</script>
 </body>
 </html>

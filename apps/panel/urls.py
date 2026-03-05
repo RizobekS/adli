@@ -2,6 +2,8 @@
 from django.urls import path
 from .views import (
     dashboard,
+    analytics_requests,
+    analytics_companies,
     requests_list,
     request_detail,
     request_action_add_step,
@@ -25,6 +27,9 @@ from .views import (
     api_dashboard_companies_direction,
     api_dashboard_data_quality,
     api_dashboard_requests_problem_directions,
+    api_analytics_requests_all,
+    api_analytics_companies_all,
+
 )
 
 app_name = "panel"
@@ -32,12 +37,14 @@ app_name = "panel"
 urlpatterns = [
     # Dashboard API
     path("api/dashboard/", api_dashboard_all, name="api_dashboard_all"),
+    path("api/analytics/requests/", api_analytics_requests_all, name="api_analytics_requests_all"),
+    path("api/analytics/companies/", api_analytics_companies_all, name="api_analytics_companies_all"),
     path("api/dashboard/kpi/", api_dashboard_kpi, name="api_dashboard_kpi"),
 
     path("api/dashboard/requests/status/", api_dashboard_requests_status, name="api_dashboard_requests_status"),
     path("api/dashboard/requests/directions/", api_dashboard_requests_directions,
          name="api_dashboard_requests_directions"),
-    path("api/dashboard/requests/problem-directions//", api_dashboard_requests_problem_directions,
+    path("api/dashboard/requests/problem-directions/", api_dashboard_requests_problem_directions,
          name="api_dashboard_requests_problem_directions"),
     path("api/dashboard/requests/regions/", api_dashboard_requests_regions, name="api_dashboard_requests_regions"),
     path("api/dashboard/requests/timeline-created/", api_dashboard_requests_timeline_created,
@@ -60,6 +67,8 @@ urlpatterns = [
 
 
     path("", dashboard, name="dashboard"),
+    path("analytics/requests/", analytics_requests, name="analytics_requests"),
+    path("analytics/companies/", analytics_companies, name="analytics_companies"),
 
     # Requests (panel)
     path("requests/", requests_list, name="requests_list"),
