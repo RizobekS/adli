@@ -1056,7 +1056,7 @@ msgstr "Русский"
 
 #: .\templates\base_panel.html:74 .\templates\partials\sidebar.html:46
 msgid "Сводная аналитика"
-msgstr ""
+msgstr "Сводная аналитика"
 
 #: .\templates\base_panel.html:79 .\templates\panel\analytics_requests.html:6
 #: .\templates\partials\sidebar.html:51
