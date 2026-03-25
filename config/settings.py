@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", default="")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", default=False)
+DEBUG = os.environ.get("DEBUG", "False").lower() in ("1", "true", "yes", "on")
 
 ALLOWED_HOSTS = [p.strip() for p in os.environ.get("ALLOWED_HOSTS","").split(",") if p.strip()]
 CSRF_TRUSTED_ORIGINS = [u.strip() for u in os.environ.get("CSRF_TRUSTED_ORIGINS","").split(",") if u.strip()]
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.agency',
     'apps.telephony',
     'apps.users',
+    'apps.tg_bot',
 
     #packages
     "ckeditor",
@@ -126,6 +127,11 @@ AUTH_PASSWORD_VALIDATORS = [
 LOGIN_URL = "users:login"
 LOGIN_REDIRECT_URL = "panel:dashboard"
 LOGOUT_REDIRECT_URL = "users:login"
+
+# Telegram bot
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_BOT_PARSE_MODE = os.environ.get("TELEGRAM_BOT_PARSE_MODE", "HTML")
+SITE_URL = os.environ.get("SITE_URL", "http://127.0.0.1:8000").rstrip("/")
 
 
 # Internationalization

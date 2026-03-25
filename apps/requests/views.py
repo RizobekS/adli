@@ -129,13 +129,10 @@ def public_request_create(request):
                 description=form.cleaned_data["description"],
                 directions=form.cleaned_data["directions"],
                 problem_direction=form.cleaned_data["problem_direction"],
+                attachments=form.cleaned_data.get("attachments", []),
             )
 
             request.session["adli_public_id"] = req.public_id
-
-            # 5) attachments
-            for f in form.cleaned_data.get("attachments", []):
-                RequestFile.objects.create(request=req, file=f)
 
             # 6) success token (одноразовый)
             token = secrets.token_urlsafe(16)

@@ -93,6 +93,17 @@ class Unit(models.Model):
 
 
 class Company(models.Model):
+    class DataSource(models.TextChoices):
+        IMPORT = "import", _("Импорт сотрудниками")
+        PUBLIC_WEB = "public_web", _("Публичная форма")
+        TELEGRAM = "telegram", _("Telegram bot")
+        MANUAL = "manual", _("Создано вручную")
+
+    class VerificationLevel(models.TextChoices):
+        HIGH = "high", _("Высокая достоверность")
+        MEDIUM = "medium", _("Средняя достоверность")
+        LOW = "low", _("Низкая достоверность")
+
     region = models.ForeignKey(
         Region,
         verbose_name=_("Регион"),
@@ -137,6 +148,21 @@ class Company(models.Model):
         help_text=_("Идентификационный номер налогоплательщика компании"),
     )
 
+    data_source = models.CharField(
+        _("Источник данных"),
+        max_length=20,
+        choices=DataSource.choices,
+        default=DataSource.MANUAL,
+        db_index=True,
+    )
+    verification_level = models.CharField(
+        _("Уровень достоверности"),
+        max_length=10,
+        choices=VerificationLevel.choices,
+        default=VerificationLevel.MEDIUM,
+        db_index=True,
+    )
+
     description = models.TextField(
         _("Описание (о компании/доп. сведения)"),
         blank=True,
@@ -152,6 +178,8 @@ class Company(models.Model):
         indexes = [
             models.Index(fields=["inn"]),
             models.Index(fields=["name"]),
+            models.Index(fields=["data_source"]),
+            models.Index(fields=["verification_level"]),
         ]
 
     def __str__(self):
@@ -247,7 +275,7 @@ class EmployeeCompany(models.Model):
 
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.company}-{self.position})"
+        return f"{self.first_name} {self.last_name}"
 
 
 class CompanyPhone(models.Model):

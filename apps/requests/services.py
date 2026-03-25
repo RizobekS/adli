@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import (
     Request,
+    RequestFile,
     RequestHistory,
     RequestResolution,
     RequestStep,
@@ -119,6 +120,121 @@ def ensure_public_id(*, request: Request) -> Request:
 
     return request
 
+def _create_attachments(*, request: Request, attachments=None) -> None:
+    if not attachments:
+        return
+
+    for file_obj in attachments:
+        RequestFile.objects.create(
+            request=request,
+            kind=RequestFile.Kind.ATTACHMENT,
+            file=file_obj,
+        )
+
+        _add_history(
+            request=request,
+            actor=None,
+            action=RequestHistory.Action.FILE_ADDED,
+            comment=_("Добавлен файл"),
+        )
+
+
+@transaction.atomic
+def create_request_from_channel(
+    *,
+    company,
+    employee,
+    description: str,
+    problem_direction=None,
+    directions=None,
+    attachments=None,
+    source: str = Request.Source.PUBLIC_WEB,
+    actor=None,
+    created_comment: str = "",
+) -> Request:
+    """
+    Универсальная точка создания обращения из любого канала:
+    - public_web
+    - telegram
+    - admin_panel
+
+    Логика:
+    - создаём Request
+    - определяем департамент по problem_direction
+    - генерируем public_id
+    - сохраняем направления
+    - сохраняем вложения
+    - пишем историю
+    """
+
+    dept = problem_direction.department if problem_direction else None
+    initial_status = Request.Status.ASSIGNED if dept else Request.Status.NEW
+
+    req = Request.objects.create(
+        company=company,
+        employee=employee,
+        description=description,
+        problem_direction=problem_direction,
+        assigned_department=dept,
+        status=initial_status,
+        source=source,
+    )
+
+    ensure_public_id(request=req)
+
+    if directions is not None:
+        req.directions.set(directions)
+
+    _create_attachments(request=req, attachments=attachments)
+
+    if not created_comment:
+        if source == Request.Source.TELEGRAM:
+            created_comment = _("Обращение создано через Telegram bot")
+        elif source == Request.Source.ADMIN_PANEL:
+            created_comment = _("Обращение создано через админ-панель")
+        else:
+            created_comment = _("Обращение создано через публичную форму")
+
+    _add_history(
+        request=req,
+        actor=actor,
+        action=RequestHistory.Action.CREATED,
+        comment=created_comment,
+        from_status="",
+        to_status=req.status,
+    )
+
+    _add_history(
+        request=req,
+        actor=actor,
+        action=RequestHistory.Action.REGISTERED,
+        comment=_("Зарегистрировано"),
+        from_status=Request.Status.NEW,
+        to_status=req.status,
+    )
+
+    if problem_direction:
+        _add_history(
+            request=req,
+            actor=actor,
+            action=RequestHistory.Action.RESOLVED,
+            comment=_("Резолюция поставлена"),
+            from_status="",
+            to_status="",
+        )
+
+    if dept:
+        _add_history(
+            request=req,
+            actor=actor,
+            action=RequestHistory.Action.ASSIGNED,
+            comment=_("Назначено: %(dep)s") % {"dep": dept.name},
+            from_status="",
+            to_status="",
+        )
+
+    return req
+
 
 @transaction.atomic
 def create_public_request(
@@ -129,36 +245,16 @@ def create_public_request(
     directions=None,
     attachments=None,
 ) -> Request:
-    """
-    Единая точка создания обращения из публичной формы:
-    - создаём Request
-    - генерим public_id
-    - сохраняем направления и вложения (если есть)
-    - пишем историю CREATED
-    """
-    req = Request.objects.create(
+    return create_request_from_channel(
         company=company,
         employee=employee,
         description=description,
+        directions=directions,
+        attachments=attachments,
+        source=Request.Source.PUBLIC_WEB,
+        actor=None,
+        created_comment=_("Обращение создано через публичную форму"),
     )
-
-    ensure_public_id(request=req)
-
-    if directions is not None:
-        req.directions.set(directions)
-
-    # attachments создаются в view сейчас вручную, можно перенести сюда, если хочешь.
-    # Тогда просто пробрось attachments и создай RequestFile внутри сервиса.
-
-    _add_history(
-        request=req,
-        actor=None,  # публичный пользователь не в системе
-        action=RequestHistory.Action.CREATED,
-        comment=_("Обращение создано через публичную форму"),
-        from_status="",
-        to_status=req.status,
-    )
-    return req
 
 @transaction.atomic
 def register_request(*, request: Request, actor, comment: str = "") -> ServiceResult:
@@ -298,71 +394,17 @@ def create_public_request_routed(
     directions=None,
     attachments=None,
 ) -> Request:
-    """
-    Новый поток:
-    - создаём Request
-    - сразу назначаем департамент (по problem_direction)
-    - сразу статус ASSIGNED (но assigned_employee пока пустой)
-    - public_id
-    - история: CREATED + REGISTERED + RESOLVED + ASSIGNED (авто)
-    """
-    dept = problem_direction.department if problem_direction else None
-
-    req = Request.objects.create(
+    return create_request_from_channel(
         company=company,
         employee=employee,
         description=description,
         problem_direction=problem_direction,
-        assigned_department=dept,
-        status=Request.Status.ASSIGNED if dept else Request.Status.NEW,
-    )
-
-    ensure_public_id(request=req)
-
-    if directions is not None:
-        req.directions.set(directions)
-
-    _add_history(
-        request=req,
+        directions=directions,
+        attachments=attachments,
+        source=Request.Source.PUBLIC_WEB,
         actor=None,
-        action=RequestHistory.Action.CREATED,
-        comment=_("Обращение создано через публичную форму"),
-        from_status="",
-        to_status=req.status,
+        created_comment=_("Обращение создано через публичную форму"),
     )
-
-    # Авто “зарегистрировано”
-    _add_history(
-        request=req,
-        actor=None,
-        action=RequestHistory.Action.REGISTERED,
-        comment=_("Зарегистрировано"),
-        from_status=Request.Status.NEW,
-        to_status=req.status,
-    )
-
-    # Авто “резолюция поставлена” (как факт процесса)
-    _add_history(
-        request=req,
-        actor=None,
-        action=RequestHistory.Action.RESOLVED,
-        comment=_("Резолюция поставлена"),
-        from_status="",
-        to_status="",
-    )
-
-    # Авто “назначено” (департамент известен, исполнитель пока нет)
-    if dept:
-        _add_history(
-            request=req,
-            actor=None,
-            action=RequestHistory.Action.ASSIGNED,
-            comment=_("Назначено: %(dep)s") % {"dep": dept.name},
-            from_status="",
-            to_status="",
-        )
-
-    return req
 
 
 @transaction.atomic

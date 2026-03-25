@@ -103,12 +103,12 @@ class PublicRequestForm(forms.Form):
         self.fields["attachments"].widget.attrs.update({
             "class": file_cls,
             "multiple": True,
-            "accept": ".pdf,.doc,.docx,.xls,.xlsx"
+            "accept": ".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
         })
 
     def clean_attachments(self):
         files = self.cleaned_data.get("attachments") or []
-        allowed = (".pdf", ".doc", ".docx", ".xls", ".xlsx")
+        allowed = (".pdf", ".doc", ".docx", ".xls", ".xlsx", ".jpg", ".jpeg", ".png")
 
         for item in files:
             validate_file_size(item, MAX_ATTACH_MB)

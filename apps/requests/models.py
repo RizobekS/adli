@@ -37,6 +37,11 @@ class Request(models.Model):
         DONE = "done", _("Обработано")
         CANCELLED = "cancelled", _("Отменено")
 
+    class Source(models.TextChoices):
+        PUBLIC_WEB = "public_web", _("Публичная форма")
+        TELEGRAM = "telegram", _("Telegram bot")
+        ADMIN_PANEL = "admin_panel", _("Админ панель")
+
     company = models.ForeignKey(
         Company,
         verbose_name=_("Компания"),
@@ -127,6 +132,14 @@ class Request(models.Model):
     resolved_at = models.DateTimeField(_("Дата завершения"), null=True, blank=True)
 
     created_at = models.DateTimeField(_("Дата создания"), auto_now_add=True)
+
+    source = models.CharField(
+        _("Источник"),
+        max_length=20,
+        choices=Source.choices,
+        default=Source.PUBLIC_WEB,
+        db_index=True,
+    )
     updated_at = models.DateTimeField(_("Дата обновления"), auto_now=True)
 
     class Meta:
@@ -158,7 +171,7 @@ class RequestFile(models.Model):
     file = models.FileField(
         _("Файл"),
         upload_to=request_attach_upload_to,
-        validators=[FileExtensionValidator(["pdf", "doc", "docx", "xls", "xlsx"])],
+        validators=[FileExtensionValidator(["pdf", "doc", "docx", "xls", "xlsx", "jpg", "jpeg", "png"])]
     )
 
     created_at = models.DateTimeField(_("Дата загрузки"), auto_now_add=True)

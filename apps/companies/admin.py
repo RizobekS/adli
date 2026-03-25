@@ -150,10 +150,10 @@ class CompanyAdminForm(forms.ModelForm):
 class CompanyAdmin(TranslationAdmin, ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = CompanyResource
     form = CompanyAdminForm
-    list_display = ("name", "inn", "category", "region", "district", "created_at")
+    list_display = ("name", "inn", "category", "region", "district", "data_source", "verification_level", "created_at")
     list_select_related = ("category", "region", "district",)
     search_fields = ("name", "inn", "description", "category__name", "region__name", "district__name",)
-    list_filter = ("region", "district", "category", "created_at")
+    list_filter = ("region", "district", "category", "data_source", "verification_level", "created_at")
     ordering = ("name",)
     readonly_fields = ("created_at",)
     date_hierarchy = "created_at"
@@ -168,6 +168,8 @@ class CompanyAdmin(TranslationAdmin, ImportExportModelAdmin, admin.ModelAdmin):
         "name",
         "inn",
         "description",
+        "data_source",
+        "verification_level",
         "created_at",
     )
 

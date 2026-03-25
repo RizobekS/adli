@@ -359,15 +359,33 @@ class CompanyDirectionStatResource(resources.ModelResource):
         if row.get("district_code"):
             district = District.objects.filter(code=str(row["district_code"]).strip()).first()
 
-        company, _ = Company.objects.get_or_create(
+        company, created = Company.objects.get_or_create(
             inn=inn,
             defaults={
                 "name": name or inn,
                 "category": category,
                 "region": region,
                 "district": district,
+                "data_source": Company.DataSource.IMPORT,
+                "verification_level": Company.VerificationLevel.HIGH,
             }
         )
+
+        if created:
+            pass
+        else:
+            changed_meta = False
+
+            if company.data_source != Company.DataSource.IMPORT:
+                company.data_source = Company.DataSource.IMPORT
+                changed_meta = True
+
+            if company.verification_level != Company.VerificationLevel.HIGH:
+                company.verification_level = Company.VerificationLevel.HIGH
+                changed_meta = True
+
+            if changed_meta:
+                company.save(update_fields=["data_source", "verification_level"])
 
         changed = False
         if name and company.name != name:
