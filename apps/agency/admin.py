@@ -34,7 +34,7 @@ class EmployeeAdmin(admin.ModelAdmin):
     list_filter = ("is_active", "department", "created_at")
     search_fields = (
         "first_name", "last_name", "middle_name", "pinpp",
-        "user__username", "user__email" "position__name", "phone"
+        "user__username", "user__email", "position__name", "phone"
     )
     ordering = ("department__name", "user__username")
     autocomplete_fields = ("user", "department")
