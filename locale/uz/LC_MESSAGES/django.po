@@ -968,6 +968,10 @@ msgstr "Ish davom etmoqda"
 msgid "Обращение создано через Telegram bot"
 msgstr "So'rov Telegram bot orqali yaratildi"
 
+#: .\templates\panel\requests\_fragments.html:40
+msgid "ФИО"
+msgstr "FISH"
+
 #: .\apps\requests\services.py:194
 msgid "Обращение создано через админ-панель"
 msgstr "So'rov admin panel orqali yaratildi"

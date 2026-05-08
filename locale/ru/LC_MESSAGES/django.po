@@ -984,6 +984,10 @@ msgstr "Обращение создано через Телеграм бот"
 msgid "Обращение создано через админ-панель"
 msgstr "Обращение создано через админ-панель"
 
+#: .\templates\panel\requests\_fragments.html:40
+msgid "ФИО"
+msgstr "ФИО"
+
 #: .\apps\requests\services.py:196 .\apps\requests\services.py:256
 #: .\apps\requests\services.py:406
 msgid "Обращение создано через публичную форму"
