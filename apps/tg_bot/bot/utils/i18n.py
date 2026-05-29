@@ -19,7 +19,6 @@ TEXTS = {
             "Здравствуйте.\n\n"
             "Чтобы пользоваться ботом, нужно подтвердить номер телефона.\n"
             "Отправьте ваш номер кнопкой ниже.\n\n"
-            "Номер будет проверен по базе компаний."
         ),
 
         "send_contact": "📱 Отправить номер",
@@ -40,6 +39,8 @@ TEXTS = {
         "send_own_phone": "Пожалуйста, отправьте именно свой номер через кнопку ниже.",
         "phone_not_received": "Номер телефона не получен. Попробуйте отправить контакт еще раз.",
         "send_phone_using_button": "Сейчас нужно отправить номер телефона кнопкой ниже.",
+        "send_email": "Введите вашу электронную почту для получения уведомлений по обращениям:",
+        "email_invalid": "Электронная почта указана некорректно. Введите правильный электронную почту, например: name@example.com",
         "phone_verified_success": (
             "✅ Номер успешно подтвержден.\n\n"
             "Компания: {company_name}\n"
@@ -97,6 +98,7 @@ TEXTS = {
             "ИНН: {inn}\n"
             "Компания: {company_name}\n"
             "ФИО: {fio}\n"
+            "Электронная почта: {email}\n"
             "Регион: {region_name}\n"
             "Район: {district_name}\n"
             "Категория: {category_name}\n"
@@ -217,6 +219,8 @@ TEXTS = {
         "send_own_phone": "Iltimos, quyidagi tugma orqali aynan o‘zingizning raqamingizni yuboring.",
         "phone_not_received": "Telefon raqami olinmadi. Kontaktni yana yuborib ko‘ring.",
         "send_phone_using_button": "Hozir telefon raqamini quyidagi tugma orqali yuborish kerak.",
+        "send_email": "Murojaatlar bo‘yicha xabarnomalarni olish uchun elektron manzilingizni kiriting:",
+        "email_invalid": "Elektron manzil noto‘g‘ri kiritildi. To‘g‘ri elektron manzil kiriting, masalan: name@example.com",
         "phone_verified_success": (
             "✅ Raqam muvaffaqiyatli tasdiqlandi.\n\n"
             "Kompaniya: {company_name}\n"
@@ -274,6 +278,7 @@ TEXTS = {
             "STIR: {inn}\n"
             "Kompaniya: {company_name}\n"
             "F.I.Sh.: {fio}\n"
+            "Elektron manzil: {email}\n"
             "Viloyat: {region_name}\n"
             "Tuman/shahar: {district_name}\n"
             "Kategoriya: {category_name}\n"

@@ -8,6 +8,7 @@ class TelegramProfileAdmin(admin.ModelAdmin):
     list_display = (
         "telegram_user_id",
         "phone_normalized",
+        "email",
         "company",
         "employee_company",
         "is_verified",
@@ -22,11 +23,13 @@ class TelegramProfileAdmin(admin.ModelAdmin):
         "last_name",
         "phone",
         "phone_normalized",
+        "email",
         "company__name",
         "employee_company__first_name",
         "employee_company__last_name",
         "employee_company__middle_name",
         "employee_company__phone",
+        "employee_company__email",
     )
     autocomplete_fields = ("company", "employee_company")
 

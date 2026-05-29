@@ -4,6 +4,7 @@ from aiogram.fsm.state import State, StatesGroup
 class AuthStates(StatesGroup):
     choosing_language = State()
     waiting_for_contact = State()
+    waiting_for_email = State()
     waiting_for_phone_fallback_action = State()
 
 
@@ -13,6 +14,7 @@ class RegistrationStates(StatesGroup):
     choosing_region = State()
     choosing_district = State()
     waiting_for_fio = State()
+    waiting_for_email = State()
     choosing_category = State()
     choosing_directions = State()
     confirming = State()

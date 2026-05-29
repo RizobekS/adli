@@ -19,15 +19,12 @@ class TelegramProfile(models.Model):
     last_name = models.CharField(max_length=255, blank=True)
     language_code = models.CharField(max_length=16, blank=True)
 
-    bot_language = models.CharField(
-        max_length=8,
-        choices=BotLanguage.choices,
-        default=BotLanguage.RU,
-        db_index=True,
-    )
+    bot_language = models.CharField(max_length=8, choices=BotLanguage.choices, default=BotLanguage.RU, db_index=True)
 
     phone = models.CharField(max_length=20, blank=True)
     phone_normalized = models.CharField(max_length=20, blank=True, db_index=True)
+
+    email = models.EmailField(max_length=254, blank=True, db_index=True)
 
     company = models.ForeignKey(
         "companies.Company",

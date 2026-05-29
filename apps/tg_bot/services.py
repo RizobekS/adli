@@ -51,6 +51,7 @@ def create_or_update_telegram_profile(
     bot_language: str | None = None,
     phone: str = "",
     phone_normalized: str = "",
+    email: str = "",
     company: Company | None = None,
     employee_company: EmployeeCompany | None = None,
     is_verified: bool = False,
@@ -63,6 +64,7 @@ def create_or_update_telegram_profile(
         "language_code": language_code or "",
         "phone": phone or "",
         "phone_normalized": phone_normalized or "",
+        "email": (email or "").strip().lower(),
         "company": company,
         "employee_company": employee_company,
         "is_verified": is_verified,
@@ -102,6 +104,34 @@ def set_telegram_profile_bot_language(
         language_code=language_code,
         bot_language=bot_language,
     )
+    return profile
+
+
+@transaction.atomic
+def set_telegram_profile_email(
+    *,
+    telegram_user_id: int,
+    email: str,
+) -> TelegramProfile:
+    email = (email or "").strip().lower()
+
+    profile = (
+        TelegramProfile.objects
+        .select_related("employee_company")
+        .filter(telegram_user_id=telegram_user_id)
+        .first()
+    )
+
+    if not profile:
+        raise ValueError("Telegram profile not found")
+
+    profile.email = email
+    profile.save(update_fields=["email", "updated_at"])
+
+    if profile.employee_company:
+        profile.employee_company.email = email
+        profile.employee_company.save(update_fields=["email"])
+
     return profile
 
 
@@ -347,6 +377,7 @@ def register_or_bind_telegram_profile_by_inn(
     inn: str,
     company_name: str = "",
     fio: str = "",
+    email: str = "",
     region: Region | None = None,
     district: District | None = None,
     category: Category | None = None,
@@ -354,6 +385,7 @@ def register_or_bind_telegram_profile_by_inn(
 ) -> RegisterByInnResult:
     inn = (inn or "").strip()
     normalized_phone = normalize_uz_phone(raw_phone)
+    email = (email or "").strip().lower()
 
     if not inn:
         raise ValueError("ИНН обязателен")
@@ -422,15 +454,22 @@ def register_or_bind_telegram_profile_by_inn(
             last_name=last_name or tg_last_name or None,
             middle_name=middle_name or None,
             phone=normalized_phone or None,
+            email=email or None,
             position=None,
         )
     else:
-        changed_emp = False
+        changed_fields = []
+
         if normalized_phone and not employee_company.phone:
             employee_company.phone = normalized_phone
-            changed_emp = True
-        if changed_emp:
-            employee_company.save(update_fields=["phone"])
+            changed_fields.append("phone")
+
+        if email and employee_company.email != email:
+            employee_company.email = email
+            changed_fields.append("email")
+
+        if changed_fields:
+            employee_company.save(update_fields=changed_fields)
 
     existing_profile = TelegramProfile.objects.filter(telegram_user_id=telegram_user_id).first()
     bot_language = existing_profile.bot_language if existing_profile else resolve_default_bot_language(language_code)
@@ -445,6 +484,7 @@ def register_or_bind_telegram_profile_by_inn(
         bot_language=bot_language,
         phone=raw_phone,
         phone_normalized=normalized_phone,
+        email=email,
         company=company,
         employee_company=employee_company,
         is_verified=True,

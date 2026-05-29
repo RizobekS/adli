@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from asgiref.sync import sync_to_async
 from django.utils import timezone
 from aiogram import Router, F
@@ -38,6 +40,10 @@ from apps.tg_bot.services import register_or_bind_telegram_profile_by_inn
 router = Router()
 
 
+def _normalize_email(value: str) -> str:
+    return (value or "").strip().lower()
+
+
 async def _registration_preview(state: FSMContext, lang: str = "ru") -> str:
     data = await state.get_data()
 
@@ -52,6 +58,7 @@ async def _registration_preview(state: FSMContext, lang: str = "ru") -> str:
         inn=data.get("inn", "—"),
         company_name=data.get("company_name", "—"),
         fio=data.get("fio", "—"),
+        email=data.get("email", "—"),
         region_name=data.get("region_name", "—"),
         district_name=data.get("district_name", "—"),
         category_name=data.get("category_name", "—"),
@@ -295,12 +302,38 @@ async def input_fio(message: Message, state: FSMContext):
         await message.answer(tr(lang, "fio_too_short"))
         return
 
-    allow_skip = bool(data.get("company_exists"))
-
     await state.update_data(
         fio=fio,
         last_step_at=timezone.now().isoformat(),
     )
+
+    await state.set_state(RegistrationStates.waiting_for_email)
+    await message.answer(tr(lang, "send_email"))
+
+
+@router.message(RegistrationStates.waiting_for_email)
+async def input_email(message: Message, state: FSMContext):
+    data = await state.get_data()
+    if is_session_expired(data):
+        await reset_user_dialog(message, state, reason_key="session_recovered")
+        return
+
+    lang = await sync_to_async(get_user_bot_language)(message.from_user.id if message.from_user else 0)
+    email = _normalize_email(message.text or "")
+
+    try:
+        validate_email(email)
+    except ValidationError:
+        await message.answer(tr(lang, "email_invalid"))
+        return
+
+    allow_skip = bool(data.get("company_exists"))
+
+    await state.update_data(
+        email=email,
+        last_step_at=timezone.now().isoformat(),
+    )
+
     categories = await sync_to_async(list)(get_categories())
     await state.set_state(RegistrationStates.choosing_category)
     await message.answer(
@@ -448,6 +481,7 @@ async def confirm_registration(callback: CallbackQuery, state: FSMContext):
         inn=data["inn"],
         company_name=data.get("company_name", ""),
         fio=data.get("fio", ""),
+        email=data.get("email", ""),
         region=region,
         district=district,
         category=category,
