@@ -1,4 +1,5 @@
-{% load i18n %}
+{% load static i18n %}
+
 <div id="directoryTable" class="rounded-2xl border border-gray-200 bg-white/60 backdrop-blur">
     <div class="overflow-x-auto">
         <table class="min-w-full text-sm">
@@ -25,7 +26,8 @@
                         <img src="{{ u.photo }}" class="h-9 w-9 rounded-full object-cover border border-gray-200"
                              alt="">
                         {% else %}
-                        <div class="h-9 w-9 rounded-full bg-gray-100 border border-gray-200"></div>
+                        <img src="{% static 'img/user_icon.png' %}" class="h-9 w-9 rounded-full object-cover border border-gray-200"
+                             alt="iser_icon">
                         {% endif %}
                         <div>
                             <div class="font-medium text-gray-900">{{ u.display_name }}</div>
