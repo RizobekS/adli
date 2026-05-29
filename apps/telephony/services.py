@@ -95,6 +95,7 @@ def build_directory_rows() -> List[Dict[str, Any]]:
             "employee_id": emp.id,
             "photo": emp.photo.url if emp.photo else "",
             "full_name": full_name,
+            "display_name": emp.display_name,
             "department": emp.department,
             "position": emp.position,
             "mobile_phone": emp.mobile_phone or "",
