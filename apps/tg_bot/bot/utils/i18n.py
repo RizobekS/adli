@@ -26,7 +26,6 @@ TEXTS = {
         "my_requests": "📄 Мои обращения",
         "help": "ℹ️ Помощь",
         "specify_inn": "🔎 Указать ИНН",
-        "send_other_phone": "📱 Отправить другой номер",
         "cancel": "❌ Отмена",
         "back": "⬅️ Назад",
         "skip": "⏭ Пропустить",
@@ -47,13 +46,7 @@ TEXTS = {
             "Заявитель: {employee_name}\n\n"
             "Теперь вы можете пользоваться ботом."
         ),
-        "phone_not_found": (
-            "Ваш номер не найден в базе компаний.\n\n"
-            "Вы можете:\n"
-            "• указать ИНН компании\n"
-            "• отправить другой номер\n"
-            "• отменить действие"
-        ),
+        "phone_not_found": "Для продолжения регистрации введите ИНН компании.",
 
         "help_text": (
             "Через этого бота можно будет:\n"
@@ -227,13 +220,7 @@ TEXTS = {
             "Arizachi: {employee_name}\n\n"
             "Endi siz botdan foydalanishingiz mumkin."
         ),
-        "phone_not_found": (
-            "Sizning raqamingiz kompaniyalar bazasidan topilmadi.\n\n"
-            "Siz quyidagilardan birini tanlashingiz mumkin:\n"
-            "• kompaniya STIRini kiritish\n"
-            "• boshqa raqam yuborish\n"
-            "• amalni bekor qilish"
-        ),
+        "phone_not_found": "Ro‘yxatdan o‘tishni davom ettirish uchun kompaniya STIRini kiriting.",
 
         "help_text": (
             "Ushbu bot orqali siz:\n"

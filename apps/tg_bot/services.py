@@ -95,7 +95,31 @@ def set_telegram_profile_bot_language(
     if bot_language not in {"ru", "uz"}:
         bot_language = "ru"
 
-    profile = create_or_update_telegram_profile(
+    profile = TelegramProfile.objects.filter(
+        telegram_user_id=telegram_user_id
+    ).first()
+
+    if profile:
+        profile.chat_id = chat_id
+        profile.username = username or ""
+        profile.first_name = first_name or ""
+        profile.last_name = last_name or ""
+        profile.language_code = language_code or ""
+        profile.bot_language = bot_language
+        profile.is_active = True
+        profile.save(update_fields=[
+            "chat_id",
+            "username",
+            "first_name",
+            "last_name",
+            "language_code",
+            "bot_language",
+            "is_active",
+            "updated_at",
+        ])
+        return profile
+
+    return create_or_update_telegram_profile(
         telegram_user_id=telegram_user_id,
         chat_id=chat_id,
         username=username,
@@ -104,7 +128,6 @@ def set_telegram_profile_bot_language(
         language_code=language_code,
         bot_language=bot_language,
     )
-    return profile
 
 
 @transaction.atomic

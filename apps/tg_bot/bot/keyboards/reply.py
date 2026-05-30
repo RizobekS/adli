@@ -26,19 +26,6 @@ def contact_request_keyboard(lang: str = "ru") -> ReplyKeyboardMarkup:
     )
 
 
-def phone_not_found_keyboard(lang: str = "ru") -> ReplyKeyboardMarkup:
-    return ReplyKeyboardMarkup(
-        keyboard=[
-            [KeyboardButton(text=tr(lang, "specify_inn"))],
-            [KeyboardButton(text=tr(lang, "send_other_phone"), request_contact=True)],
-            [KeyboardButton(text=tr(lang, "change_language"))],
-            [KeyboardButton(text=tr(lang, "main_menu"))],
-            [KeyboardButton(text=tr(lang, "cancel"))],
-        ],
-        resize_keyboard=True,
-    )
-
-
 def main_menu_keyboard(lang: str = "ru") -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(
         keyboard=[

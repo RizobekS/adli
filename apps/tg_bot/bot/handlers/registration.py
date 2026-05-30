@@ -9,7 +9,6 @@ from aiogram.fsm.context import FSMContext
 from apps.tg_bot.bot.keyboards.reply import (
     contact_request_keyboard,
     main_menu_keyboard,
-    phone_not_found_keyboard,
 )
 from apps.tg_bot.bot.keyboards.inline import (
     reg_regions_keyboard,
@@ -18,7 +17,7 @@ from apps.tg_bot.bot.keyboards.inline import (
     reg_directions_keyboard,
     reg_confirm_keyboard,
 )
-from apps.tg_bot.bot.states.request_states import AuthStates, RegistrationStates
+from apps.tg_bot.bot.states.request_states import RegistrationStates
 from apps.tg_bot.bot.utils.i18n import tr, get_i18n_attr
 from apps.tg_bot.bot.utils.session_guard import is_session_expired
 from apps.tg_bot.bot.utils.recovery import reset_user_dialog
@@ -63,45 +62,6 @@ async def _registration_preview(state: FSMContext, lang: str = "ru") -> str:
         district_name=data.get("district_name", "—"),
         category_name=data.get("category_name", "—"),
         direction_names=", ".join(direction_names) if direction_names else "—",
-    )
-
-
-@router.message(
-    AuthStates.waiting_for_phone_fallback_action,
-    F.text.in_(["🔎 Указать ИНН", "🔎 STIRni kiritish"]),
-)
-async def start_registration_by_inn(message: Message, state: FSMContext):
-    lang = await sync_to_async(get_user_bot_language)(message.from_user.id if message.from_user else 0)
-
-    await state.set_state(RegistrationStates.waiting_for_inn)
-    await state.update_data(last_step_at=timezone.now().isoformat())
-
-    await message.answer(
-        tr(lang, "enter_company_inn"),
-        reply_markup=phone_not_found_keyboard(lang),
-    )
-
-
-@router.message(AuthStates.waiting_for_phone_fallback_action, F.contact)
-async def retry_phone_from_fallback(message: Message, state: FSMContext):
-    lang = await sync_to_async(get_user_bot_language)(message.from_user.id if message.from_user else 0)
-    await state.set_state(AuthStates.waiting_for_contact)
-    await message.answer(
-        tr(lang, "send_phone_below"),
-        reply_markup=contact_request_keyboard(lang),
-    )
-
-
-@router.message(
-    AuthStates.waiting_for_phone_fallback_action,
-    F.text.in_(["❌ Отмена", "❌ Bekor qilish"]),
-)
-async def cancel_fallback(message: Message, state: FSMContext):
-    lang = await sync_to_async(get_user_bot_language)(message.from_user.id if message.from_user else 0)
-    await state.clear()
-    await message.answer(
-        tr(lang, "action_cancelled"),
-        reply_markup=contact_request_keyboard(lang),
     )
 
 

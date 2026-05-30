@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from asgiref.sync import sync_to_async
 from aiogram import Router, F
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 
 from apps.tg_bot.services import verify_telegram_user_by_phone, set_telegram_profile_email
@@ -10,9 +10,8 @@ from apps.tg_bot.selectors import get_user_bot_language
 from apps.tg_bot.bot.keyboards.reply import (
     contact_request_keyboard,
     main_menu_keyboard,
-    phone_not_found_keyboard,
 )
-from apps.tg_bot.bot.states.request_states import AuthStates
+from apps.tg_bot.bot.states.request_states import AuthStates, RegistrationStates
 from apps.tg_bot.bot.utils.i18n import tr
 
 router = Router()
@@ -62,10 +61,10 @@ async def handle_contact_verification(message: Message, state: FSMContext):
 
     if not result.matched:
         await state.update_data(raw_phone=raw_phone)
-        await state.set_state(AuthStates.waiting_for_phone_fallback_action)
+        await state.set_state(RegistrationStates.waiting_for_inn)
         await message.answer(
             tr(lang, "phone_not_found"),
-            reply_markup=phone_not_found_keyboard(lang),
+            reply_markup=ReplyKeyboardRemove(),
         )
         return
 
