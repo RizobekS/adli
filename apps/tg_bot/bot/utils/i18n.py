@@ -68,10 +68,9 @@ TEXTS = {
         "company_found": (
             "Компания найдена: {company_name}\n\n"
             "При желании уточните данные компании.\n"
-            "Если данные в базе уже верные, можете нажимать «Пропустить»."
+            "Если данные уже верные, можете нажимать кнопку «Пропустить»."
         ),
         "company_not_found_enter_name": (
-            "Компания с таким ИНН не найдена.\n\n"
             "Введите название компании."
         ),
         "company_name_too_short": "Название компании слишком короткое. Введите нормальное название.",
@@ -242,10 +241,9 @@ TEXTS = {
         "company_found": (
             "Kompaniya topildi: {company_name}\n\n"
             "Istasangiz, kompaniya ma’lumotlarini aniqlashtirishingiz mumkin.\n"
-            "Agar bazadagi ma’lumotlar to‘g‘ri bo‘lsa, “O‘tkazib yuborish”ni bosing."
+            "Agar ma’lumotlar to‘g‘ri bo‘lsa, “O‘tkazib yuborish”ni bosing."
         ),
         "company_not_found_enter_name": (
-            "Bunday STIR bilan kompaniya topilmadi.\n\n"
             "Kompaniya nomini kiriting."
         ),
         "company_name_too_short": "Kompaniya nomi juda qisqa. To‘g‘ri nom kiriting.",
