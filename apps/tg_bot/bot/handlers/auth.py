@@ -13,6 +13,7 @@ from apps.tg_bot.bot.keyboards.reply import (
 )
 from apps.tg_bot.bot.states.request_states import AuthStates, RegistrationStates
 from apps.tg_bot.bot.utils.i18n import tr
+from apps.tg_bot.bot.utils.phone import normalize_uz_phone
 
 router = Router()
 
@@ -20,31 +21,29 @@ router = Router()
 def _normalize_email(value: str) -> str:
     return (value or "").strip().lower()
 
+def _is_valid_uz_phone(raw_phone: str) -> bool:
+    normalized = normalize_uz_phone(raw_phone)
+    digits = normalized.replace("+", "")
+    return normalized.startswith("+998") and len(digits) == 12
 
-@router.message(AuthStates.waiting_for_contact, F.contact)
-async def handle_contact_verification(message: Message, state: FSMContext):
+async def _process_phone_verification(
+    *,
+    message: Message,
+    state: FSMContext,
+    raw_phone: str,
+):
     tg_user = message.from_user
-    contact = message.contact
     lang = await sync_to_async(get_user_bot_language)(tg_user.id if tg_user else 0)
 
-    if not tg_user or not contact:
-        await message.answer(
-            tr(lang, "contact_data_error"),
-            reply_markup=contact_request_keyboard(lang),
-        )
+    if not tg_user:
+        await message.answer(tr(lang, "unknown_user"))
         return
 
-    if contact.user_id and contact.user_id != tg_user.id:
-        await message.answer(
-            tr(lang, "send_own_phone"),
-            reply_markup=contact_request_keyboard(lang),
-        )
-        return
+    raw_phone = (raw_phone or "").strip()
 
-    raw_phone = contact.phone_number or ""
-    if not raw_phone:
+    if not _is_valid_uz_phone(raw_phone):
         await message.answer(
-            tr(lang, "phone_not_received"),
+            tr(lang, "phone_invalid"),
             reply_markup=contact_request_keyboard(lang),
         )
         return
@@ -109,6 +108,41 @@ async def handle_contact_verification(message: Message, state: FSMContext):
     )
 
 
+@router.message(AuthStates.waiting_for_contact, F.contact)
+async def handle_contact_verification(message: Message, state: FSMContext):
+    tg_user = message.from_user
+    contact = message.contact
+    lang = await sync_to_async(get_user_bot_language)(tg_user.id if tg_user else 0)
+
+    if not tg_user or not contact:
+        await message.answer(
+            tr(lang, "contact_data_error"),
+            reply_markup=contact_request_keyboard(lang),
+        )
+        return
+
+    if contact.user_id and contact.user_id != tg_user.id:
+        await message.answer(
+            tr(lang, "send_own_phone"),
+            reply_markup=contact_request_keyboard(lang),
+        )
+        return
+
+    raw_phone = contact.phone_number or ""
+    if not raw_phone:
+        await message.answer(
+            tr(lang, "phone_not_received"),
+            reply_markup=contact_request_keyboard(lang),
+        )
+        return
+
+    await _process_phone_verification(
+        message=message,
+        state=state,
+        raw_phone=raw_phone,
+    )
+
+
 @router.message(AuthStates.waiting_for_email)
 async def handle_email_after_phone_verification(message: Message, state: FSMContext):
     tg_user = message.from_user
@@ -148,9 +182,11 @@ async def handle_email_after_phone_verification(message: Message, state: FSMCont
 
 
 @router.message(AuthStates.waiting_for_contact)
-async def handle_non_contact_during_auth(message: Message):
-    lang = await sync_to_async(get_user_bot_language)(message.from_user.id if message.from_user else 0)
-    await message.answer(
-        tr(lang, "send_phone_using_button"),
-        reply_markup=contact_request_keyboard(lang),
+async def handle_manual_phone_during_auth(message: Message, state: FSMContext):
+    raw_phone = (message.text or "").strip()
+
+    await _process_phone_verification(
+        message=message,
+        state=state,
+        raw_phone=raw_phone,
     )

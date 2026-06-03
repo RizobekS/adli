@@ -18,10 +18,12 @@ TEXTS = {
         "start_unverified": (
             "Здравствуйте.\n\n"
             "Чтобы пользоваться ботом, нужно подтвердить номер телефона.\n"
-            "Отправьте ваш номер кнопкой ниже.\n\n"
+            "Отправьте ваш номер кнопкой ниже или введите номер телефона вручную "
+            "в формате +998991234567."
         ),
 
         "send_contact": "📱 Отправить номер",
+        "phone_invalid": "Номер телефона указан некорректно. Введите номер в формате +998991234567.",
         "create_request": "➕ Создать обращение",
         "my_requests": "📄 Мои обращения",
         "help": "ℹ️ Помощь",
@@ -180,20 +182,21 @@ TEXTS = {
         "language_menu_hint": "Interfeys tilini tanlang:",
 
         "start_verified": (
-            "Salom.\n\n"
+            "Assalomu alaykum.\n\n"
             "Telegram profilingiz tizimga ulangan.\n"
             "Kompaniya: {company_name}\n"
             "Arizachi: {employee_name}\n\n"
             "Quyidagi menyudan amalni tanlang."
         ),
         "start_unverified": (
-            "Salom.\n\n"
+            "Assalomu alaykum.\n\n"
             "Botdan foydalanish uchun telefon raqamingizni tasdiqlashingiz kerak.\n"
-            "Quyidagi tugma orqali raqamingizni yuboring.\n\n"
-            "Raqam kompaniyalar bazasi bo‘yicha tekshiriladi."
+            "Quyidagi tugma orqali raqamingizni yuboring yoki telefon raqamingizni "
+            "+998991234567 formatida qo‘lda kiriting."
         ),
 
         "send_contact": "📱 Raqamni yuborish",
+        "phone_invalid": "Telefon raqam noto‘g‘ri kiritildi. Raqamni +998991234567 formatida kiriting.",
         "create_request": "➕ Murojaat yaratish",
         "my_requests": "📄 Mening murojaatlarim",
         "help": "ℹ️ Yordam",
