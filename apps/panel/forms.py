@@ -1,5 +1,6 @@
 # apps/panel/forms.py
 from django import forms
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.agency.models import Department, Employee as AgencyEmployee
@@ -48,6 +49,28 @@ class PanelRequestFilterForm(forms.Form):
     q = forms.CharField(label=_("Поиск"), required=False)
     status = forms.CharField(label=_("Статус"), required=False)
     overdue = forms.BooleanField(label=_("Просрочено"), required=False)
+
+
+class OverdueReportFilterForm(forms.Form):
+    department = forms.ModelChoiceField(
+        label=_("Департамент"),
+        queryset=Department.objects.filter(is_active=True).order_by("name"),
+        required=False,
+        empty_label=_("Все департаменты"),
+    )
+    report_date = forms.DateField(
+        label=_("Дата отчета"),
+        required=False,
+        widget=forms.DateInput(attrs={"type": "date"}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["department"].widget.attrs.update({"class": BASE_INPUT + " appearance-none cursor-pointer"})
+        self.fields["report_date"].widget.attrs.update({"class": BASE_INPUT + " cursor-pointer"})
+
+    def clean_report_date(self):
+        return self.cleaned_data.get("report_date") or timezone.localdate()
 
 
 class AssignExecutorForm(forms.Form):

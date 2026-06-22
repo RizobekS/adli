@@ -4,6 +4,8 @@ from .views import (
     dashboard,
     analytics_requests,
     analytics_companies,
+    overdue_requests_report,
+    overdue_requests_report_export,
     requests_list,
     request_detail,
     request_action_add_step,
@@ -69,10 +71,12 @@ urlpatterns = [
     path("", dashboard, name="dashboard"),
     path("analytics/requests/", analytics_requests, name="analytics_requests"),
     path("analytics/companies/", analytics_companies, name="analytics_companies"),
+    path("reports/overdue-requests/", overdue_requests_report, name="overdue_requests_report"),
+    path("reports/overdue-requests/export/", overdue_requests_report_export, name="overdue_requests_report_export"),
 
     # Requests (panel)
     path("requests/", requests_list, name="requests_list"),
-    path("requests/<int:pk>/", request_detail, name="request_detail"),
+    path("request/<int:pk>/", request_detail, name="request_detail"),
 
     # Actions
     path("requests/<int:pk>/actions/assign-executor/", request_action_assign_executor, name="request_action_assign_executor"),

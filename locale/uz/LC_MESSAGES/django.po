@@ -1117,6 +1117,9 @@ msgstr "Murojaat ko'rsatkichlari"
 msgid "Аналитика компаний"
 msgstr "Korxona ko'rsatkichlari"
 
+msgid "Отчет по просрочкам"
+msgstr "Murojaat muddati kechikkan hisobot"
+
 #: .\templates\base_panel.html:96 .\templates\partials\sidebar.html:82
 msgid "Телефония"
 msgstr "Telefoniya"

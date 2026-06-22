@@ -1,0 +1,136 @@
+{% extends "base_panel.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="space-y-6 p-6">
+    <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div>
+            <h1 class="text-2xl font-semibold text-gray-800">
+                {% trans "Отчет по просроченным обращениям" %}
+            </h1>
+            <p class="mt-1 text-sm text-gray-500">
+                {% trans "Просрочки по сроку исполнения и обращения без исполнителя более 5 дней." %}
+            </p>
+        </div>
+
+        <a href="{% url 'panel:overdue_requests_report_export' %}{% if query_string %}?{{ query_string }}{% endif %}"
+           class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">
+            {% trans "Скачать Excel" %}
+        </a>
+    </div>
+
+    <form method="get" class="grid grid-cols-1 gap-4 rounded-lg bg-white p-4 shadow md:grid-cols-[1fr_220px_auto_auto]">
+        <div>
+            <label class="mb-1 block text-sm font-medium text-gray-700" for="{{ form.department.id_for_label }}">
+                {{ form.department.label }}
+            </label>
+            {{ form.department }}
+            {% if form.department.errors %}
+                <div class="mt-1 text-xs text-red-600">{{ form.department.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div>
+            <label class="mb-1 block text-sm font-medium text-gray-700" for="{{ form.report_date.id_for_label }}">
+                {{ form.report_date.label }}
+            </label>
+            {{ form.report_date }}
+            {% if form.report_date.errors %}
+                <div class="mt-1 text-xs text-red-600">{{ form.report_date.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="flex items-end">
+            <button type="submit"
+                    class="inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700">
+                {% trans "Применить" %}
+            </button>
+        </div>
+
+        <div class="flex items-end">
+            <a href="{% url 'panel:overdue_requests_report' %}"
+               class="inline-flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                {% trans "Сбросить" %}
+            </a>
+        </div>
+    </form>
+
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            <div class="text-sm text-gray-500">{% trans "Всего в отчете" %}</div>
+            <div class="mt-1 text-2xl font-semibold text-gray-900">{{ summary.total }}</div>
+        </div>
+        <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            <div class="text-sm text-gray-500">{% trans "По сроку" %}</div>
+            <div class="mt-1 text-2xl font-semibold text-red-600">{{ summary.due_overdue }}</div>
+        </div>
+        <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            <div class="text-sm text-gray-500">{% trans "Без исполнителя" %}</div>
+            <div class="mt-1 text-2xl font-semibold text-amber-600">{{ summary.unassigned }}</div>
+        </div>
+        <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            <div class="text-sm text-gray-500">{% trans "Департаментов" %}</div>
+            <div class="mt-1 text-2xl font-semibold text-gray-900">{{ summary.departments }}</div>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto rounded-lg bg-white shadow">
+        <div class="flex items-center justify-between border-b border-gray-100 px-4 py-3">
+            <h2 class="text-sm font-semibold text-gray-900">{% trans "Предпросмотр" %}</h2>
+            <span class="text-xs text-gray-500">
+                {% blocktrans with shown=rows_preview|length total=rows_total %}Показано {{ shown }} из {{ total }}{% endblocktrans %}
+            </span>
+        </div>
+
+        <table class="w-full text-left text-sm text-gray-600">
+            <thead class="bg-gray-50 text-xs uppercase text-gray-500">
+            <tr>
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">{% trans "Департамент" %}</th>
+                <th class="px-4 py-3">{% trans "Отправитель" %}</th>
+                <th class="px-4 py-3">{% trans "Ответственный" %}</th>
+                <th class="px-4 py-3">{% trans "Срок" %}</th>
+                <th class="px-4 py-3">{% trans "Дней" %}</th>
+                <th class="px-4 py-3">{% trans "Причина" %}</th>
+                <th class="px-4 py-3"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows_preview %}
+                <tr class="border-t hover:bg-gray-50">
+                    <td class="px-4 py-3 font-mono text-xs">{{ row.request_public_id }}</td>
+                    <td class="px-4 py-3">{{ row.department_name }}</td>
+                    <td class="max-w-xs px-4 py-3">
+                        <div class="line-clamp-3 whitespace-pre-line">{{ row.sender }}</div>
+                    </td>
+                    <td class="px-4 py-3">{{ row.responsible }}</td>
+                    <td class="px-4 py-3">
+                        {% if row.due_date %}
+                            <span class="{% if row.is_due_overdue %}font-semibold text-red-600{% endif %}">
+                                {{ row.due_date }}
+                            </span>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="px-4 py-3 font-semibold">{{ row.overdue_days|default:"-" }}</td>
+                    <td class="px-4 py-3">{{ row.reason }}</td>
+                    <td class="px-4 py-3 text-right">
+                        <a href="{% url 'panel:request_detail' row.detail_url_pk %}"
+                           class="text-blue-600 hover:underline">
+                            {% trans "Открыть" %}
+                        </a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8" class="px-4 py-8 text-center text-gray-500">
+                        {% trans "Просроченные обращения не найдены." %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

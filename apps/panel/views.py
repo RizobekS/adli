@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET, require_POST
@@ -21,8 +22,19 @@ from apps.requests.services import (
     mark_done, assign_executor,
     set_waiting, set_in_progress,
 )
-from .forms import ResolutionForm, StepForm, PanelRequestFilterForm, AssignExecutorForm
+from .forms import (
+    ResolutionForm,
+    StepForm,
+    PanelRequestFilterForm,
+    AssignExecutorForm,
+    OverdueReportFilterForm,
+)
 from .services.request_buckets import visible_requests_qs, apply_bucket
+from .services.request_reports import (
+    build_overdue_report_rows,
+    build_overdue_report_workbook,
+    summarize_overdue_rows,
+)
 from ..agency.models import Employee
 
 from .services.analytics import (
@@ -65,6 +77,11 @@ def _can_write(user) -> bool:
     return _in_group(user, GROUP_HEAD_OF_DEPARTMENT) or _in_group(user, GROUP_EXECUTOR)
 
 
+def _must_be_director(user) -> None:
+    if not _in_group(user, GROUP_DIRECTORS):
+        raise Http404()
+
+
 def _filter_queryset_for_user(qs, user):
     """
     Видимость (что пользователь ВООБЩЕ может видеть):
@@ -105,6 +122,62 @@ def analytics_requests(request):
 @agency_required
 def analytics_companies(request):
     return render(request, "panel/analytics_companies.html", {"kpi": get_kpi(user=request.user)})
+
+
+def _overdue_report_filters(request):
+    default_report_date = timezone.localdate()
+    form = OverdueReportFilterForm(request.GET or None, initial={"report_date": default_report_date})
+
+    if not request.GET:
+        return form, None, default_report_date, True
+
+    if not form.is_valid():
+        return form, None, default_report_date, False
+
+    return form, form.cleaned_data.get("department"), form.cleaned_data["report_date"], True
+
+
+@require_GET
+@agency_required
+def overdue_requests_report(request):
+    _must_be_director(request.user)
+    form, department, report_date, is_valid = _overdue_report_filters(request)
+    rows = build_overdue_report_rows(report_date=report_date, department=department) if is_valid else []
+    summary = summarize_overdue_rows(rows)
+
+    context = {
+        "form": form,
+        "report_date": report_date,
+        "department": department,
+        "summary": summary,
+        "rows_preview": rows[:50],
+        "rows_total": len(rows),
+        "query_string": request.GET.urlencode(),
+    }
+    return render(request, "panel/reports/overdue_requests.html", context)
+
+
+@require_GET
+@agency_required
+def overdue_requests_report_export(request):
+    _must_be_director(request.user)
+    form, department, report_date, is_valid = _overdue_report_filters(request)
+    if not is_valid:
+        messages.error(request, _("Проверьте параметры отчета."))
+        return redirect("panel:overdue_requests_report")
+
+    rows = build_overdue_report_rows(report_date=report_date, department=department)
+    content = build_overdue_report_workbook(rows=rows, report_date=report_date)
+
+    department_part = f"department-{department.pk}" if department else "all-departments"
+    filename = f"overdue_requests_{department_part}_{report_date.isoformat()}.xlsx"
+    response = HttpResponse(
+        content,
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
+    return response
+
 
 @require_GET
 @agency_required

@@ -1129,6 +1129,9 @@ msgstr "Аналитика обращений"
 msgid "Аналитика компаний"
 msgstr "Аналитика компаний"
 
+msgid "Отчет по просрочкам"
+msgstr "Отчет по просрочкам"
+
 #: .\templates\base_panel.html:96 .\templates\partials\sidebar.html:82
 msgid "Телефония"
 msgstr "Телефония"
