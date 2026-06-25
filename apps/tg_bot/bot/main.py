@@ -6,6 +6,7 @@ from aiogram.client.default import DefaultBotProperties
 from django.conf import settings
 
 from apps.tg_bot.bot.handlers import start, auth, common, create_request, registration, recovery, errors
+from apps.tg_bot.bot.utils.db import DjangoDbConnectionMiddleware
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ def build_bot() -> Bot:
 
 def build_dispatcher() -> Dispatcher:
     dp = Dispatcher()
+    dp.update.outer_middleware(DjangoDbConnectionMiddleware())
 
     dp.include_router(start.router)
     dp.include_router(auth.router)

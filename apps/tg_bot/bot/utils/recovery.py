@@ -1,4 +1,5 @@
-from asgiref.sync import sync_to_async
+import logging
+
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
@@ -6,12 +7,16 @@ from apps.tg_bot.selectors import (
     get_user_bot_language,
     get_verified_telegram_profile_by_user_id,
 )
+from apps.tg_bot.bot.utils.db import database_sync_to_async as sync_to_async
 from apps.tg_bot.bot.keyboards.reply import (
     main_menu_keyboard,
     contact_request_keyboard,
 )
 from apps.tg_bot.bot.states.request_states import AuthStates
 from apps.tg_bot.bot.utils.i18n import tr
+
+logger = logging.getLogger(__name__)
+DEFAULT_BOT_LANGUAGE = "uz"
 
 
 async def reset_user_dialog(
@@ -23,11 +28,20 @@ async def reset_user_dialog(
 ):
     user = event.from_user
     user_id = user.id if user else 0
-    lang = await sync_to_async(get_user_bot_language)(user_id)
 
     await state.clear()
 
-    profile = await sync_to_async(get_verified_telegram_profile_by_user_id)(user_id)
+    try:
+        lang = await sync_to_async(get_user_bot_language)(user_id, default=DEFAULT_BOT_LANGUAGE)
+    except Exception:
+        logger.exception("Failed to load Telegram bot language during dialog recovery")
+        lang = DEFAULT_BOT_LANGUAGE
+
+    try:
+        profile = await sync_to_async(get_verified_telegram_profile_by_user_id)(user_id)
+    except Exception:
+        logger.exception("Failed to load Telegram profile during dialog recovery")
+        profile = None
 
     text = tr(lang, reason_key)
 

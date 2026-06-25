@@ -1,6 +1,5 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from asgiref.sync import sync_to_async
 from django.utils import timezone
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
@@ -18,6 +17,7 @@ from apps.tg_bot.bot.keyboards.inline import (
     reg_confirm_keyboard,
 )
 from apps.tg_bot.bot.states.request_states import RegistrationStates
+from apps.tg_bot.bot.utils.db import database_sync_to_async as sync_to_async
 from apps.tg_bot.bot.utils.i18n import tr, get_i18n_attr
 from apps.tg_bot.bot.utils.session_guard import is_session_expired
 from apps.tg_bot.bot.utils.recovery import reset_user_dialog
@@ -43,7 +43,7 @@ def _normalize_email(value: str) -> str:
     return (value or "").strip().lower()
 
 
-async def _registration_preview(state: FSMContext, lang: str = "ru") -> str:
+async def _registration_preview(state: FSMContext, lang: str = "uz") -> str:
     data = await state.get_data()
 
     direction_names = []

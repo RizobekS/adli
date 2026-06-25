@@ -14,7 +14,7 @@ def language_keyboard() -> ReplyKeyboardMarkup:
     )
 
 
-def contact_request_keyboard(lang: str = "ru") -> ReplyKeyboardMarkup:
+def contact_request_keyboard(lang: str = "uz") -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(
         keyboard=[
             [KeyboardButton(text=tr(lang, "send_contact"), request_contact=True)],
@@ -26,7 +26,7 @@ def contact_request_keyboard(lang: str = "ru") -> ReplyKeyboardMarkup:
     )
 
 
-def main_menu_keyboard(lang: str = "ru") -> ReplyKeyboardMarkup:
+def main_menu_keyboard(lang: str = "uz") -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(
         keyboard=[
             [KeyboardButton(text=tr(lang, "create_request"))],

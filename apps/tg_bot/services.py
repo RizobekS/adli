@@ -93,7 +93,7 @@ def set_telegram_profile_bot_language(
     language_code: str = "",
 ) -> TelegramProfile:
     if bot_language not in {"ru", "uz"}:
-        bot_language = "ru"
+        bot_language = "uz"
 
     profile = TelegramProfile.objects.filter(
         telegram_user_id=telegram_user_id
@@ -162,7 +162,9 @@ def resolve_default_bot_language(language_code: str | None) -> str:
     code = (language_code or "").lower()
     if code.startswith("uz"):
         return "uz"
-    return "ru"
+    if code.startswith("ru"):
+        return "ru"
+    return "uz"
 
 
 @transaction.atomic
@@ -236,7 +238,7 @@ def bind_group_chat(
 
 
 def build_request_panel_url(request_obj: Request) -> str:
-    return f"{settings.SITE_URL}/panel/requests/{request_obj.pk}/"
+    return f"{settings.SITE_URL}/panel/request/{request_obj.pk}/"
 
 
 def build_request_notification_text(request_obj: Request) -> str:
@@ -247,15 +249,15 @@ def build_request_notification_text(request_obj: Request) -> str:
     source_label = request_obj.get_source_display() if hasattr(request_obj, "get_source_display") else request_obj.source
 
     return (
-        f"🆕 <b>Новое обращение</b>\n\n"
-        f"<b>Номер:</b> {request_obj.public_id or request_obj.pk}\n"
-        f"<b>Источник:</b> {source_label}\n"
-        f"<b>Компания:</b> {company_name}\n"
-        f"<b>Заявитель:</b> {employee_name}\n"
-        f"<b>Проблемное направление:</b> {problem_direction}\n"
-        f"<b>Назначенный департамент:</b> {department_name}\n\n"
-        f"<b>Текст:</b>\n{request_obj.description}\n\n"
-        f"<b>Открыть:</b>\n{build_request_panel_url(request_obj)}"
+        f"🆕 <b>Yangi murojaat</b>\n\n"
+        f"<b>Murojaat id:</b> {request_obj.public_id or request_obj.pk}\n"
+        f"<b>Manbaa:</b> {source_label}\n"
+        f"<b>Korxona:</b> {company_name}\n"
+        f"<b>Murojaatchi:</b> {employee_name}\n"
+        f"<b>Muammoli yo'nalish:</b> {problem_direction}\n"
+        f"<b>Belgilangan bo'lim:</b> {department_name}\n\n"
+        f"<b>Matn:</b>\n{request_obj.description}\n\n"
+        f"<b>Ko'rish:</b>\n{build_request_panel_url(request_obj)}"
     )
 
 
@@ -340,7 +342,7 @@ def create_request_from_telegram_profile(
     return req
 
 
-def format_request_short_text(request_obj: Request, lang: str = "ru") -> str:
+def format_request_short_text(request_obj: Request, lang: str = "uz") -> str:
     status_label = translate_request_status(request_obj.status, lang)
     number = request_obj.public_id or str(request_obj.pk)
     created = request_obj.created_at.strftime("%d.%m.%Y %H:%M")

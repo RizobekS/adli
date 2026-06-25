@@ -1,7 +1,6 @@
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
-from asgiref.sync import sync_to_async
 
 from apps.tg_bot.selectors import (
     get_verified_telegram_profile_by_user_id,
@@ -10,6 +9,7 @@ from apps.tg_bot.selectors import (
 )
 from apps.tg_bot.services import bind_group_chat, format_request_short_text
 from apps.tg_bot.bot.keyboards.reply import main_menu_keyboard
+from apps.tg_bot.bot.utils.db import database_sync_to_async as sync_to_async
 from apps.tg_bot.bot.utils.i18n import tr
 
 router = Router()

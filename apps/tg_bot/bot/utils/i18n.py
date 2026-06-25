@@ -353,13 +353,15 @@ TEXTS = {
 
 
 def normalize_lang(lang: str | None) -> str:
-    lang = (lang or "ru").lower()
-    return "uz" if lang.startswith("uz") else "ru"
+    lang = (lang or "uz").lower()
+    if lang.startswith("ru"):
+        return "ru"
+    return "uz"
 
 
 def tr(lang: str | None, key: str, **kwargs) -> str:
     lang = normalize_lang(lang)
-    text = TEXTS.get(lang, TEXTS["ru"]).get(key, key)
+    text = TEXTS.get(lang, TEXTS["uz"]).get(key, key)
     if kwargs:
         return text.format(**kwargs)
     return text

@@ -1,6 +1,5 @@
 import logging
 
-from asgiref.sync import sync_to_async
 from aiogram import Router
 from aiogram.types import ErrorEvent, Message, CallbackQuery
 from aiogram.fsm.context import FSMContext

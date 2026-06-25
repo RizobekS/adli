@@ -1,12 +1,22 @@
-from asgiref.sync import sync_to_async
+import logging
+
 from aiogram import Bot
 from aiogram.exceptions import TelegramBadRequest, TelegramForbiddenError
+from django.db.utils import Error as DjangoDbError
 
 from apps.tg_bot.services import prepare_request_notification_payload
+from apps.tg_bot.bot.utils.db import database_sync_to_async as sync_to_async
+
+logger = logging.getLogger(__name__)
 
 
 async def notify_request_created(bot: Bot, request_id: int) -> int:
-    payload = await sync_to_async(prepare_request_notification_payload)(request_id)
+    try:
+        payload = await sync_to_async(prepare_request_notification_payload)(request_id)
+    except DjangoDbError:
+        logger.exception("Failed to prepare Telegram request notification payload: request_id=%s", request_id)
+        return 0
+
     if not payload:
         return 0
 

@@ -1,4 +1,3 @@
-from asgiref.sync import sync_to_async
 from aiogram import Router, F
 from aiogram.filters import CommandStart
 from aiogram.types import Message
@@ -9,6 +8,7 @@ from apps.tg_bot.selectors import (
     get_telegram_profile_by_user_id,
 )
 from apps.tg_bot.services import set_telegram_profile_bot_language
+from apps.tg_bot.bot.utils.db import database_sync_to_async as sync_to_async
 from apps.tg_bot.bot.keyboards.reply import (
     contact_request_keyboard,
     main_menu_keyboard,
@@ -74,12 +74,12 @@ async def cmd_start(message: Message, state: FSMContext):
     if not profile:
         await state.set_state(AuthStates.choosing_language)
         await message.answer(
-            tr("ru", "choose_language"),
+            tr("uz", "choose_language"),
             reply_markup=language_keyboard(),
         )
         return
 
-    lang = profile.bot_language or "ru"
+    lang = profile.bot_language or "uz"
     verified_profile = await sync_to_async(get_verified_telegram_profile_by_user_id)(tg_user.id)
 
     if verified_profile:
@@ -112,7 +112,7 @@ async def cmd_start(message: Message, state: FSMContext):
 @router.message(F.text.in_(["🌐 Изменить язык", "🌐 Tilni o‘zgartirish"]))
 async def open_language_menu(message: Message, state: FSMContext):
     await state.set_state(AuthStates.choosing_language)
-    current_lang = "ru"
+    current_lang = "uz"
     if message.from_user:
         profile = await sync_to_async(get_telegram_profile_by_user_id)(message.from_user.id)
         if profile and profile.bot_language:

@@ -1,4 +1,3 @@
-from asgiref.sync import sync_to_async
 from django.utils import timezone
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
@@ -17,6 +16,7 @@ from apps.tg_bot.bot.utils.files import (
     build_safe_photo_name,
     download_telegram_attachments,
 )
+from apps.tg_bot.bot.utils.db import database_sync_to_async as sync_to_async
 from apps.tg_bot.bot.utils.notifications import notify_request_created
 from apps.tg_bot.bot.utils.i18n import tr, get_i18n_attr, translate_request_status
 from apps.tg_bot.bot.utils.session_guard import is_session_expired

@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from apps.tg_bot.bot.utils.i18n import tr, get_i18n_attr
 
 
-def problem_directions_keyboard(problem_directions, lang: str = "ru") -> InlineKeyboardMarkup:
+def problem_directions_keyboard(problem_directions, lang: str = "uz") -> InlineKeyboardMarkup:
     rows = [
         [InlineKeyboardButton(
             text=get_i18n_attr(item, "name", lang),
@@ -15,7 +15,7 @@ def problem_directions_keyboard(problem_directions, lang: str = "ru") -> InlineK
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
-def categories_keyboard(categories, lang: str = "ru") -> InlineKeyboardMarkup:
+def categories_keyboard(categories, lang: str = "uz") -> InlineKeyboardMarkup:
     rows = [
         [InlineKeyboardButton(
             text=get_i18n_attr(item, "name", lang),
@@ -27,7 +27,7 @@ def categories_keyboard(categories, lang: str = "ru") -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
-def directions_keyboard(directions, selected_ids: set[int] | None = None, lang: str = "ru") -> InlineKeyboardMarkup:
+def directions_keyboard(directions, selected_ids: set[int] | None = None, lang: str = "uz") -> InlineKeyboardMarkup:
     selected_ids = selected_ids or set()
     rows = []
 
@@ -46,7 +46,7 @@ def directions_keyboard(directions, selected_ids: set[int] | None = None, lang: 
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
-def regions_keyboard(regions, lang: str = "ru") -> InlineKeyboardMarkup:
+def regions_keyboard(regions, lang: str = "uz") -> InlineKeyboardMarkup:
     rows = [
         [InlineKeyboardButton(
             text=get_i18n_attr(item, "name", lang),
@@ -58,7 +58,7 @@ def regions_keyboard(regions, lang: str = "ru") -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
-def districts_keyboard(districts, lang: str = "ru") -> InlineKeyboardMarkup:
+def districts_keyboard(districts, lang: str = "uz") -> InlineKeyboardMarkup:
     rows = [
         [InlineKeyboardButton(
             text=get_i18n_attr(item, "name", lang),
@@ -71,7 +71,7 @@ def districts_keyboard(districts, lang: str = "ru") -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
-def attachment_actions_keyboard(lang: str = "ru") -> InlineKeyboardMarkup:
+def attachment_actions_keyboard(lang: str = "uz") -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text=tr(lang, "done"), callback_data="cr:file:done")],
@@ -81,7 +81,7 @@ def attachment_actions_keyboard(lang: str = "ru") -> InlineKeyboardMarkup:
     )
 
 
-def confirm_request_keyboard(lang: str = "ru") -> InlineKeyboardMarkup:
+def confirm_request_keyboard(lang: str = "uz") -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text=tr(lang, "send"), callback_data="cr:confirm")],
@@ -90,7 +90,7 @@ def confirm_request_keyboard(lang: str = "ru") -> InlineKeyboardMarkup:
     )
 
 
-def reg_regions_keyboard(regions, allow_skip: bool = False, lang: str = "ru") -> InlineKeyboardMarkup:
+def reg_regions_keyboard(regions, allow_skip: bool = False, lang: str = "uz") -> InlineKeyboardMarkup:
     rows = [
         [InlineKeyboardButton(
             text=get_i18n_attr(item, "name", lang),
@@ -104,7 +104,7 @@ def reg_regions_keyboard(regions, allow_skip: bool = False, lang: str = "ru") ->
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
-def reg_districts_keyboard(districts, allow_skip: bool = False, lang: str = "ru") -> InlineKeyboardMarkup:
+def reg_districts_keyboard(districts, allow_skip: bool = False, lang: str = "uz") -> InlineKeyboardMarkup:
     rows = [
         [InlineKeyboardButton(
             text=get_i18n_attr(item, "name", lang),
@@ -119,7 +119,7 @@ def reg_districts_keyboard(districts, allow_skip: bool = False, lang: str = "ru"
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
-def reg_categories_keyboard(categories, allow_skip: bool = False, lang: str = "ru") -> InlineKeyboardMarkup:
+def reg_categories_keyboard(categories, allow_skip: bool = False, lang: str = "uz") -> InlineKeyboardMarkup:
     rows = [
         [InlineKeyboardButton(
             text=get_i18n_attr(item, "name", lang),
@@ -133,7 +133,7 @@ def reg_categories_keyboard(categories, allow_skip: bool = False, lang: str = "r
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
-def reg_directions_keyboard(directions, selected_ids: set[int] | None = None, lang: str = "ru") -> InlineKeyboardMarkup:
+def reg_directions_keyboard(directions, selected_ids: set[int] | None = None, lang: str = "uz") -> InlineKeyboardMarkup:
     selected_ids = selected_ids or set()
     rows = []
 
@@ -152,7 +152,7 @@ def reg_directions_keyboard(directions, selected_ids: set[int] | None = None, la
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
-def reg_confirm_keyboard(lang: str = "ru") -> InlineKeyboardMarkup:
+def reg_confirm_keyboard(lang: str = "uz") -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text=tr(lang, "confirm"), callback_data="reg:confirm")],

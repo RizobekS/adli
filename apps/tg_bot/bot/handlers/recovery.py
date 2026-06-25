@@ -1,10 +1,7 @@
-from asgiref.sync import sync_to_async
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from apps.tg_bot.selectors import get_user_bot_language
-from apps.tg_bot.bot.utils.i18n import tr
 from apps.tg_bot.bot.utils.recovery import reset_user_dialog
 
 router = Router()

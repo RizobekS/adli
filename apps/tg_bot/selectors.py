@@ -31,7 +31,7 @@ def get_telegram_profile_by_user_id(telegram_user_id: int) -> Optional[TelegramP
     )
 
 
-def get_user_bot_language(user_id: int, default: str = "ru") -> str:
+def get_user_bot_language(user_id: int, default: str = "uz") -> str:
     profile = TelegramProfile.objects.filter(telegram_user_id=user_id).only("bot_language").first()
     if profile and profile.bot_language:
         return profile.bot_language

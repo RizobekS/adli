@@ -1,12 +1,12 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from asgiref.sync import sync_to_async
 from aiogram import Router, F
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 
 from apps.tg_bot.services import verify_telegram_user_by_phone, set_telegram_profile_email
 from apps.tg_bot.selectors import get_user_bot_language
+from apps.tg_bot.bot.utils.db import database_sync_to_async as sync_to_async
 from apps.tg_bot.bot.keyboards.reply import (
     contact_request_keyboard,
     main_menu_keyboard,
