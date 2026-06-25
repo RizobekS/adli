@@ -19,6 +19,22 @@ logger = logging.getLogger(__name__)
 DEFAULT_BOT_LANGUAGE = "uz"
 
 
+def _is_private_event(event: Message | CallbackQuery) -> bool:
+    message = event.message if isinstance(event, CallbackQuery) else event
+    return bool(message and message.chat.type == "private")
+
+
+async def _answer_private_chat_required(event: Message | CallbackQuery, lang: str, text: str) -> None:
+    message_text = f"{text}\n\n{tr(lang, 'private_chat_required')}"
+
+    if isinstance(event, CallbackQuery):
+        if event.message:
+            await event.message.answer(message_text)
+        return
+
+    await event.answer(message_text)
+
+
 async def reset_user_dialog(
     event: Message | CallbackQuery,
     state: FSMContext,
@@ -60,6 +76,10 @@ async def reset_user_dialog(
                 reply_markup=main_menu_keyboard(lang),
             )
         else:
+            if not _is_private_event(event):
+                await _answer_private_chat_required(event, lang, text)
+                return
+
             await state.set_state(AuthStates.waiting_for_contact)
             await event.message.answer(
                 text,
@@ -73,6 +93,10 @@ async def reset_user_dialog(
             reply_markup=main_menu_keyboard(lang),
         )
     else:
+        if not _is_private_event(event):
+            await _answer_private_chat_required(event, lang, text)
+            return
+
         await state.set_state(AuthStates.waiting_for_contact)
         await event.answer(
             text,

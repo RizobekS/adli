@@ -21,6 +21,11 @@ router = Router()
 def _normalize_email(value: str) -> str:
     return (value or "").strip().lower()
 
+
+def _is_private_chat(message: Message) -> bool:
+    return message.chat.type == "private"
+
+
 def _is_valid_uz_phone(raw_phone: str) -> bool:
     normalized = normalize_uz_phone(raw_phone)
     digits = normalized.replace("+", "")
@@ -34,6 +39,11 @@ async def _process_phone_verification(
 ):
     tg_user = message.from_user
     lang = await sync_to_async(get_user_bot_language)(tg_user.id if tg_user else 0)
+
+    if not _is_private_chat(message):
+        await state.clear()
+        await message.answer(tr(lang, "private_chat_required"))
+        return
 
     if not tg_user:
         await message.answer(tr(lang, "unknown_user"))
@@ -114,6 +124,11 @@ async def handle_contact_verification(message: Message, state: FSMContext):
     contact = message.contact
     lang = await sync_to_async(get_user_bot_language)(tg_user.id if tg_user else 0)
 
+    if not _is_private_chat(message):
+        await state.clear()
+        await message.answer(tr(lang, "private_chat_required"))
+        return
+
     if not tg_user or not contact:
         await message.answer(
             tr(lang, "contact_data_error"),
@@ -147,6 +162,11 @@ async def handle_contact_verification(message: Message, state: FSMContext):
 async def handle_email_after_phone_verification(message: Message, state: FSMContext):
     tg_user = message.from_user
     lang = await sync_to_async(get_user_bot_language)(tg_user.id if tg_user else 0)
+
+    if not _is_private_chat(message):
+        await state.clear()
+        await message.answer(tr(lang, "private_chat_required"))
+        return
 
     email = _normalize_email(message.text or "")
 

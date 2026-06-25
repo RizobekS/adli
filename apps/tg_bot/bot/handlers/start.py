@@ -20,6 +20,10 @@ from apps.tg_bot.bot.utils.i18n import tr
 router = Router()
 
 
+def _is_private_chat(message: Message) -> bool:
+    return message.chat.type == "private"
+
+
 async def _show_after_language_change(message: Message, state: FSMContext, lang: str):
     tg_user = message.from_user
     verified_profile = await sync_to_async(get_verified_telegram_profile_by_user_id)(tg_user.id)
@@ -53,6 +57,13 @@ async def _show_after_language_change(message: Message, state: FSMContext, lang:
         )
         return
 
+    if not _is_private_chat(message):
+        await state.clear()
+        await message.answer(
+            f"{tr(lang, 'language_saved')}\n\n{tr(lang, 'private_chat_required')}",
+        )
+        return
+
     await state.set_state(AuthStates.waiting_for_contact)
     await message.answer(
         f"{tr(lang, 'language_saved')}\n\n{tr(lang, 'start_unverified')}",
@@ -67,6 +78,10 @@ async def cmd_start(message: Message, state: FSMContext):
     tg_user = message.from_user
     if not tg_user:
         await message.answer("Не удалось определить пользователя Telegram.")
+        return
+
+    if not _is_private_chat(message):
+        await message.answer(tr("uz", "private_chat_required"))
         return
 
     profile = await sync_to_async(get_telegram_profile_by_user_id)(tg_user.id)
@@ -111,6 +126,11 @@ async def cmd_start(message: Message, state: FSMContext):
 
 @router.message(F.text.in_(["🌐 Изменить язык", "🌐 Tilni o‘zgartirish"]))
 async def open_language_menu(message: Message, state: FSMContext):
+    if not _is_private_chat(message):
+        await state.clear()
+        await message.answer(tr("uz", "private_chat_required"))
+        return
+
     await state.set_state(AuthStates.choosing_language)
     current_lang = "uz"
     if message.from_user:
@@ -132,6 +152,11 @@ async def choose_language_handler(message: Message, state: FSMContext):
         return
 
     lang = "uz" if message.text == "🇺🇿 O‘zbekcha" else "ru"
+
+    if not _is_private_chat(message):
+        await state.clear()
+        await message.answer(tr(lang, "private_chat_required"))
+        return
 
     await sync_to_async(set_telegram_profile_bot_language)(
         telegram_user_id=tg_user.id,

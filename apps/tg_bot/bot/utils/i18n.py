@@ -21,6 +21,10 @@ TEXTS = {
             "Отправьте ваш номер кнопкой ниже или введите номер телефона вручную "
             "в формате +998991234567."
         ),
+        "private_chat_required": (
+            "Подтверждение номера доступно только в личном чате с ботом.\n"
+            "Откройте личный чат с ботом и отправьте /start."
+        ),
 
         "send_contact": "📱 Отправить номер",
         "phone_invalid": "Номер телефона указан некорректно. Введите номер в формате +998991234567.",
@@ -193,6 +197,10 @@ TEXTS = {
             "Botdan foydalanish uchun telefon raqamingizni tasdiqlashingiz kerak.\n"
             "Quyidagi tugma orqali raqamingizni yuboring yoki telefon raqamingizni "
             "+998991234567 formatida qo‘lda kiriting."
+        ),
+        "private_chat_required": (
+            "Telefon raqamini tasdiqlash faqat bot bilan shaxsiy chatda mavjud.\n"
+            "Bot bilan shaxsiy chatni oching va /start yuboring."
         ),
 
         "send_contact": "📱 Raqamni yuborish",

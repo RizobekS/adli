@@ -408,6 +408,14 @@ async def choose_reg_directions(callback: CallbackQuery, state: FSMContext):
 async def cancel_registration(callback: CallbackQuery, state: FSMContext):
     lang = await sync_to_async(get_user_bot_language)(callback.from_user.id if callback.from_user else 0)
     await state.clear()
+
+    if callback.message.chat.type != "private":
+        await callback.message.answer(
+            f"{tr(lang, 'registration_cancelled')}\n\n{tr(lang, 'private_chat_required')}",
+        )
+        await callback.answer()
+        return
+
     await callback.message.answer(
         tr(lang, "registration_cancelled"),
         reply_markup=contact_request_keyboard(lang),
