@@ -7,6 +7,7 @@ from .models import (
     RequestFile,
     RequestResolution,
     RequestStep,
+    RequestOfficialResponse,
     RequestHistory,
 )
 from .services import (
@@ -65,6 +66,32 @@ class RequestHistoryInline(admin.TabularInline):
         return False
 
 
+class RequestOfficialResponseInline(admin.StackedInline):
+    model = RequestOfficialResponse
+    extra = 0
+    can_delete = False
+    readonly_fields = (
+        "author",
+        "telegram_profile",
+        "recipient_email",
+        "subject",
+        "text",
+        "email_status",
+        "telegram_status",
+        "email_error",
+        "telegram_error",
+        "email_sent_at",
+        "telegram_sent_at",
+        "created_at",
+        "updated_at",
+    )
+    fields = readonly_fields
+    ordering = ("-created_at",)
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
 # ---------- Admins ----------
 
 
@@ -104,7 +131,13 @@ class RequestAdmin(admin.ModelAdmin):
     autocomplete_fields = ("company", "directions", "assigned_department", "assigned_employee")
     readonly_fields = ("created_at", "updated_at", "resolved_at", "public_id")
 
-    inlines = (RequestFileInline, RequestResolutionInline, RequestStepInline, RequestHistoryInline)
+    inlines = (
+        RequestFileInline,
+        RequestResolutionInline,
+        RequestStepInline,
+        RequestOfficialResponseInline,
+        RequestHistoryInline,
+    )
 
     fieldsets = (
         (_("Основное"), {"fields": ("company", "employee", "status", "directions", "problem_direction", "description")}),
@@ -185,3 +218,34 @@ class RequestAdmin(admin.ModelAdmin):
             return
 
         super().save_formset(request, form, formset, change)
+
+
+@admin.register(RequestOfficialResponse)
+class RequestOfficialResponseAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "request",
+        "recipient_email",
+        "email_status",
+        "telegram_status",
+        "created_at",
+    )
+    list_select_related = ("request", "author", "telegram_profile")
+    list_filter = ("email_status", "telegram_status", "created_at")
+    search_fields = ("request__public_id", "recipient_email", "text", "email_error", "telegram_error")
+    readonly_fields = (
+        "request",
+        "author",
+        "telegram_profile",
+        "recipient_email",
+        "subject",
+        "text",
+        "email_status",
+        "telegram_status",
+        "email_error",
+        "telegram_error",
+        "email_sent_at",
+        "telegram_sent_at",
+        "created_at",
+        "updated_at",
+    )

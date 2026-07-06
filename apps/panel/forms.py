@@ -45,6 +45,23 @@ class StepForm(forms.Form):
         self.fields["text"].widget.attrs.update({"class": BASE_TEXTAREA})
 
 
+class OfficialResponseForm(forms.Form):
+    response_text = forms.CharField(label=_("Текст официального ответа"), widget=forms.Textarea, required=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["response_text"].widget.attrs.update({
+            "class": BASE_TEXTAREA,
+            "placeholder": _("Введите текст ответа заявителю"),
+        })
+
+    def clean_response_text(self):
+        value = (self.cleaned_data.get("response_text") or "").strip()
+        if not value:
+            raise forms.ValidationError(_("Введите текст официального ответа."))
+        return value
+
+
 class PanelRequestFilterForm(forms.Form):
     q = forms.CharField(label=_("Поиск"), required=False)
     status = forms.CharField(label=_("Статус"), required=False)

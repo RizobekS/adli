@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Optional
 
+from django.db.models import Q
+
 from apps.agency.models import ProblemDirection, Department
 from apps.companies.models import (
     Company,
@@ -200,16 +202,22 @@ def get_district_by_id(district_id: int):
 def get_recent_requests_for_profile(profile: TelegramProfile, limit: int = 10):
     qs = (
         Request.objects
-        .select_related("company", "employee", "problem_direction", "assigned_department")
-        .prefetch_related("files")
+        .select_related("company", "employee", "problem_direction", "assigned_department", "telegram_profile")
+        .prefetch_related("files", "official_responses")
         .order_by("-created_at")
     )
 
     if profile.employee_company_id:
-        return qs.filter(employee=profile.employee_company)[:limit]
+        return qs.filter(
+            Q(telegram_profile=profile) |
+            Q(employee=profile.employee_company)
+        )[:limit]
 
     if profile.company_id:
-        return qs.filter(company=profile.company)[:limit]
+        return qs.filter(
+            Q(telegram_profile=profile) |
+            Q(company=profile.company)
+        )[:limit]
 
     return qs.none()
 

@@ -196,6 +196,7 @@ def public_track_requests(request):
         requests_list = (
             Request.objects
             .select_related("company", "employee", "assigned_department", "assigned_employee")
+            .prefetch_related("official_responses")
             .filter(company__inn=inn, public_id=public_id)
         )
 
@@ -240,6 +241,7 @@ def public_request_history_json(request, public_id: str):
         RequestHistory.Action.RESOLVED,
         RequestHistory.Action.ASSIGNED,
         RequestHistory.Action.STATUS_CHANGED,
+        RequestHistory.Action.OFFICIAL_RESPONSE,
         RequestHistory.Action.DONE,
     }
 
@@ -268,6 +270,9 @@ def public_request_history_json(request, public_id: str):
             fs = status_map.get(h.from_status, h.from_status)
             ts = status_map.get(h.to_status, h.to_status)
             comment = _("Статус изменён: %(a)s → %(b)s") % {"a": fs, "b": ts}
+
+        elif h.action == RequestHistory.Action.OFFICIAL_RESPONSE:
+            comment = _("Официальный ответ добавлен")
 
         data.append({
             "created_at": h.created_at.isoformat(),

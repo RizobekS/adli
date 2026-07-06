@@ -169,6 +169,47 @@
     {% endif %}
 
 
+    {% if obj.official_responses.exists %}
+    <div class="bg-white rounded-lg shadow p-4 space-y-4">
+        <h3 class="font-semibold text-gray-700">{% trans "Официальные ответы" %}</h3>
+
+        <ul class="space-y-4">
+            {% for response in obj.official_responses.all %}
+            <li class="rounded-lg border border-gray-200 p-4 text-sm space-y-2">
+                <div class="flex flex-col gap-1 text-xs text-gray-500 sm:flex-row sm:items-center sm:justify-between">
+                    <span>
+                        {% trans "Автор:" %}
+                        {% if response.author %}{{ response.author }}{% else %}{% trans "Система" %}{% endif %}
+                        · {{ response.created_at|date:"d.m.Y H:i" }}
+                    </span>
+                    <span>
+                        Email: {{ response.get_email_status_display }}
+                        · Telegram: {{ response.get_telegram_status_display }}
+                    </span>
+                </div>
+                {% if response.recipient_email %}
+                <div class="text-xs text-gray-500">
+                    {% trans "Получатель:" %} {{ response.recipient_email }}
+                </div>
+                {% endif %}
+                <div class="whitespace-pre-line text-gray-700">{{ response.text }}</div>
+                {% if response.email_error %}
+                <div class="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700">
+                    {% trans "Email:" %} {{ response.email_error }}
+                </div>
+                {% endif %}
+                {% if response.telegram_error %}
+                <div class="rounded-lg bg-yellow-50 px-3 py-2 text-xs text-yellow-800">
+                    Telegram: {{ response.telegram_error }}
+                </div>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+
     <!-- Step form -->
     {% if is_executor and obj.status != obj.Status.DONE %}
     <div class="bg-white rounded-lg shadow p-4 space-y-4">
@@ -183,6 +224,53 @@
             {% csrf_token %}
             {{ step_form.as_p }}
             <button type="submit" class="btn-primary cursor-pointer">{% trans "Добавить шаг" %}</button>
+        </form>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4 space-y-4">
+        <div>
+            <h3 class="font-semibold text-gray-700">{% trans "Официальный ответ и завершение" %}</h3>
+            <p class="mt-1 text-sm text-gray-500">
+                {% trans "После отправки ответа обращение будет закрыто." %}
+            </p>
+        </div>
+
+        {% if not obj.employee.email %}
+        <div class="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            {% trans "У заявителя нет прикрепленного email. Email-уведомление не будет отправлено." %}
+        </div>
+        {% endif %}
+
+        {% if obj.source == obj.Source.TELEGRAM %}
+        <div class="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-700">
+            {% trans "Обращение создано через Telegram bot. Система также попробует отправить Telegram-уведомление заявителю." %}
+        </div>
+        {% endif %}
+
+        <form method="post"
+              action="{% url 'panel:request_action_mark_done' obj.pk %}"
+              hx-post="{% url 'panel:request_action_mark_done' obj.pk %}"
+              hx-target="#detail-fragments"
+              hx-swap="outerHTML"
+              class="space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">
+                    {{ official_response_form.response_text.label }}
+                </label>
+                {{ official_response_form.response_text }}
+                {% if official_response_form.response_text.errors %}
+                <p class="mt-1 text-sm text-red-600">
+                    {{ official_response_form.response_text.errors|striptags }}
+                </p>
+                {% endif %}
+            </div>
+
+            <button type="submit"
+                    class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700">
+                {% trans "Отправить ответ и завершить обращение" %}
+            </button>
         </form>
     </div>
     {% elif is_executor and obj.status == obj.Status.DONE %}

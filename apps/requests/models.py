@@ -56,6 +56,14 @@ class Request(models.Model):
         null=True,
         blank=True,
     )
+    telegram_profile = models.ForeignKey(
+        "tg_bot.TelegramProfile",
+        verbose_name=_("Telegram профиль заявителя"),
+        on_delete=models.SET_NULL,
+        related_name="requests",
+        null=True,
+        blank=True,
+    )
 
     deputy_assistant = models.ForeignKey(
         AgencyEmployee,
@@ -275,6 +283,77 @@ class RequestStep(models.Model):
         return self.author.get_username()
 
 
+class RequestOfficialResponse(models.Model):
+    """
+    Текст официального ответа и состояние доставки заявителю.
+    """
+
+    class DeliveryStatus(models.TextChoices):
+        PENDING = "pending", _("Ожидает отправки")
+        SENT = "sent", _("Отправлено")
+        FAILED = "failed", _("Ошибка")
+        SKIPPED = "skipped", _("Пропущено")
+
+    request = models.ForeignKey(
+        Request,
+        verbose_name=_("Обращение"),
+        on_delete=models.CASCADE,
+        related_name="official_responses",
+    )
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_("Автор ответа"),
+        on_delete=models.PROTECT,
+        related_name="request_official_responses",
+    )
+    telegram_profile = models.ForeignKey(
+        "tg_bot.TelegramProfile",
+        verbose_name=_("Telegram профиль получателя"),
+        on_delete=models.SET_NULL,
+        related_name="official_responses",
+        null=True,
+        blank=True,
+    )
+
+    recipient_email = models.EmailField(_("Email получателя"), blank=True)
+    subject = models.CharField(_("Тема письма"), max_length=255)
+    text = models.TextField(_("Текст ответа"))
+
+    email_status = models.CharField(
+        _("Статус email"),
+        max_length=20,
+        choices=DeliveryStatus.choices,
+        default=DeliveryStatus.PENDING,
+        db_index=True,
+    )
+    telegram_status = models.CharField(
+        _("Статус Telegram"),
+        max_length=20,
+        choices=DeliveryStatus.choices,
+        default=DeliveryStatus.SKIPPED,
+        db_index=True,
+    )
+    email_error = models.TextField(_("Ошибка email"), blank=True)
+    telegram_error = models.TextField(_("Ошибка Telegram"), blank=True)
+
+    email_sent_at = models.DateTimeField(_("Дата отправки email"), null=True, blank=True)
+    telegram_sent_at = models.DateTimeField(_("Дата отправки Telegram"), null=True, blank=True)
+
+    created_at = models.DateTimeField(_("Дата создания"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Дата обновления"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("Официальный ответ")
+        verbose_name_plural = _("Официальные ответы")
+        ordering = ("-created_at",)
+        indexes = [
+            models.Index(fields=["request", "created_at"]),
+        ]
+
+    def __str__(self):
+        return f"Официальный ответ #{self.pk} по обращению #{self.request_id}"
+
+
 class RequestHistory(models.Model):
     """
     История действий (аудит): смена статусов, назначений, служебные комментарии.
@@ -288,6 +367,7 @@ class RequestHistory(models.Model):
         STATUS_CHANGED = "status_changed", _("Статус изменён")
         STEP_ADDED = "step_added", _("Добавлен шаг")
         FILE_ADDED = "file_added", _("Добавлен файл")
+        OFFICIAL_RESPONSE = "official_response", _("Официальный ответ")
         DONE = "done", _("Завершено")
         OTHER = "other", _("Другое")
 

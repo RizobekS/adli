@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-25 11:42+0500\n"
+"POT-Creation-Date: 2026-07-06 21:02+0500\n"
 "Language-Team: Uzbek\n"
 "Language: uz\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,7 +12,7 @@ msgstr "Foydalanuvchi"
 
 #: .\apps\agency\admin.py:45 .\apps\agency\admin.py:74
 #: .\apps\agency\admin.py:98 .\apps\agency\admin.py:115
-#: .\apps\requests\admin.py:112
+#: .\apps\requests\admin.py:145
 msgid "Служебное"
 msgstr "Tizim tomonidan"
 
@@ -26,8 +26,8 @@ msgid "Статистика"
 msgstr "Statistika"
 
 #: .\apps\agency\admin.py:93 .\apps\agency\models.py:203
-#: .\apps\panel\forms.py:20 .\apps\requests\models.py:216
-#: .\apps\telephony\models.py:9 .\templates\telephony\_directory_table.html:7
+#: .\apps\panel\forms.py:21 .\apps\requests\models.py:224
+#: .\apps\telephony\models.py:9 .\templates\telephony\_directory_table.html:8
 msgid "Сотрудник"
 msgstr "Xodim"
 
@@ -65,7 +65,7 @@ msgid "Опционально: короткий код департамента,
 msgstr "Ixtiyoriy: bo'limning qisqa kodi, masalan, LEG, IT, HR"
 
 #: .\apps\agency\models.py:17 .\apps\agency\models.py:89
-#: .\apps\agency\models.py:144 .\templates\telephony\_directory_table.html:71
+#: .\apps\agency\models.py:144 .\templates\telephony\_directory_table.html:73
 msgid "Активен"
 msgstr "Faol"
 
@@ -74,13 +74,14 @@ msgstr "Faol"
 #: .\apps\companies\models.py:43 .\apps\companies\models.py:67
 #: .\apps\companies\models.py:82 .\apps\companies\models.py:172
 #: .\apps\companies\models.py:230 .\apps\companies\models.py:263
-#: .\apps\requests\models.py:134
+#: .\apps\requests\models.py:142 .\apps\requests\models.py:342
 msgid "Дата создания"
 msgstr "Yaratilgan sana"
 
 #: .\apps\agency\models.py:21 .\apps\agency\models.py:61
-#: .\apps\agency\models.py:140 .\apps\panel\forms.py:14
-#: .\apps\requests\models.py:208
+#: .\apps\agency\models.py:140 .\apps\panel\forms.py:15
+#: .\apps\panel\forms.py:73 .\apps\requests\models.py:216
+#: .\templates\panel\reports\overdue_requests.html:89
 msgid "Департамент"
 msgstr "Departament"
 
@@ -137,7 +138,7 @@ msgstr "Foto"
 msgid "Сотовый телефон"
 msgstr "Telefon"
 
-#: .\apps\agency\models.py:87 .\templates\telephony\_directory_table.html:11
+#: .\apps\agency\models.py:87 .\templates\telephony\_directory_table.html:12
 msgid "Email"
 msgstr ""
 
@@ -150,8 +151,8 @@ msgid "Сотрудники агентства"
 msgstr "Agentlik xodimlari"
 
 #: .\apps\agency\models.py:137 .\apps\agency\models.py:149
-#: .\apps\requests\forms.py:34 .\apps\requests\models.py:77
-#: .\templates\panel\requests\_fragments.html:26
+#: .\apps\requests\forms.py:34 .\apps\requests\models.py:85
+#: .\templates\panel\requests\_fragments.html:76
 #: .\templates\panel\requests\list.html:43
 msgid "Проблемное направление"
 msgstr "Muammoli yo'nalish"
@@ -173,7 +174,7 @@ msgid "Краткое описание"
 msgstr "Qisqacha tavsif"
 
 #: .\apps\agency\models.py:167 .\apps\agency\models.py:246
-#: .\apps\companies\models.py:66 .\templates\panel\requests\_fragments.html:34
+#: .\apps\companies\models.py:66 .\templates\panel\requests\_fragments.html:58
 msgid "Описание"
 msgstr "Tavsif"
 
@@ -191,8 +192,8 @@ msgid "Опубликовано"
 msgstr "Nashr qilingan"
 
 #: .\apps\agency\models.py:174 .\apps\agency\models.py:225
-#: .\apps\agency\models.py:256 .\apps\requests\models.py:283
-#: .\templates\base_panel.html:222
+#: .\apps\agency\models.py:256 .\apps\requests\models.py:362
+#: .\templates\base_panel.html:229
 msgid "Создано"
 msgstr "Yaratildi"
 
@@ -316,7 +317,7 @@ msgid "Направление"
 msgstr "Yo'nalish"
 
 #: .\apps\companies\models.py:71 .\apps\companies\models.py:139
-#: .\apps\requests\forms.py:71 .\apps\requests\models.py:70
+#: .\apps\requests\forms.py:71 .\apps\requests\models.py:78
 #: .\templates\companies\companies_page.html:69
 #: .\templates\companies\partials\companies_table.html:11
 #: .\templates\panel\requests\list.html:44
@@ -370,11 +371,13 @@ msgid "Категории (множественные)"
 msgstr "Kategoriyalar (bir nechta)"
 
 #: .\apps\companies\models.py:143 .\apps\requests\forms.py:45
+#: .\templates\panel\requests\_fragments.html:36
 msgid "Название компании"
 msgstr "Korxona nomi"
 
 #: .\apps\companies\models.py:145 .\apps\requests\forms.py:46
 #: .\templates\companies\partials\companies_table.html:7
+#: .\templates\panel\requests\_fragments.html:32
 msgid "ИНН"
 msgstr "STIR"
 
@@ -409,9 +412,9 @@ msgstr ""
 msgid "Компания"
 msgstr "Korxona"
 
-#: .\apps\companies\models.py:176 .\templates\base_panel.html:91
+#: .\apps\companies\models.py:176 .\templates\base_panel.html:98
 #: .\templates\companies\companies_page.html:5
-#: .\templates\partials\sidebar.html:71
+#: .\templates\partials\sidebar.html:78
 msgid "Компании"
 msgstr "Korxonalar"
 
@@ -444,7 +447,7 @@ msgid "Показатели компаний по направлениям"
 msgstr "Korxonalarning yo'nalishlar bo'yicha ko'rsatkichlari"
 
 #: .\apps\companies\models.py:233 .\apps\companies\models.py:250
-#: .\templates\telephony\_directory_table.html:8
+#: .\templates\telephony\_directory_table.html:9
 msgid "Должность"
 msgstr "Lavozim"
 
@@ -453,10 +456,12 @@ msgid "Должности"
 msgstr "Lavozimlar"
 
 #: .\apps\companies\models.py:260 .\apps\requests\forms.py:66
+#: .\templates\panel\requests\_fragments.html:44
 msgid "Телефон номер"
 msgstr "Telefon raqam"
 
 #: .\apps\companies\models.py:261 .\apps\requests\forms.py:67
+#: .\templates\panel\requests\_fragments.html:51
 msgid "Электронная почта"
 msgstr "Elektron pochta"
 
@@ -480,11 +485,11 @@ msgstr "Qo'l telefoni"
 msgid "Офис"
 msgstr "Shirkat"
 
-#: .\apps\companies\models.py:286 .\apps\requests\models.py:292
+#: .\apps\companies\models.py:286 .\apps\requests\models.py:372
 msgid "Другое"
 msgstr "Boshqa"
 
-#: .\apps\companies\models.py:295 .\apps\requests\models.py:169
+#: .\apps\companies\models.py:295 .\apps\requests\models.py:177
 msgid "Тип"
 msgstr "Turi"
 
@@ -500,43 +505,63 @@ msgstr "Korxona telefoni"
 msgid "Телефоны компании"
 msgstr "Korxona telefoni"
 
-#: .\apps\panel\forms.py:12
+#: .\apps\panel\forms.py:13
 msgid "Текст для резолюции"
 msgstr "Qaror (rezolyutsiya) matni"
 
-#: .\apps\panel\forms.py:17 .\apps\panel\forms.py:23
+#: .\apps\panel\forms.py:18 .\apps\panel\forms.py:24
 #: .\templates\base_panel.html:12
 msgid "Не выбран"
 msgstr "Tanlanmagan"
 
-#: .\apps\panel\forms.py:26 .\apps\panel\forms.py:61
-#: .\apps\requests\models.py:126 .\apps\requests\models.py:223
+#: .\apps\panel\forms.py:27 .\apps\panel\forms.py:101
+#: .\apps\requests\models.py:134 .\apps\requests\models.py:231
 msgid "Срок исполнения"
 msgstr "Bajarish muddati"
 
-#: .\apps\panel\forms.py:40
+#: .\apps\panel\forms.py:41
 msgid "Шаг работы"
 msgstr "Ish qadami"
 
-#: .\apps\panel\forms.py:48 .\templates\telephony\directory.html:48
+#: .\apps\panel\forms.py:49
+msgid "Текст официального ответа"
+msgstr "Rasmiy javob matni"
+
+#: .\apps\panel\forms.py:55
+msgid "Введите текст ответа заявителю"
+msgstr "Murojaat beruvchiga javob matnini kiriting"
+
+#: .\apps\panel\forms.py:61 .\apps\panel\views.py:569
+msgid "Введите текст официального ответа."
+msgstr "Rasmiy javob matnini kiriting."
+
+#: .\apps\panel\forms.py:66 .\templates\telephony\directory.html:48
 msgid "Поиск"
 msgstr "Qidirish"
 
-#: .\apps\panel\forms.py:49 .\apps\requests\models.py:87
+#: .\apps\panel\forms.py:67 .\apps\requests\models.py:95
 #: .\templates\panel\requests\list.html:45
-#: .\templates\telephony\_directory_table.html:12
+#: .\templates\telephony\_directory_table.html:13
 msgid "Статус"
 msgstr "Holat"
 
-#: .\apps\panel\forms.py:50 .\templates\panel\requests\_fragments.html:97
+#: .\apps\panel\forms.py:68 .\templates\panel\requests\_fragments.html:13
 msgid "Просрочено"
 msgstr "Muddatidan o'tgan"
 
-#: .\apps\panel\forms.py:55 .\templates\panel\requests\list.html:46
+#: .\apps\panel\forms.py:76
+msgid "Все департаменты"
+msgstr "Barcha departamentlar"
+
+#: .\apps\panel\forms.py:79
+msgid "Дата отчета"
+msgstr "Hisobot sanasi"
+
+#: .\apps\panel\forms.py:95 .\templates\panel\requests\list.html:46
 msgid "Исполнитель"
 msgstr "Ijrochi"
 
-#: .\apps\panel\forms.py:58
+#: .\apps\panel\forms.py:98
 msgid "Выберите исполнителя"
 msgstr "Ijrochi tanlang"
 
@@ -565,129 +590,146 @@ msgstr "— Kategoriya biriktirilmagan"
 msgid "Неизвестно"
 msgstr "Aniqlanmagan"
 
-#: .\apps\panel\views.py:295 .\apps\requests\models.py:291
+#: .\apps\panel\views.py:167
+msgid "Проверьте параметры отчета."
+msgstr "Hisobot parametrlarini tekshiring."
+
+#: .\apps\panel\views.py:369 .\apps\requests\models.py:371
 msgid "Завершено"
 msgstr "Tugallandi"
 
-#: .\apps\panel\views.py:298
+#: .\apps\panel\views.py:372
 #, python-format
 msgid "Просрочено на %(d)s дн."
 msgstr "%(d)s kunga muddatidan o'tgan"
 
-#: .\apps\panel\views.py:301 .\templates\panel\requests\_fragments.html:99
+#: .\apps\panel\views.py:375 .\templates\panel\requests\_fragments.html:15
 msgid "Срок сегодня"
 msgstr "Muddati bugun"
 
-#: .\apps\panel\views.py:304 .\apps\panel\views.py:307
+#: .\apps\panel\views.py:378 .\apps\panel\views.py:381
 #, python-format
 msgid "Осталось %(d)s дн."
 msgstr "%(d)s kun qoldi"
 
-#: .\apps\panel\views.py:310 .\templates\panel\requests\_fragments.html:104
+#: .\apps\panel\views.py:384 .\templates\panel\requests\_fragments.html:20
 msgid "Без срока"
 msgstr "Maddatsiz"
 
-#: .\apps\panel\views.py:447
+#: .\apps\panel\views.py:526
 msgid "Нельзя добавлять шаги: обращение уже завершено."
 msgstr "Qadam qo'shish mumkin emas, murojaat yopilgan"
 
-#: .\apps\panel\views.py:454
+#: .\apps\panel\views.py:533
 msgid "Проверьте форму шага: есть ошибки."
 msgstr "Iltimos, qadam shaklni tekshiring: xatolik mavjud."
 
-#: .\apps\panel\views.py:463
+#: .\apps\panel\views.py:542
 msgid "Шаг добавлен из панели"
 msgstr "Qadam boshqaruv panelidan qo'shildi."
 
-#: .\apps\panel\views.py:466
+#: .\apps\panel\views.py:545
 msgid "Шаг добавлен."
 msgstr "Qadam qo'shildi."
 
-#: .\apps\panel\views.py:480
+#: .\apps\panel\views.py:562
 msgid "Уже завершено."
 msgstr "Tugallangan"
 
-#: .\apps\panel\views.py:485
-msgid "Завершено из панели"
-msgstr "Boshqaruv panelidan tugallandi"
+#: .\apps\panel\views.py:582
+msgid "Официальный ответ отправлен на email заявителя."
+msgstr ""
+"Murojaat beruvchining elektron pochta manziliga rasmiy javob yuborildi."
 
-#: .\apps\panel\views.py:486
+#: .\apps\panel\views.py:587
+msgid "Официальный ответ не отправлен на email."
+msgstr "Elektron pochtaga rasmiy javob yuborilmadi."
+
+#: .\apps\panel\views.py:590
+msgid "Telegram-уведомление отправлено заявителю."
+msgstr "Murojaat beruvchiga Telegram xabarnomasi yuborildi."
+
+#: .\apps\panel\views.py:595
+msgid "Telegram-уведомление не отправлено."
+msgstr "Telegram xabarnomasi yuborilmadi."
+
+#: .\apps\panel\views.py:597
 msgid "Обращение завершено."
 msgstr "Murojaat ishlab chiqildi"
 
-#: .\apps\panel\views.py:508
+#: .\apps\panel\views.py:619
 msgid "Проверьте форму назначения исполнителя."
 msgstr "Iltimos, ijrochi tayinlash shaklni tekshiring: xatolik mavjud."
 
-#: .\apps\panel\views.py:518
+#: .\apps\panel\views.py:629
 msgid "Назначено начальником департамента"
 msgstr "Departament direktori tomonidan tayinlangan"
 
-#: .\apps\panel\views.py:521
+#: .\apps\panel\views.py:632
 msgid "Исполнитель назначен."
 msgstr "Ijrochi tayinlangan"
 
-#: .\apps\panel\views.py:549 .\apps\requests\services.py:75
+#: .\apps\panel\views.py:660 .\apps\requests\services.py:91
 msgid "Ожидаем ответ/информацию"
 msgstr "Javob/ma'lumot kutilmoqda"
 
-#: .\apps\panel\views.py:550
+#: .\apps\panel\views.py:661
 msgid "Статус: ожидает ответа."
 msgstr "Holat: Javob kutilmoqda"
 
-#: .\apps\panel\views.py:577
+#: .\apps\panel\views.py:688
 msgid "Работа продолжена"
 msgstr "Ish davom etmoqda"
 
-#: .\apps\panel\views.py:578
+#: .\apps\panel\views.py:689
 msgid "Статус: в работе."
 msgstr "Holat: Jarayonda"
 
-#: .\apps\requests\admin.py:110
+#: .\apps\requests\admin.py:143
 msgid "Основное"
 msgstr "Asosiy"
 
-#: .\apps\requests\admin.py:111
+#: .\apps\requests\admin.py:144
 msgid "Назначение и контроль"
 msgstr "Tayinlash va nazorat"
 
-#: .\apps\requests\admin.py:125
+#: .\apps\requests\admin.py:158
 msgid "Зарегистрировать (канцелярия)"
 msgstr "Ro'yhatga olish (devonxona)"
 
-#: .\apps\requests\admin.py:129 .\apps\requests\admin.py:137
-#: .\apps\requests\admin.py:145
+#: .\apps\requests\admin.py:162 .\apps\requests\admin.py:170
+#: .\apps\requests\admin.py:178
 msgid "Действие из админки"
 msgstr "Administrator panelidan harakat"
 
-#: .\apps\requests\admin.py:131
+#: .\apps\requests\admin.py:164
 #, python-format
 msgid "Зарегистрировано: %(cnt)s"
 msgstr "Ro'yxatdan o'tgan: %(cnt)s"
 
-#: .\apps\requests\admin.py:133
+#: .\apps\requests\admin.py:166
 msgid "Отправить на резолюцию"
 msgstr "Qaror uchun (Rezolyutsiya) yuborish"
 
-#: .\apps\requests\admin.py:139
+#: .\apps\requests\admin.py:172
 #, python-format
 msgid "Отправлено на резолюцию: %(cnt)s"
 msgstr "Qaror uchun (Rezolyutsiya) yuborildi: %(cnt)s"
 
-#: .\apps\requests\admin.py:141
+#: .\apps\requests\admin.py:174
 msgid "Пометить как обработано"
 msgstr "Ishlab chiqilgan deb belgilash"
 
-#: .\apps\requests\admin.py:147
+#: .\apps\requests\admin.py:180
 #, python-format
 msgid "Обработано: %(cnt)s"
 msgstr "Ishlab chiqildi: %(cnt)s"
 
-#: .\apps\requests\admin.py:170
+#: .\apps\requests\admin.py:203
 msgid "Резолюция добавлена из админки"
 msgstr "Administrator panelidan rezolyutsiya qo'shildi"
 
-#: .\apps\requests\admin.py:182
+#: .\apps\requests\admin.py:215
 msgid "Шаг добавлен из админки"
 msgstr "Qadam administrator panelidan qo'shildi."
 
@@ -718,7 +760,7 @@ msgstr "Viloyat tanlang"
 msgid "Выберите район/город"
 msgstr "Tuman/shaxar tanlang"
 
-#: .\apps\requests\forms.py:76 .\apps\requests\models.py:84
+#: .\apps\requests\forms.py:76 .\apps\requests\models.py:92
 msgid "Текст обращения"
 msgstr "Murojaat matni"
 
@@ -743,7 +785,7 @@ msgstr "Korxona STIR"
 msgid "Номер обращения"
 msgstr "Murojaat raqami"
 
-#: .\apps\requests\forms.py:138 .\apps\requests\models.py:101
+#: .\apps\requests\forms.py:138 .\apps\requests\models.py:109
 msgid "Формат: YYYY-000001"
 msgstr "Format: YYYY-000001"
 
@@ -795,231 +837,337 @@ msgstr "Bekor qilingan"
 msgid "Админ панель"
 msgstr "Admin paneli"
 
-#: .\apps\requests\models.py:95
+#: .\apps\requests\models.py:61
+msgid "Telegram профиль заявителя"
+msgstr "Murojaatchining Telegram profili"
+
+#: .\apps\requests\models.py:103
 msgid "Публичный номер"
 msgstr "Unikal raqami"
 
-#: .\apps\requests\models.py:104
+#: .\apps\requests\models.py:112
 msgid "Год (публичный)"
 msgstr "Yil"
 
-#: .\apps\requests\models.py:105
+#: .\apps\requests\models.py:113
 msgid "Порядковый номер (публичный)"
 msgstr "Tartib raqami"
 
-#: .\apps\requests\models.py:110
+#: .\apps\requests\models.py:118
 msgid "Назначенный департамент"
 msgstr "Tayinlangan departament"
 
-#: .\apps\requests\models.py:118
+#: .\apps\requests\models.py:126
 msgid "Назначенный сотрудник"
 msgstr "Tainlangan xodim"
 
-#: .\apps\requests\models.py:129
+#: .\apps\requests\models.py:137
 msgid "Срок по резолюции/контролю"
 msgstr "Qaror/nazorat bo'yicha muddat"
 
-#: .\apps\requests\models.py:132
+#: .\apps\requests\models.py:140
 msgid "Дата завершения"
 msgstr "Yakunlangan sana"
 
-#: .\apps\requests\models.py:137
+#: .\apps\requests\models.py:145
 msgid "Источник"
 msgstr "Manba"
 
-#: .\apps\requests\models.py:143
+#: .\apps\requests\models.py:151 .\apps\requests\models.py:343
 msgid "Дата обновления"
 msgstr "Yangilangan sana"
 
-#: .\apps\requests\models.py:146 .\apps\requests\models.py:165
-#: .\apps\requests\models.py:192 .\apps\requests\models.py:247
-#: .\apps\requests\models.py:296 .\templates\base_public.html:99
-#: .\templates\base_public.html:130 .\templates\panel\requests\detail.html:16
+#: .\apps\requests\models.py:154 .\apps\requests\models.py:173
+#: .\apps\requests\models.py:200 .\apps\requests\models.py:255
+#: .\apps\requests\models.py:299 .\apps\requests\models.py:376
+#: .\templates\base_public.html:99 .\templates\base_public.html:130
+#: .\templates\panel\requests\detail.html:16
 msgid "Обращение"
 msgstr "Murojaat"
 
-#: .\apps\requests\models.py:147 .\templates\base_panel.html:61
-#: .\templates\base_panel.html:105 .\templates\panel\requests\list.html:9
-#: .\templates\partials\sidebar.html:101
+#: .\apps\requests\models.py:155 .\templates\base_panel.html:112
+#: .\templates\panel\requests\list.html:9 .\templates\partials\sidebar.html:108
 msgid "Обращения"
 msgstr "Murojaatlar"
 
-#: .\apps\requests\models.py:161
+#: .\apps\requests\models.py:169
 msgid "Приложение"
 msgstr "Ilovalar"
 
-#: .\apps\requests\models.py:172
+#: .\apps\requests\models.py:180
 msgid "Файл"
 msgstr "Fayl"
 
-#: .\apps\requests\models.py:177
+#: .\apps\requests\models.py:185
 msgid "Дата загрузки"
 msgstr "Yuklash sanasi"
 
-#: .\apps\requests\models.py:180
+#: .\apps\requests\models.py:188
 msgid "Файл обращения"
 msgstr "Murojaat fayli"
 
-#: .\apps\requests\models.py:181
+#: .\apps\requests\models.py:189
 msgid "Файлы обращения"
 msgstr "Murojaat fayllari"
 
-#: .\apps\requests\models.py:199
+#: .\apps\requests\models.py:207
 msgid "Автор резолюции"
 msgstr "Qaror (rezolyutsiya) muallifi"
 
-#: .\apps\requests\models.py:204 .\apps\requests\models.py:228
+#: .\apps\requests\models.py:212 .\apps\requests\models.py:236
 msgid "Резолюция"
 msgstr "Qaror (Rezolyutsiya)"
 
-#: .\apps\requests\models.py:225
+#: .\apps\requests\models.py:233
 msgid "Дата резолюции"
 msgstr "Qaror (rezolyutsiya) sanasi"
 
-#: .\apps\requests\models.py:229
+#: .\apps\requests\models.py:237
 msgid "Резолюции"
 msgstr "Rezolyutsiyalar"
 
-#: .\apps\requests\models.py:253
+#: .\apps\requests\models.py:261
 msgid "Автор шага"
 msgstr "Qadam muallifi"
 
-#: .\apps\requests\models.py:257
+#: .\apps\requests\models.py:265
 msgid "Описание шага"
 msgstr "Qadam tavsifi"
 
-#: .\apps\requests\models.py:258
+#: .\apps\requests\models.py:266
 msgid "Дата шага"
 msgstr "Qadam aratilgan sana"
 
-#: .\apps\requests\models.py:261
+#: .\apps\requests\models.py:269
 msgid "Шаг по обращению"
 msgstr "Murojaat bo'yicha qadam"
 
-#: .\apps\requests\models.py:262
+#: .\apps\requests\models.py:270
 msgid "Шаги по обращению"
 msgstr "Murojaat bo'yicha qadamlar"
 
-#: .\apps\requests\models.py:284 .\apps\requests\services.py:211
+#: .\apps\requests\models.py:292
+msgid "Ожидает отправки"
+msgstr "Yuborish kutilmoqda"
+
+#: .\apps\requests\models.py:293
+msgid "Отправлено"
+msgstr "Yuborildi"
+
+#: .\apps\requests\models.py:294 .\templates\partials\messages.html:46
+#: .\templates\partials\messages_oob.html:45
+msgid "Ошибка"
+msgstr "Xato"
+
+#: .\apps\requests\models.py:295
+msgid "Пропущено"
+msgstr "O'tkazib yuborildi"
+
+#: .\apps\requests\models.py:305
+msgid "Автор ответа"
+msgstr "Javob muallifi"
+
+#: .\apps\requests\models.py:311
+msgid "Telegram профиль получателя"
+msgstr "Qabul qiluvchining Telegram profili"
+
+#: .\apps\requests\models.py:318
+msgid "Email получателя"
+msgstr "Qabul qiluvchining elektron pochta manzili"
+
+#: .\apps\requests\models.py:319
+msgid "Тема письма"
+msgstr "Xat mavzusi"
+
+#: .\apps\requests\models.py:320
+msgid "Текст ответа"
+msgstr "Javob matni"
+
+#: .\apps\requests\models.py:323
+msgid "Статус email"
+msgstr "Elektron pochta holati"
+
+#: .\apps\requests\models.py:330
+msgid "Статус Telegram"
+msgstr "Telegram holati"
+
+#: .\apps\requests\models.py:336
+msgid "Ошибка email"
+msgstr "Elektron pochtada xatolik"
+
+#: .\apps\requests\models.py:337
+msgid "Ошибка Telegram"
+msgstr "Telegramda xatolik"
+
+#: .\apps\requests\models.py:339
+msgid "Дата отправки email"
+msgstr "Elektron pochtadan yuborilgan sana"
+
+#: .\apps\requests\models.py:340
+msgid "Дата отправки Telegram"
+msgstr "Telegramdan yuborilgan sana"
+
+#: .\apps\requests\models.py:346 .\apps\requests\models.py:370
+#: .\templates\public\track_requests.html:136
+msgid "Официальный ответ"
+msgstr "Rasmiy javob"
+
+#: .\apps\requests\models.py:347 .\templates\panel\requests\_fragments.html:174
+msgid "Официальные ответы"
+msgstr "Rasmiy javoblar"
+
+#: .\apps\requests\models.py:363 .\apps\requests\services.py:227
 msgid "Зарегистрировано"
 msgstr "Ro'yhatdan o'tkazildi"
 
-#: .\apps\requests\models.py:285
+#: .\apps\requests\models.py:364
 msgid "Отправлено на резолюцию"
 msgstr "Qaror (Rezolyutsiya) uchun yuborildi"
 
-#: .\apps\requests\models.py:286 .\apps\requests\services.py:221
+#: .\apps\requests\models.py:365 .\apps\requests\services.py:237
 msgid "Резолюция поставлена"
 msgstr "Qaror (Rezolyutsiya) qo'yildi"
 
-#: .\apps\requests\models.py:287
+#: .\apps\requests\models.py:366
 msgid "Назначено"
 msgstr "Tayinlandi"
 
-#: .\apps\requests\models.py:288
+#: .\apps\requests\models.py:367
 msgid "Статус изменён"
 msgstr "Holati o'zgartirildi"
 
-#: .\apps\requests\models.py:289
+#: .\apps\requests\models.py:368
 msgid "Добавлен шаг"
 msgstr "Qadam qo'shildi"
 
-#: .\apps\requests\models.py:290 .\apps\requests\services.py:138
+#: .\apps\requests\models.py:369 .\apps\requests\services.py:154
 msgid "Добавлен файл"
 msgstr "Fayl qo'shildi"
 
-#: .\apps\requests\models.py:302
+#: .\apps\requests\models.py:382
 msgid "Кто сделал"
 msgstr "Kim tomonidan bajarildi"
 
-#: .\apps\requests\models.py:309
+#: .\apps\requests\models.py:389
 msgid "Действие"
 msgstr "Amal"
 
-#: .\apps\requests\models.py:311
+#: .\apps\requests\models.py:391
 msgid "Статус до"
 msgstr "Oldingi holat"
 
-#: .\apps\requests\models.py:312
+#: .\apps\requests\models.py:392
 msgid "Статус после"
 msgstr "Keyingi holat"
 
-#: .\apps\requests\models.py:314
+#: .\apps\requests\models.py:394
 msgid "Комментарий"
 msgstr "Izoh"
 
-#: .\apps\requests\models.py:316
+#: .\apps\requests\models.py:396
 msgid "Дата действия"
 msgstr "Qilingan amal sanasi"
 
-#: .\apps\requests\models.py:319 .\templates\public\track_requests.html:146
+#: .\apps\requests\models.py:399 .\templates\public\track_requests.html:169
 msgid "История обращения"
 msgstr "Murojaat tarixi"
 
-#: .\apps\requests\models.py:320
+#: .\apps\requests\models.py:400
 msgid "История обращений"
 msgstr "Murojaatlar tarixi"
 
-#: .\apps\requests\services.py:92
+#: .\apps\requests\services.py:108
 msgid "Работа возобновлена"
 msgstr "Ish davom etmoqda"
 
-#: .\apps\requests\services.py:192
+#: .\apps\requests\services.py:208 .\apps\tg_bot\services.py:340
 msgid "Обращение создано через Telegram bot"
 msgstr "So'rov Telegram bot orqali yaratildi"
 
-#: .\templates\panel\requests\_fragments.html:40
-msgid "ФИО"
-msgstr "FISH"
-
-#: .\apps\requests\services.py:194
+#: .\apps\requests\services.py:210
 msgid "Обращение создано через админ-панель"
 msgstr "So'rov admin panel orqali yaratildi"
 
-#: .\apps\requests\services.py:196 .\apps\requests\services.py:256
-#: .\apps\requests\services.py:406
+#: .\apps\requests\services.py:212 .\apps\requests\services.py:272
+#: .\apps\requests\services.py:422
 msgid "Обращение создано через публичную форму"
 msgstr "So'rov ommaviy shakl orqali yaratildi"
 
-#: .\apps\requests\services.py:231 .\apps\requests\views.py:263
+#: .\apps\requests\services.py:247 .\apps\requests\views.py:265
 #, python-format
 msgid "Назначено: %(dep)s"
 msgstr "Tayinlandi: %(dep)s"
 
-#: .\apps\requests\services.py:359
+#: .\apps\requests\services.py:375
 msgid "Резолюция добавлена"
 msgstr "Rezolyutsiya qo'shildi"
 
-#: .\apps\requests\services.py:369
+#: .\apps\requests\services.py:385
 #, python-format
 msgid "Назначено: %(dep)s, %(emp)s"
 msgstr "Tayinlangan: %(dep)s, %(emp)s"
 
-#: .\apps\requests\services.py:381
+#: .\apps\requests\services.py:397
 msgid "Резолюция добавлена (без изменения назначения в обращении)"
 msgstr "Rezolyutsiya qo'shildi (murojaat tayinlovini o'zgartirmagan xolda)"
 
-#: .\apps\requests\services.py:436
+#: .\apps\requests\services.py:452
 #, python-format
 msgid "Назначен исполнитель: %(emp)s"
 msgstr "Ijrochi tayinlangan: %(emp)s"
 
-#: .\apps\requests\services.py:445
+#: .\apps\requests\services.py:461
 #, python-format
 msgid "Установлен срок исполнения: %(d)s"
 msgstr "Bajarish muddati belgilandi: %(d)s"
 
-#: .\apps\requests\services.py:461
+#: .\apps\requests\services.py:477
 msgid "Добавлен шаг работы"
 msgstr "Ish qadami qo'shildi"
 
-#: .\apps\requests\services.py:466
+#: .\apps\requests\services.py:482
 msgid "Начата работа"
 msgstr "Ish boshlandi"
 
-#: .\apps\requests\services.py:482
+#: .\apps\requests\services.py:498
 msgid "Обращение обработано"
 msgstr "Murojaat ishlab chiqildi"
+
+#: .\apps\requests\services.py:543
+#, python-format
+msgid "Официальный ответ по обращению № %(number)s"
+msgstr "%(number)s raqamidagi murojaatga rasmiy javob"
+
+#: .\apps\requests\services.py:549
+msgid "Уважаемый заявитель!"
+msgstr "Hurmatli murojaatchi!"
+
+#: .\apps\requests\services.py:551
+#, python-format
+msgid "По вашему обращению № %(number)s направлен официальный ответ."
+msgstr ""
+"Sizning %(number)s raqamli murojaatingiz bo'yicha rasmiy javob yuborildi."
+
+#: .\apps\requests\services.py:555
+msgid "Проверить статус обращения можно на сайте murojaat.adli.uz."
+msgstr ""
+"So'rovingiz holatini murojaat.adli.uz veb-saytida tekshirishingiz mumkin."
+
+#: .\apps\requests\services.py:582 .\apps\requests\services.py:684
+msgid "У заявителя нет прикрепленного email."
+msgstr "Murojaat beruvchining biriktirilgan elektron pochta manzili yo'q."
+
+#: .\apps\requests\services.py:611 .\apps\requests\services.py:692
+msgid "Telegram профиль заявителя не найден."
+msgstr "Murojaat beruvchining Telegram profili topilmadi."
+
+#: .\apps\requests\services.py:711 .\apps\requests\views.py:275
+msgid "Официальный ответ добавлен"
+msgstr "Rasmiy javob qo'shildi"
+
+#: .\apps\requests\services.py:713
+msgid "Завершено с официальным ответом"
+msgstr "Rasmiy javob bilan yakunlandi"
 
 #: .\apps\requests\views.py:141
 msgid "Обращение отправлено. Спасибо!"
@@ -1029,12 +1177,12 @@ msgstr "Murojaatingiz yuborildi. Rahmat!"
 msgid "Проверьте форму: есть ошибки."
 msgstr "Iltimos, shaklni tekshiring: xatolar mavjud."
 
-#: .\apps\requests\views.py:265
+#: .\apps\requests\views.py:267
 #, python-format
 msgid "Сотрудник: %(emp)s"
 msgstr "Xodim: %(emp)s"
 
-#: .\apps\requests\views.py:270
+#: .\apps\requests\views.py:272
 #, python-format
 msgid "Статус изменён: %(a)s → %(b)s"
 msgstr "Holati o'zgartirildi: %(a)s → %(b)s"
@@ -1095,13 +1243,17 @@ msgstr "Telegram bot"
 msgid "Foydalanuvchilar"
 msgstr "Foydalanuvchilar"
 
-#: .\config\settings.py:143
+#: .\config\settings.py:158
 msgid "Oʻzbekcha"
 msgstr "Oʻzbekcha"
 
-#: .\config\settings.py:144
+#: .\config\settings.py:159
 msgid "Русский"
 msgstr "Русский"
+
+#: .\templates\base_panel.html:61 .\templates\partials\sidebar.html:34
+msgid "Аналитика"
+msgstr "Ko'rsatkichlar"
 
 #: .\templates\base_panel.html:74 .\templates\partials\sidebar.html:46
 msgid "Сводная аналитика"
@@ -1117,71 +1269,72 @@ msgstr "Murojaat ko'rsatkichlari"
 msgid "Аналитика компаний"
 msgstr "Korxona ko'rsatkichlari"
 
+#: .\templates\base_panel.html:90 .\templates\partials\sidebar.html:62
 msgid "Отчет по просрочкам"
 msgstr "Murojaat muddati kechikkan hisobot"
 
-#: .\templates\base_panel.html:96 .\templates\partials\sidebar.html:82
+#: .\templates\base_panel.html:103 .\templates\partials\sidebar.html:89
 msgid "Телефония"
 msgstr "Telefoniya"
 
-#: .\templates\base_panel.html:117 .\templates\panel\analytics_requests.html:29
-#: .\templates\partials\sidebar.html:115
+#: .\templates\base_panel.html:124 .\templates\panel\analytics_requests.html:29
+#: .\templates\partials\sidebar.html:122
 msgid "Новые"
 msgstr "Yangi"
 
-#: .\templates\base_panel.html:121 .\templates\partials\sidebar.html:121
+#: .\templates\base_panel.html:128 .\templates\partials\sidebar.html:128
 msgid "В исполнении"
 msgstr "Bajarish jarayonida"
 
-#: .\templates\base_panel.html:125 .\templates\partials\sidebar.html:127
+#: .\templates\base_panel.html:132 .\templates\partials\sidebar.html:134
 msgid "Завершенные"
 msgstr "Tugallangan"
 
-#: .\templates\base_panel.html:130 .\templates\partials\sidebar.html:133
+#: .\templates\base_panel.html:137 .\templates\partials\sidebar.html:140
 msgid "Все обращения"
 msgstr "Barcha murojaatlar"
 
-#: .\templates\base_panel.html:139 .\templates\partials\sidebar.html:151
+#: .\templates\base_panel.html:146 .\templates\partials\sidebar.html:158
 msgid "Выйти"
 msgstr "Chiqish"
 
-#: .\templates\base_panel.html:223
+#: .\templates\base_panel.html:230
 msgid "Закрыто"
 msgstr "Yopilgan"
 
-#: .\templates\base_panel.html:225
+#: .\templates\base_panel.html:232
 #: .\templates\panel\analytics_companies.html:36
 #: .\templates\panel\dashboard.html:57
 msgid "Качество данных"
 msgstr "Ma'lumotlar sifati"
 
-#: .\templates\base_panel.html:226
+#: .\templates\base_panel.html:233
 #: .\templates\panel\analytics_companies.html:28
 #: .\templates\panel\dashboard.html:50
 msgid "Без региона"
 msgstr "Viloyat biriktirilmagan"
 
-#: .\templates\base_panel.html:227
+#: .\templates\base_panel.html:234
 #: .\templates\panel\analytics_companies.html:31
 #: .\templates\panel\dashboard.html:52
 msgid "Без района"
 msgstr "Tuman/shaxar biriktirilmagan"
 
-#: .\templates\base_panel.html:228
+#: .\templates\base_panel.html:235
 #: .\templates\panel\analytics_companies.html:40
 #: .\templates\panel\dashboard.html:60
 msgid "Без категории"
 msgstr "Kategoriya biriktirilmaganlar"
 
-#: .\templates\base_panel.html:229
+#: .\templates\base_panel.html:236
 msgid "Без направлений"
 msgstr "Yo'nalish biriktirilmaganlar"
 
-#: .\templates\base_panel.html:231
+#: .\templates\base_panel.html:238
 msgid "Просроченных заявок нет"
 msgstr "Muddati o'tgan murojaat yo'q"
 
-#: .\templates\base_panel.html:232
+#: .\templates\base_panel.html:239
 msgid "Нет данных"
 msgstr "Ma'lumotlar topilmadi"
 
@@ -1232,6 +1385,7 @@ msgid "Очистить"
 msgstr "Tozalash"
 
 #: .\templates\companies\companies_page.html:104
+#: .\templates\panel\reports\overdue_requests.html:46
 #: .\templates\panel\requests\list.html:32
 msgid "Применить"
 msgstr "Qo'llash"
@@ -1316,10 +1470,8 @@ msgid "Компании по категориям"
 msgstr "Kategoriya bo'ylab kompaniya"
 
 #: .\templates\panel\analytics_companies.html:58
-#, fuzzy
-#| msgid "Обращения по направлениям"
 msgid "Компании по направлениям"
-msgstr "Yo'nalish bo'yicha murojaatlar"
+msgstr "Yo'nalish bo'yicha kompaniyalar"
 
 #: .\templates\panel\analytics_companies.html:66
 #: .\templates\panel\dashboard.html:134
@@ -1402,66 +1554,179 @@ msgstr "soatda"
 msgid "Среднее время до назначения исполнителя."
 msgstr "Ijrochini tayinlashning o'rtacha vaqti."
 
+#: .\templates\panel\reports\overdue_requests.html:9
+msgid "Отчет по просроченным обращениям"
+msgstr "Kechiktirilgan murojaatlar bo'yicha hisobot"
+
+#: .\templates\panel\reports\overdue_requests.html:12
+msgid "Просрочки по сроку исполнения и обращения без исполнителя более 5 дней."
+msgstr ""
+"Ijro muddatidan kechikkanlar va murojaatning 5 kundan ortiq ijrochisiz "
+"qoldirilganlar."
+
+#: .\templates\panel\reports\overdue_requests.html:18
+msgid "Скачать Excel"
+msgstr "Excelni yuklab olish"
+
+#: .\templates\panel\reports\overdue_requests.html:53
+msgid "Сбросить"
+msgstr "Tozalash"
+
+#: .\templates\panel\reports\overdue_requests.html:60
+msgid "Всего в отчете"
+msgstr "Hisobotdagi jami"
+
+#: .\templates\panel\reports\overdue_requests.html:64
+msgid "По сроку"
+msgstr "Muddati bo'yicha"
+
+#: .\templates\panel\reports\overdue_requests.html:68
+msgid "Без исполнителя"
+msgstr "Ijrochi yo'q"
+
+#: .\templates\panel\reports\overdue_requests.html:72
+msgid "Департаментов"
+msgstr "Departamentlar"
+
+#: .\templates\panel\reports\overdue_requests.html:79
+msgid "Предпросмотр"
+msgstr "Oldindan ko'rish"
+
+#: .\templates\panel\reports\overdue_requests.html:81
+#, python-format
+msgid "Показано %(shown)s из %(total)s"
+msgstr "%(total)s dan %(shown)s ko'rsatilmoqda"
+
+#: .\templates\panel\reports\overdue_requests.html:90
+msgid "Отправитель"
+msgstr "Murojaatchi"
+
+#: .\templates\panel\reports\overdue_requests.html:91
+msgid "Ответственный"
+msgstr "Mas'uliyatli"
+
+#: .\templates\panel\reports\overdue_requests.html:92
+#: .\templates\panel\requests\list.html:47
+msgid "Срок"
+msgstr "Muddat"
+
+#: .\templates\panel\reports\overdue_requests.html:93
+msgid "Дней"
+msgstr "Kunlar"
+
+#: .\templates\panel\reports\overdue_requests.html:94
+msgid "Причина"
+msgstr "Sabab"
+
+#: .\templates\panel\reports\overdue_requests.html:121
+#: .\templates\panel\requests\_fragments.html:134
+#: .\templates\panel\requests\list.html:121
+msgid "Открыть"
+msgstr "Ochish"
+
+#: .\templates\panel\reports\overdue_requests.html:128
+msgid "Просроченные обращения не найдены."
+msgstr "Muddati o'tgan murojaatlar topilmadi."
+
 #: .\templates\panel\requests\_detail_oob.html:9
-#: .\templates\panel\requests\detail.html:205
+#: .\templates\panel\requests\detail.html:193
 #: .\templates\public\track_requests.html:122
 msgid "История"
 msgstr "Tarix"
 
 #: .\templates\panel\requests\_detail_oob.html:15
-#: .\templates\panel\requests\_fragments.html:127
-#: .\templates\panel\requests\detail.html:211
+#: .\templates\panel\requests\_fragments.html:162
+#: .\templates\panel\requests\_fragments.html:182
+#: .\templates\panel\requests\detail.html:199
 msgid "Система"
 msgstr "Tizim"
 
-#: .\templates\panel\requests\_fragments.html:14
-msgid "Направления обращения"
-msgstr "Murojaat yo'nalishi"
-
-#: .\templates\panel\requests\_fragments.html:37
-msgid "Файлы от компании"
-msgstr "Korxona biriktirgan fayllar"
-
-#: .\templates\panel\requests\_fragments.html:75
-#: .\templates\panel\requests\list.html:121
-msgid "Открыть"
-msgstr "Ochish"
-
-#: .\templates\panel\requests\_fragments.html:79
-msgid "Скачать"
-msgstr "Yuklab olish"
-
-#: .\templates\panel\requests\_fragments.html:93
+#: .\templates\panel\requests\_fragments.html:9
 msgid "Назначение"
 msgstr "Tayinlash"
 
-#: .\templates\panel\requests\_fragments.html:101
+#: .\templates\panel\requests\_fragments.html:17
 msgid "В срок"
 msgstr "Muddatida"
 
-#: .\templates\panel\requests\_fragments.html:108
+#: .\templates\panel\requests\_fragments.html:24
 msgid "Департамент:"
 msgstr "Departament:"
 
-#: .\templates\panel\requests\_fragments.html:109
+#: .\templates\panel\requests\_fragments.html:25
 msgid "Исполнитель:"
 msgstr "Ijrochi:"
 
-#: .\templates\panel\requests\_fragments.html:110
+#: .\templates\panel\requests\_fragments.html:26
 #: .\templates\public\track_requests.html:111
 msgid "Срок:"
 msgstr "Muddat:"
 
-#: .\templates\panel\requests\_fragments.html:120
+#: .\templates\panel\requests\_fragments.html:40
+msgid "ФИО"
+msgstr "FISH"
+
+#: .\templates\panel\requests\_fragments.html:64
+msgid "Направления обращения"
+msgstr "Murojaat yo'nalishi"
+
+#: .\templates\panel\requests\_fragments.html:84
+msgid "Файлы от компании"
+msgstr "Korxona biriktirgan fayllar"
+
+#: .\templates\panel\requests\_fragments.html:138
+msgid "Скачать"
+msgstr "Yuklab olish"
+
+#: .\templates\panel\requests\_fragments.html:155
 msgid "Добавленные шаги"
 msgstr "Qo'shilgan qadamlar"
 
-#: .\templates\panel\requests\_fragments.html:140
-#: .\templates\panel\requests\_fragments.html:150
+#: .\templates\panel\requests\_fragments.html:181
+msgid "Автор:"
+msgstr "Muallif:"
+
+#: .\templates\panel\requests\_fragments.html:192
+msgid "Получатель:"
+msgstr "Qabul qiluvchi:"
+
+#: .\templates\panel\requests\_fragments.html:198
+msgid "Email:"
+msgstr "Email:"
+
+#: .\templates\panel\requests\_fragments.html:216
+#: .\templates\panel\requests\_fragments.html:226
 msgid "Добавить шаг"
 msgstr "Qadam qo'shish"
 
-#: .\templates\panel\requests\_fragments.html:155
+#: .\templates\panel\requests\_fragments.html:232
+msgid "Официальный ответ и завершение"
+msgstr "Rasmiy javob va yakunlash"
+
+#: .\templates\panel\requests\_fragments.html:234
+msgid "После отправки ответа обращение будет закрыто."
+msgstr "Javob yuborilgandan so'ng, murojaat yopiladi"
+
+#: .\templates\panel\requests\_fragments.html:240
+msgid ""
+"У заявителя нет прикрепленного email. Email-уведомление не будет отправлено."
+msgstr ""
+"Murojaatchining biriktirilgan elektron pochta manzili yo'q. Elektron pochta "
+"orqali xabar yuborilmaydi."
+
+#: .\templates\panel\requests\_fragments.html:246
+msgid ""
+"Обращение создано через Telegram bot. Система также попробует отправить "
+"Telegram-уведомление заявителю."
+msgstr ""
+"Soʻrov Telegram boti orqali yaratilgan. Tizim shuningdek, murojaatchiga "
+"Telegram xabarnomasi yuborishga harakat qiladi."
+
+#: .\templates\panel\requests\_fragments.html:272
+msgid "Отправить ответ и завершить обращение"
+msgstr "Javob yuborib so'rovni yopish"
+
+#: .\templates\panel\requests\_fragments.html:278
 msgid "Обращение завершено. Добавление шагов недоступно."
 msgstr "Murojaat bajarildi. Qadamlarni qo‘shib bo‘lmaydi."
 
@@ -1495,21 +1760,13 @@ msgstr "Javob kutilmoqda"
 msgid "Продолжить работу"
 msgstr "Ishni davom etish"
 
-#: .\templates\panel\requests\detail.html:192
-msgid "Завершить обращение"
-msgstr "Murojaat yopish"
-
-#: .\templates\panel\requests\detail.html:198
+#: .\templates\panel\requests\detail.html:186
 msgid "Нет доступных действий"
 msgstr "Hech qanday amal mavjud emas"
 
 #: .\templates\panel\requests\list.html:19
 msgid "Поиск по ID, компании, ИНН"
 msgstr "ID, kompaniya, STIR bo'yicha qidirish"
-
-#: .\templates\panel\requests\list.html:47
-msgid "Срок"
-msgstr "Muddat"
 
 #: .\templates\panel\requests\list.html:128
 #: .\templates\public\track_requests.html:74
@@ -1525,11 +1782,6 @@ msgstr "Yo'nalishlar yoq."
 msgid "Успешно"
 msgstr "Muvaffaqiyatli"
 
-#: .\templates\partials\messages.html:46
-#: .\templates\partials\messages_oob.html:45
-msgid "Ошибка"
-msgstr "Xato"
-
 #: .\templates\partials\messages.html:47
 #: .\templates\partials\messages_oob.html:46
 msgid "Предупреждение"
@@ -1542,13 +1794,9 @@ msgstr "Xabar"
 
 #: .\templates\partials\messages.html:56
 #: .\templates\partials\messages_oob.html:55
-#: .\templates\public\track_requests.html:147
+#: .\templates\public\track_requests.html:170
 msgid "Закрыть"
 msgstr "Yopish"
-
-#: .\templates\partials\sidebar.html:34
-msgid "Аналитика"
-msgstr "Ko'rsatkichlar"
 
 #: .\templates\public\agency_about_detail.html:10
 #: .\templates\public\home.html:4 .\templates\public\news_detail.html:10
@@ -1747,40 +1995,49 @@ msgstr "Xodim:"
 msgid "Статус:"
 msgstr "Holat:"
 
-#: .\templates\public\track_requests.html:143
+#: .\templates\public\track_requests.html:140
+msgid ""
+"Ответ был отправлен на вашу электронную почту и на ваш телеграм профиль."
+msgstr ""
+"Javob sizning elektron pochtangizga va Telegram profilingizga yuborildi."
+
+#: .\templates\public\track_requests.html:142
+msgid "Ответ был отправлен на вашу электронную почту."
+msgstr "Javob sizning elektron pochtangizga yuborildi."
+
+#: .\templates\public\track_requests.html:147
+msgid "Дата ответа:"
+msgstr "Javob sanasi:"
+
+#: .\templates\public\track_requests.html:166
 msgid "Загрузка..."
 msgstr "Yuklanmoqda..."
 
-#: .\templates\public\track_requests.html:144
+#: .\templates\public\track_requests.html:167
 msgid "История пока пустая."
 msgstr "Tarix hozircha bo'sh."
 
-#: .\templates\public\track_requests.html:145
+#: .\templates\public\track_requests.html:168
 msgid "Ошибка загрузки истории."
 msgstr "Tarixni yuklashda xatolik."
 
-#: .\templates\telephony\_directory_table.html:9
+#: .\templates\telephony\_directory_table.html:10
 msgid "Внутренний"
 msgstr "Ichki raqam"
 
-#: .\templates\telephony\_directory_table.html:10
+#: .\templates\telephony\_directory_table.html:11
 msgid "Сотовый"
 msgstr "Telefon raqam"
 
-#: .\templates\telephony\_directory_table.html:42
-#: .\templates\telephony\_directory_table.html:52
-msgid "не задан"
-msgstr "kiritilmagan"
-
-#: .\templates\telephony\_directory_table.html:67
+#: .\templates\telephony\_directory_table.html:69
 msgid "Отключён"
 msgstr "Faollashtirilmagan"
 
-#: .\templates\telephony\_directory_table.html:79
+#: .\templates\telephony\_directory_table.html:81
 msgid "Данные не найдены."
 msgstr "Ma'lumotlar topilmadi"
 
-#: .\templates\telephony\_directory_table.html:89
+#: .\templates\telephony\_directory_table.html:91
 msgid "Показано:"
 msgstr "Topildi"
 

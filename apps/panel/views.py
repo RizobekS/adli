@@ -6,25 +6,26 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET, require_POST
 
 from apps.users.decorators import agency_required
-from apps.requests.models import Request
+from apps.requests.models import Request, RequestOfficialResponse
 from apps.requests.services import (
     register_request,
     send_for_resolution,
     create_resolution,
     add_step,
-    mark_done, assign_executor,
+    assign_executor,
     set_waiting, set_in_progress,
+    close_with_official_response,
 )
 from .forms import (
     ResolutionForm,
     StepForm,
+    OfficialResponseForm,
     PanelRequestFilterForm,
     AssignExecutorForm,
     OverdueReportFilterForm,
@@ -403,9 +404,9 @@ def requests_list(request):
 def request_detail(request, pk: int):
     obj = get_object_or_404(
         Request.objects.select_related(
-            "company", "employee", "assigned_department", "assigned_employee"
+            "company", "employee", "assigned_department", "assigned_employee", "telegram_profile"
         ).prefetch_related(
-            "directions", "files", "resolutions", "steps", "history"
+            "directions", "files", "resolutions", "steps", "history", "official_responses"
         ),
         pk=pk
     )
@@ -430,6 +431,7 @@ def request_detail(request, pk: int):
         "obj": obj,
         "today": date.today(),
         "step_form": StepForm(),
+        "official_response_form": OfficialResponseForm(),
         "can_write": _can_write(request.user),
         "is_chancellery": _in_group(request.user, GROUP_CHANCELLERY),
         "is_deputy_assistant": _in_group(request.user, GROUP_DEPUTY_ASSISTANT),
@@ -442,10 +444,10 @@ def request_detail(request, pk: int):
     return render(request, "panel/requests/detail.html", context)
 
 
-def _render_detail_oob(request, obj_id: int):
+def _render_detail_oob(request, obj_id: int, official_response_form=None):
     obj = Request.objects.select_related(
-        "company", "employee", "assigned_department", "assigned_employee"
-    ).prefetch_related("directions", "files", "resolutions", "steps", "history").get(pk=obj_id)
+        "company", "employee", "assigned_department", "assigned_employee", "telegram_profile"
+    ).prefetch_related("directions", "files", "resolutions", "steps", "history", "official_responses").get(pk=obj_id)
 
     deputy_assistants = (
         Employee.objects
@@ -460,9 +462,11 @@ def _render_detail_oob(request, obj_id: int):
         "today": date.today(),
         "resolution_form": resolution_form,
         "step_form": StepForm(),
+        "official_response_form": official_response_form or OfficialResponseForm(),
         "can_write": _can_write(request.user),
         "is_chancellery": _in_group(request.user, GROUP_CHANCELLERY),
         "is_deputy_assistant": _in_group(request.user, GROUP_DEPUTY_ASSISTANT),
+        "is_head_of_department": _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT),
         "is_executor": _in_group(request.user, GROUP_EXECUTOR),
         "departments": resolution_form.fields["target_department"].queryset,
         "employees": resolution_form.fields["target_employee"].queryset,
@@ -483,8 +487,8 @@ def _must_be(obj, user, group_name: str):
 
 def _render_fragments(request, obj_id: int):
     obj = Request.objects.select_related(
-        "company", "employee", "assigned_department", "assigned_employee"
-    ).prefetch_related("directions", "files", "resolutions", "steps", "history").get(pk=obj_id)
+        "company", "employee", "assigned_department", "assigned_employee", "telegram_profile"
+    ).prefetch_related("directions", "files", "resolutions", "steps", "history", "official_responses").get(pk=obj_id)
 
     deputy_assistants = (
         Employee.objects
@@ -499,9 +503,11 @@ def _render_fragments(request, obj_id: int):
         "today": date.today(),
         "resolution_form": resolution_form,
         "step_form": StepForm(),
+        "official_response_form": OfficialResponseForm(),
         "can_write": _can_write(request.user),
         "is_chancellery": _in_group(request.user, GROUP_CHANCELLERY),
         "is_deputy_assistant": _in_group(request.user, GROUP_DEPUTY_ASSISTANT),
+        "is_head_of_department": _in_group(request.user, GROUP_HEAD_OF_DEPARTMENT),
         "is_executor": _in_group(request.user, GROUP_EXECUTOR),
         "departments": resolution_form.fields["target_department"].queryset,
         "employees": resolution_form.fields["target_employee"].queryset,
@@ -546,7 +552,10 @@ def request_action_add_step(request, pk: int):
 @require_POST
 @agency_required
 def request_action_mark_done(request, pk: int):
-    obj = get_object_or_404(Request, pk=pk)
+    obj = get_object_or_404(
+        Request.objects.select_related("employee", "company", "telegram_profile"),
+        pk=pk,
+    )
     _must_be(obj, request.user, GROUP_EXECUTOR)
 
     if obj.status == Request.Status.DONE:
@@ -555,7 +564,36 @@ def request_action_mark_done(request, pk: int):
             return _render_detail_oob(request, obj.pk)
         return redirect("panel:request_detail", pk=obj.pk)
 
-    mark_done(request=obj, actor=request.user, comment=_("Завершено из панели"))
+    form = OfficialResponseForm(request.POST)
+    if not form.is_valid():
+        messages.error(request, _("Введите текст официального ответа."))
+        if _is_htmx(request):
+            return _render_detail_oob(request, obj.pk, official_response_form=form)
+        return redirect("panel:request_detail", pk=obj.pk)
+
+    result = close_with_official_response(
+        request=obj,
+        actor=request.user,
+        response_text=form.cleaned_data["response_text"],
+    )
+
+    response = result.response
+    if response.email_status == RequestOfficialResponse.DeliveryStatus.SENT:
+        messages.success(request, _("Официальный ответ отправлен на email заявителя."))
+    elif response.email_status in {
+        RequestOfficialResponse.DeliveryStatus.FAILED,
+        RequestOfficialResponse.DeliveryStatus.SKIPPED,
+    }:
+        messages.error(request, response.email_error or _("Официальный ответ не отправлен на email."))
+
+    if response.telegram_status == RequestOfficialResponse.DeliveryStatus.SENT:
+        messages.success(request, _("Telegram-уведомление отправлено заявителю."))
+    elif obj.source == Request.Source.TELEGRAM and response.telegram_status in {
+        RequestOfficialResponse.DeliveryStatus.FAILED,
+        RequestOfficialResponse.DeliveryStatus.SKIPPED,
+    }:
+        messages.error(request, response.telegram_error or _("Telegram-уведомление не отправлено."))
+
     messages.success(request, _("Обращение завершено."))
     if _is_htmx(request):
         return _render_detail_oob(request, obj.pk)

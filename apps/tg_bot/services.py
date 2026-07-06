@@ -339,7 +339,21 @@ def create_request_from_telegram_profile(
         actor=None,
         created_comment=_("Обращение создано через Telegram bot"),
     )
+    req.telegram_profile = profile
+    req.save(update_fields=["telegram_profile", "updated_at"])
     return req
+
+
+def _get_latest_official_response(request_obj: Request):
+    try:
+        responses = request_obj.official_responses.all()
+    except AttributeError:
+        return None
+
+    for response in responses:
+        if response.text:
+            return response
+    return None
 
 
 def format_request_short_text(request_obj: Request, lang: str = "uz") -> str:
@@ -353,8 +367,15 @@ def format_request_short_text(request_obj: Request, lang: str = "uz") -> str:
     if len(description) > 90:
         description = description[:87] + "..."
 
+    official_response = _get_latest_official_response(request_obj)
+    response_text = ""
+    if request_obj.status == Request.Status.DONE and official_response:
+        response_text = official_response.text.strip().replace("\n", " ")
+        if len(response_text) > 400:
+            response_text = response_text[:397] + "..."
+
     if lang == "uz":
-        return (
+        text = (
             f"№ {number}\n"
             f"Status: {status_label}\n"
             f"Sana: {created}\n"
@@ -362,8 +383,11 @@ def format_request_short_text(request_obj: Request, lang: str = "uz") -> str:
             f"Fayllar: {files_count}\n"
             f"Matn: {description}"
         )
+        if response_text:
+            text += f"\nRasmiy javob: {response_text}"
+        return text
 
-    return (
+    text = (
         f"№ {number}\n"
         f"Статус: {status_label}\n"
         f"Дата: {created}\n"
@@ -371,6 +395,9 @@ def format_request_short_text(request_obj: Request, lang: str = "uz") -> str:
         f"Файлов: {files_count}\n"
         f"Текст: {description}"
     )
+    if response_text:
+        text += f"\nОфициальный ответ: {response_text}"
+    return text
 
 
 def _split_fio_parts(fio: str) -> tuple[str, str, str]:

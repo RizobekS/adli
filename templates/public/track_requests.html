@@ -127,6 +127,29 @@
 <!--                <div class="mt-4 text-sm text-gray-700 line-clamp-3">-->
 <!--                    {{ r.description|truncatechars:220 }}-->
 <!--                </div>-->
+
+                {% if r.status == r.Status.DONE %}
+                {% for response in r.official_responses.all %}
+                {% if forloop.first %}
+                <div class="mt-4 rounded-lg border border-green-200 bg-green-50 p-4">
+                    <div class="text-sm font-semibold text-green-800">
+                        {% trans "Официальный ответ" %}
+                    </div>
+                    <div class="mt-2 whitespace-pre-line text-sm text-gray-700">
+                        {% if r.source == r.Source.TELEGRAM %}
+                        {% trans 'Ответ был отправлен на вашу электронную почту и на ваш телеграм профиль.' %}
+                        {% else %}
+                        {% trans 'Ответ был отправлен на вашу электронную почту.' %}
+                        {% endif %}
+
+                    </div>
+                    <div class="mt-3 text-xs text-gray-500">
+                        {% trans "Дата ответа:" %} {{ response.created_at|date:"d.m.Y H:i" }}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
             </div>
             {% endfor %}
         </div>
