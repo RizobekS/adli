@@ -504,7 +504,12 @@ def mark_done(*, request: Request, actor, comment: str = "") -> ServiceResult:
 
 def _get_request_email(request: Request) -> str:
     employee = getattr(request, "employee", None)
-    return ((getattr(employee, "email", "") or "").strip().lower())
+    email = ((getattr(employee, "email", "") or "").strip().lower())
+    if email:
+        return email
+
+    telegram_profile = getattr(request, "telegram_profile", None)
+    return ((getattr(telegram_profile, "email", "") or "").strip().lower())
 
 
 def _find_telegram_profile_for_request(request: Request):
@@ -715,4 +720,66 @@ def close_with_official_response(
     _send_official_response_notifications(response)
     response.refresh_from_db()
     request.refresh_from_db()
+    return OfficialResponseResult(request=request, response=response)
+
+
+def create_official_response_for_closed_request(
+    *,
+    request: Request,
+    actor,
+    response_text: str,
+    send_notifications: bool = True,
+) -> OfficialResponseResult:
+    response_text = (response_text or "").strip()
+    if not response_text:
+        raise ValueError("Official response text is required")
+
+    if request.status != Request.Status.DONE:
+        raise ValueError("Request must be already done")
+
+    if request.official_responses.exists():
+        raise ValueError("Request already has an official response")
+
+    recipient_email = _get_request_email(request)
+    telegram_profile = _find_telegram_profile_for_request(request)
+    subject = _build_official_response_subject(request)
+
+    email_status = RequestOfficialResponse.DeliveryStatus.PENDING
+    email_error = ""
+    if not recipient_email:
+        email_status = RequestOfficialResponse.DeliveryStatus.SKIPPED
+        email_error = str(_("У заявителя нет прикрепленного email."))
+
+    telegram_status = RequestOfficialResponse.DeliveryStatus.SKIPPED
+    telegram_error = ""
+    if request.source == Request.Source.TELEGRAM:
+        if telegram_profile:
+            telegram_status = RequestOfficialResponse.DeliveryStatus.PENDING
+        else:
+            telegram_error = str(_("Telegram профиль заявителя не найден."))
+
+    with transaction.atomic():
+        response = RequestOfficialResponse.objects.create(
+            request=request,
+            author=actor,
+            telegram_profile=telegram_profile,
+            recipient_email=recipient_email,
+            subject=subject,
+            text=response_text,
+            email_status=email_status,
+            telegram_status=telegram_status,
+            email_error=email_error,
+            telegram_error=telegram_error,
+        )
+        _add_history(
+            request=request,
+            actor=actor,
+            action=RequestHistory.Action.OFFICIAL_RESPONSE,
+            comment=_("Официальный ответ добавлен из последнего шага"),
+        )
+
+    if send_notifications:
+        _send_official_response_notifications(response)
+        response.refresh_from_db()
+
     return OfficialResponseResult(request=request, response=response)
