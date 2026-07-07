@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 21:02+0500\n"
+"POT-Creation-Date: 2026-07-07 20:23+0500\n"
 "Language-Team: Uzbek\n"
 "Language: uz\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1133,39 +1133,41 @@ msgstr "Ish boshlandi"
 msgid "Обращение обработано"
 msgstr "Murojaat ishlab chiqildi"
 
-#: .\apps\requests\services.py:543
+#: .\apps\requests\services.py:548
 #, python-format
 msgid "Официальный ответ по обращению № %(number)s"
 msgstr "%(number)s raqamidagi murojaatga rasmiy javob"
 
-#: .\apps\requests\services.py:549
+#: .\apps\requests\services.py:554
 msgid "Уважаемый заявитель!"
 msgstr "Hurmatli murojaatchi!"
 
-#: .\apps\requests\services.py:551
+#: .\apps\requests\services.py:556
 #, python-format
 msgid "По вашему обращению № %(number)s направлен официальный ответ."
 msgstr ""
 "Sizning %(number)s raqamli murojaatingiz bo'yicha rasmiy javob yuborildi."
 
-#: .\apps\requests\services.py:555
+#: .\apps\requests\services.py:560
 msgid "Проверить статус обращения можно на сайте murojaat.adli.uz."
 msgstr ""
 "So'rovingiz holatini murojaat.adli.uz veb-saytida tekshirishingiz mumkin."
 
-#: .\apps\requests\services.py:582 .\apps\requests\services.py:684
+#: .\apps\requests\services.py:587 .\apps\requests\services.py:689
+#: .\apps\requests\services.py:751
 msgid "У заявителя нет прикрепленного email."
 msgstr "Murojaat beruvchining biriktirilgan elektron pochta manzili yo'q."
 
-#: .\apps\requests\services.py:611 .\apps\requests\services.py:692
+#: .\apps\requests\services.py:616 .\apps\requests\services.py:697
+#: .\apps\requests\services.py:759
 msgid "Telegram профиль заявителя не найден."
 msgstr "Murojaat beruvchining Telegram profili topilmadi."
 
-#: .\apps\requests\services.py:711 .\apps\requests\views.py:275
+#: .\apps\requests\services.py:716 .\apps\requests\views.py:275
 msgid "Официальный ответ добавлен"
 msgstr "Rasmiy javob qo'shildi"
 
-#: .\apps\requests\services.py:713
+#: .\apps\requests\services.py:718
 msgid "Завершено с официальным ответом"
 msgstr "Rasmiy javob bilan yakunlandi"
 

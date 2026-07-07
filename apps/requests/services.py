@@ -775,7 +775,7 @@ def create_official_response_for_closed_request(
             request=request,
             actor=actor,
             action=RequestHistory.Action.OFFICIAL_RESPONSE,
-            comment=_("Официальный ответ добавлен из последнего шага"),
+            comment=_("Официальный ответ добавлен"),
         )
 
     if send_notifications:
