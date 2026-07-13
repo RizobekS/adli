@@ -147,11 +147,11 @@ class RequestAdmin(admin.ModelAdmin):
 
     actions = ("action_register", "action_send_for_resolution", "action_mark_done")
 
-    def get_readonly_fields(self, request, obj=None):
-        ro = list(super().get_readonly_fields(request, obj))
-        # Блокируем ручное назначение: только через резолюцию/сервисы
-        ro += ["assigned_department", "assigned_employee", "due_date"]
-        return ro
+    # def get_readonly_fields(self, request, obj=None):
+    #     ro = list(super().get_readonly_fields(request, obj))
+    #     # Блокируем ручное назначение: только через резолюцию/сервисы
+    #     ro += ["assigned_department", "assigned_employee", "due_date"]
+    #     return ro
 
     # --- Admin actions (через сервисы) ---
 
